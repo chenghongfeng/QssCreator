@@ -22,7 +22,6 @@ public:
 
 private:
     void getDefs();
-    void setUpDefsTableView();
 
 private slots:
     void on_openColorDefFileBtn_clicked();

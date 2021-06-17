@@ -14,7 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->defsTableWidget->setColumnCount(2);
-    //ui->defsTableWidget->setRowCount(10);
 }
 
 MainWindow::~MainWindow()
@@ -24,39 +23,23 @@ MainWindow::~MainWindow()
 
 void MainWindow::getDefs()
 {
-    defs = QssHelper::getColorDefineFromFile(m_strColorDefFile,pattern);
-
-}
-
-void MainWindow::setUpDefsTableView()
-{
-//    defsTableModel = new QStandardItemModel(ui->defsTableView);
-
-//    //设置行
-//    defsTableModel->setColumnCount(2);
-//    defsTableModel->setHeaderData(0,Qt::Horizontal,tr("Def"));
-//    defsTableModel->setHeaderData(1,Qt::Horizontal,tr("Values"));
-//    defsTableModel->setSortRole(1);
-
-//    ui->defsTableView->setModel(defsTableModel);
-//    ui->defsTableView->setColumnWidth(0,10);
-//    ui->defsTableView->setColumnWidth(1,20);
-//    ui->defsTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-//    ui->defsTableView->setSelectionMode(QAbstractItemView::SingleSelection);//
-//    ui->defsTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);//设置表格只读，不能进行编辑
-
-//    ui->defsTableView->verticalHeader()->setDefaultSectionSize(20);
-//    ui->defsTableView->verticalHeader()->setHidden(true);
-
-//    defsTableModel->setItem(1, 1, new QStandardItem("teste"));
-//    defsTableModel->setItem(1, 1, new QStandardItem("testes"));
+    if (m_strColorDefFile.isEmpty())
+    {
+        return;
+    }
+    QFile file(m_strColorDefFile);
+    if(file.open(QFile::ReadOnly))
+    {
+        QString defsText = file.readAll();
+        defs = QssHelper::getColorDefineFromQStr(defsText,pattern);
+    }
 }
 
 
 void MainWindow::on_openColorDefFileBtn_clicked()
 {
-    QString fileName = "F:/MyGitProject/qssHelper/qssFile/color.def";
-    //QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "D:/SourceCode/MyProject/QssHelper/qssFile", "颜色定义文件(*.def)");
+    //QString fileName = "F:/MyGitProject/qssHelper/qssFile/color.def";
+    QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "F:/MyGitProject/qssHelper/qssFile/", "颜色定义文件(*.def)");
     m_strColorDefFile = fileName;
 
 }
@@ -103,6 +86,7 @@ void MainWindow::on_regLineEdit_textChanged(const QString &arg1)
 
 void MainWindow::on_replaceBtn_clicked()
 {
-    QString str = QssHelper::replaceDefsWithValues(ui->qssTextEdit->toPlainText(),defs);
-    ui->qssTextEdit->setText(str);
+    QString resultText = ui->qssTextEdit->toPlainText();
+    QssHelper::replaceDefsWithValues(resultText,defs);
+    ui->qssTextEdit->setText(resultText);
 }

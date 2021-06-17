@@ -11,13 +11,8 @@ QssHelper::QssHelper()
 
 }
 
-QMap<QString,QString> QssHelper::getColorDefineFromFile(const QString &fileName, const QString &pattern)
+QMap<QString,QString> QssHelper::getColorDefineFromQStr(const QString &defsText, const QString &pattern)
 {
-    QMap<QString,QString> defs;
-    if (fileName.isEmpty())
-    {
-        return defs;
-    }
     //\s  包括空格、制表符、换页符等空白字符的其中任意一个
     //([$]\w+)\s*=[ \t]*([#(),.\w]*)[\t ]*[\r\n;\/]+
     //      group1                                  group2
@@ -39,26 +34,24 @@ QMap<QString,QString> QssHelper::getColorDefineFromFile(const QString &fileName,
 //    QRegularExpression::PatternOptions patternOptions = QRegularExpression::NoPatternOption;
 //    QRegularExpression::MatchOptions matchOptions = QRegularExpression::NoMatchOption;
     //reg.setPatternOptions(patternOptions);
+
+    QMap<QString,QString> defs;
     if (!reg.isValid())
     {
         return defs;
     }
-    QFile file(fileName);
-    if (file.open(QFile::ReadOnly))
+
+    QRegularExpressionMatchIterator iterator = reg.globalMatch(defsText/*, 0,matchType, matchOptions*/);
+    while (iterator.hasNext())
     {
-        const QString str = file.readAll();
-        QRegularExpressionMatchIterator iterator = reg.globalMatch(str/*, 0,matchType, matchOptions*/);
-        while (iterator.hasNext())
-        {
-            QRegularExpressionMatch match = iterator.next();
-            defs[match.captured(1)] = match.captured(2);
-        }
+        QRegularExpressionMatch match = iterator.next();
+        defs[match.captured(1)] = match.captured(2);
     }
     return defs;
 
 }
 
-QString QssHelper::replaceDefsWithValues(QString &qssText, const QMap<QString, QString> &defsMap)
+void QssHelper::replaceDefsWithValues(QString &qssText, const QMap<QString, QString> &defsMap)
 {
     auto iter = defsMap.constBegin();
     while (iter != defsMap.constEnd())
@@ -66,7 +59,6 @@ QString QssHelper::replaceDefsWithValues(QString &qssText, const QMap<QString, Q
         qssText.replace(strToReplaceRegexp(iter.key()),iter.value());
         iter++;
     }
-    return qssText;
 }
 
 QRegularExpression QssHelper::strToReplaceRegexp(const QString &str)
