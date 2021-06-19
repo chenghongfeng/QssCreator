@@ -35,6 +35,8 @@ private slots:
 
     void on_replaceBtn_clicked();
 
+    void on_saveTextBtn_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString m_strColorDefFile;

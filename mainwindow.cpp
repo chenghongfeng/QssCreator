@@ -90,3 +90,10 @@ void MainWindow::on_replaceBtn_clicked()
     QssHelper::replaceDefsWithValues(resultText,defs);
     ui->qssTextEdit->setText(resultText);
 }
+
+void MainWindow::on_saveTextBtn_clicked()
+{
+    //QString fileName = QFileDialog::getSaveFileName(this, "打开文件", QString("%1/%2.css").arg(qApp->applicationDirPath()).arg(dirName), "皮肤文件(*.css)");
+    QString fileName = QFileDialog::getSaveFileName(this, "打开文件", "F:/MyGitProject/qssHelper/qssFile/default.qss", "皮肤文件(*.qss)");
+    QssHelper::writeQStrTofile(ui->qssTextEdit->toPlainText(),fileName);
+}

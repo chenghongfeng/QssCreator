@@ -5,6 +5,7 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QRegularExpressionMatchIterator>
+#include <QTextStream>
 
 QssHelper::QssHelper()
 {
@@ -81,4 +82,19 @@ QString QssHelper::codeToPattern(QString code)
         code.remove(0, 1);
     }
     return code;
+}
+
+void QssHelper::writeQStrTofile(const QString &str, const QString &fileName)
+{
+    QFile file(fileName);
+
+    if (!file.open(/*QIODevice::Truncate|*/QIODevice::WriteOnly))
+    {
+        return;
+    }
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+    out<<str;
+    //file.write(str.toLatin1());
+    file.close();
 }

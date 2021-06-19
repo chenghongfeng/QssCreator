@@ -5,4 +5,4 @@ $selected = #8BF; /*hover*/
 $pressed = #59F;
 $focused = #EA2; /*actived*/
 $grad1a = #EEEEEF; /*gradient start*/
-$grad1b = #DADADF; /*gradient end*/
+$grad1b = DADADF ; /*gradient end*/
