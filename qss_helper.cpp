@@ -57,7 +57,9 @@ void QssHelper::replaceDefsWithValues(QString &qssText, const QMap<QString, QStr
     auto iter = defsMap.constBegin();
     while (iter != defsMap.constEnd())
     {
-        qssText.replace(strToReplaceRegexp(iter.key()),iter.value());
+        //要加上匹配到的作为非"_"字符的group2
+        QString replaceText = iter.value() + "\\2";
+        qssText.replace(strToReplaceRegexp(iter.key()),replaceText);
         iter++;
     }
 }
@@ -66,7 +68,9 @@ QRegularExpression QssHelper::strToReplaceRegexp(const QString &str)
 {
     QString regExp = str;
     regExp.replace("$","");
-    regExp = QString("(\\$%1)").arg(regExp);
+    //匹配不精确 同时定义了border和border_disabled时将出现问题
+    //修改成这个样子会匹配对应字符串且后一个字符不是_ 这样的话$xxxx变量就不能出现在文件尾;
+    regExp = QString("(\\$%1)([^_])").arg(regExp);
     QRegularExpression reg(regExp);
     return reg;
 }

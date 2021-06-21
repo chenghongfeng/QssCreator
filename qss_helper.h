@@ -1,6 +1,11 @@
 #ifndef QSSHELPER_H
 #define QSSHELPER_H
 
+/* Warning
+1.变量命名要使用$开头
+2.变量不要使用_作为最后一个字符
+3.value结尾推荐使用 ';'*/
+
 #include <QStringList>
 #include <QMap>
 #include <QString>

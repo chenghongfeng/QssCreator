@@ -1,8 +1,1 @@
-QWidget
-{
-    color: $text;
-    background-color: $background;
-}
-
-    border: 1px solid $border;
-}
+$border_disabled

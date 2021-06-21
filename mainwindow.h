@@ -8,6 +8,8 @@ QT_BEGIN_NAMESPACE
 class QFile;
 class QFileDialog;
 class QStandardItemModel;
+class QStringListModel;
+class ColorDefTableModel;
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
@@ -44,6 +46,11 @@ private:
     QMap<QString,QString> defs;
     QString pattern;
 
-    QStandardItemModel *defsTableModel;
+    QStandardItemModel *defsTableModel {nullptr};
+
+    QStringListModel *defListsModel {nullptr};
+    QStringList colorDefs;
+
+    ColorDefTableModel *colorDefModel {nullptr};
 };
 #endif // MAINWINDOW_H

@@ -5,8 +5,10 @@
 #include <QFileDialog>
 #include <QStandardItemModel>
 #include <QTableView>
+#include <QStringListModel>
 
 #include "qss_helper.h"
+#include "colordeftablemodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,6 +16,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->defsTableWidget->setColumnCount(2);
+    defListsModel = new QStringListModel();
+
+
+//    myModel = new MyModel(this);
+//    ui->colorTableView->setModel(myModel);
+
 }
 
 MainWindow::~MainWindow()
@@ -39,7 +47,7 @@ void MainWindow::getDefs()
 void MainWindow::on_openColorDefFileBtn_clicked()
 {
     //QString fileName = "F:/MyGitProject/qssHelper/qssFile/color.def";
-    QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "F:/MyGitProject/qssHelper/qssFile/", "颜色定义文件(*.def)");
+    QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "F:/MyGitProject/qssHelper/qssFile/", "颜色定义文件(*.qssdef)");
     m_strColorDefFile = fileName;
 
 }
@@ -63,6 +71,7 @@ void MainWindow::on_applyBtn_clicked()
     getDefs();
     ui->defsTableWidget->clear();
     ui->defsTableWidget->setRowCount(0);
+    colorDefs.clear();
     auto iter = defs.constBegin();
     int i = 0;
     while (iter != defs.constEnd())
@@ -70,11 +79,17 @@ void MainWindow::on_applyBtn_clicked()
         ui->defsTableWidget->insertRow(i);
         QTableWidgetItem *keyItem = new QTableWidgetItem(iter.key());
         QTableWidgetItem *valueItem = new QTableWidgetItem(iter.value());
+        colorDefs.append(iter.key());
         ui->defsTableWidget->setItem(i,0,keyItem);
         ui->defsTableWidget->setItem(i,1,valueItem);
         iter++;
         i++;
     }
+    defListsModel->setStringList(colorDefs);
+    ui->colorListView->setModel(defListsModel);
+
+    colorDefModel = new ColorDefTableModel(defs, this);
+    ui->colorTableView->setModel(colorDefModel);
 
 }
 

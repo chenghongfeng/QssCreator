@@ -6,3 +6,5 @@ $pressed = #59F;
 $focused = #EA2; /*actived*/
 $grad1a = #EEEEEF; /*gradient start*/
 $grad1b = DADADF ; /*gradient end*/
+$border = #afdfe4;
+$border_disabled = #44C0FE;
