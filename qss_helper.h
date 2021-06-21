@@ -2,9 +2,9 @@
 #define QSSHELPER_H
 
 /* Warning
-1.±äÁ¿ÃüÃûÒªÊ¹ÓÃ$¿ªÍ·
-2.±äÁ¿²»ÒªÊ¹ÓÃ_×÷Îª×îºóÒ»¸ö×Ö·û
-3.value½áÎ²ÍÆ¼öÊ¹ÓÃ ';'*/
+1.å˜é‡å‘½åè¦ä½¿ç”¨$å¼€å¤´
+2.å˜é‡ä¸è¦ä½¿ç”¨_ä½œä¸ºæœ€åä¸€ä¸ªå­—ç¬¦
+3.valueç»“å°¾æ¨èä½¿ç”¨ ';'*/
 
 #include <QStringList>
 #include <QMap>
@@ -15,14 +15,14 @@ class QssHelper
 public:
     QssHelper();
 
-    //Ê¹ÓÃ pattern ´Ó defsText »ñÈ¡ def,value µÄmap ,Ä¬ÈÏĞÎÊ½ $def = value
+    //ä½¿ç”¨ pattern ä» defsText è·å– def,value çš„map ,é»˜è®¤å½¢å¼ $def = value
     static QMap<QString,QString> getColorDefineFromQStr(const QString &defsText,const QString &pattern = "");
-    //Ê¹ÓÃ¶¨Òå±äÁ¿Ìæ»»qssText
+    //ä½¿ç”¨å®šä¹‰å˜é‡æ›¿æ¢qssText
     static void replaceDefsWithValues(QString &qssText, const QMap<QString,QString> &defsMap);
-    //½«str×ª»»³ÉÆ¥ÅäÕâ¸östrµÄÕıÔò±í´ïÊ½
+    //å°†strè½¬æ¢æˆåŒ¹é…è¿™ä¸ªstrçš„æ­£åˆ™è¡¨è¾¾å¼
     static QRegularExpression strToReplaceRegexp(const QString &str);
     static QString codeToPattern(QString code);
-    //½«×Ö·û´®Ğ´ÈëÎÄ¼ş
+    //å°†å­—ç¬¦ä¸²å†™å…¥æ–‡ä»¶
     static void writeQStrTofile(const QString &str, const QString &fileName);
 
 };

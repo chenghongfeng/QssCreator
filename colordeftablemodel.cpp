@@ -3,6 +3,7 @@
 #include <QFont>
 #include <QBrush>
 #include <QColor>
+#include <QColorDialog>
 
 
 ColorDefTableModel::ColorDefTableModel(QMap<QString, QString> &defMap, QObject *parent)
@@ -19,11 +20,9 @@ QVariant ColorDefTableModel::headerData(int section, Qt::Orientation orientation
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
         case 0:
-            return QString("first");
+            return QString("Key");
         case 1:
-            return QString("second");
-        case 2:
-            return QString("third");
+            return QString("Value");
         }
     }
     return QVariant();
@@ -31,11 +30,13 @@ QVariant ColorDefTableModel::headerData(int section, Qt::Orientation orientation
 
 int ColorDefTableModel::rowCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return defMap_.values().count();
 }
 
 int ColorDefTableModel::columnCount(const QModelIndex &parent) const
 {
+    Q_UNUSED(parent);
     return 2;
 }
 
@@ -70,7 +71,7 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
         if (col == 1)
         {
             QColor color(values_[row]);
-            //¼ÆËã³ö»Ò¶È Èç¹ûĞ¡ÓÚ100Ç°¾°ÉèÖÃÎª°×É«
+            //è®¡ç®—å‡ºç°åº¦ å¦‚æœå°äº100å‰æ™¯è®¾ç½®ä¸ºç™½è‰²
             if (qGray(color.rgb()) < 100)
             {
                 return QBrush(Qt::white);
@@ -96,4 +97,25 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
         return QVariant();
     }
     return QVariant();
+}
+
+bool ColorDefTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+    if (index.column() != 1)
+        return false;
+    if (role == Qt::EditRole)
+    {
+        if (!checkIndex(index))
+            return false;
+        QColor color(values_[index.row()]);
+        QColorDialog colorDialog(color);
+        QColor resultColor = colorDialog.getColor(color);
+        return true;
+
+    }
+}
+
+Qt::ItemFlags ColorDefTableModel::flags(const QModelIndex &index) const
+{
+    return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }
