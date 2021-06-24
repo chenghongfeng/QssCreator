@@ -21,7 +21,14 @@ MainWindow::MainWindow(QWidget *parent)
 
 //    myModel = new MyModel(this);
 //    ui->colorTableView->setModel(myModel);
-
+    ui->colorListView->setVisible(false);;
+    ui->defsTableWidget->setVisible(false);
+    qssHighlighter = new QssHighlighter(ui->qssTextEdit->document());
+    //ui->qssTextEdit->setTextBackgroundColor(QColor("#002b36"));
+    QPalette palette(ui->qssTextEdit->palette());
+    palette.setColor(QPalette::Base, QColor("#002b36"));
+    palette.setColor(QPalette::Text, QColor("#839496"));
+    ui->qssTextEdit->setPalette(palette);
 }
 
 MainWindow::~MainWindow()

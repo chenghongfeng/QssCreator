@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,0,0,2">
+   <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -56,15 +56,15 @@
        <widget class="QLineEdit" name="regLineEdit"/>
       </item>
       <item>
+       <widget class="QListView" name="colorListView"/>
+      </item>
+      <item>
+       <widget class="QTableView" name="colorTableView"/>
+      </item>
+      <item>
        <widget class="QTableWidget" name="defsTableWidget"/>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QListView" name="colorListView"/>
-    </item>
-    <item>
-     <widget class="QTableView" name="colorTableView"/>
     </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_3">
