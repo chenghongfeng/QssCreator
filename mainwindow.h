@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QMap>
 
+#include "qsshighlighter.h"
+
 QT_BEGIN_NAMESPACE
 class QFile;
 class QFileDialog;
@@ -52,5 +54,7 @@ private:
     QStringList colorDefs;
 
     ColorDefTableModel *colorDefModel {nullptr};
+
+    QssHighlighter *qssHighlighter { nullptr };
 };
 #endif // MAINWINDOW_H

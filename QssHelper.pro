@@ -12,12 +12,14 @@ SOURCES += \
     colordeftablemodel.cpp \
     main.cpp \
     mainwindow.cpp \
-    qss_helper.cpp
+    qss_helper.cpp \
+    qsshighlighter.cpp
 
 HEADERS += \
     colordeftablemodel.h \
     mainwindow.h \
-    qss_helper.h
+    qss_helper.h \
+    qsshighlighter.h
 
 FORMS += \
     mainwindow.ui
