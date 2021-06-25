@@ -31,7 +31,7 @@ QVariant ColorDefTableModel::headerData(int section, Qt::Orientation orientation
 int ColorDefTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return defMap_.values().count();
+    return defMap_.size();
 }
 
 int ColorDefTableModel::columnCount(const QModelIndex &parent) const
@@ -105,14 +105,17 @@ bool ColorDefTableModel::setData(const QModelIndex &index, const QVariant &value
         return false;
     if (role == Qt::EditRole)
     {
-        if (!checkIndex(index))
-            return false;
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
+    if (!checkIndex(index)) //checkIndex在5.11版本引入
+        return false;
+#endif
         QColor color(values_[index.row()]);
         QColorDialog colorDialog(color);
         QColor resultColor = colorDialog.getColor(color);
         return true;
 
     }
+    return false;
 }
 
 Qt::ItemFlags ColorDefTableModel::flags(const QModelIndex &index) const
