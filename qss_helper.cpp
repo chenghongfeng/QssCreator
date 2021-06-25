@@ -14,16 +14,16 @@ QssHelper::QssHelper()
 
 QMap<QString,QString> QssHelper::getColorDefineFromQStr(const QString &defsText, const QString &pattern)
 {
-    //\s  °üÀ¨¿Õ¸ñ¡¢ÖÆ±í·û¡¢»»Ò³·ûµÈ¿Õ°××Ö·ûµÄÆäÖĞÈÎÒâÒ»¸ö
+    //\s  åŒ…æ‹¬ç©ºæ ¼ã€åˆ¶è¡¨ç¬¦ã€æ¢é¡µç¬¦ç­‰ç©ºç™½å­—ç¬¦çš„å…¶ä¸­ä»»æ„ä¸€ä¸ª
     //([$]\w+)\s*=[ \t]*([#(),.\w]*)[\t ]*[\r\n;\/]+
     //      group1                                  group2
     // =================                          ============
     // (  [$]       \w+)     \s*      = \s*       ([#(),.\w]*)   \s*[\r\n;\/]+
-    //     $     ÈÎÒâ×Ö·û     ¿Õ°××Ö·û  =
+    //     $     ä»»æ„å­—ç¬¦     ç©ºç™½å­—ç¬¦  =
     QString exp;
     if (pattern == "")
     {
-        exp = "([$]\\w+)\\s*=\\s*([#(),.\\w]*)\\s*[\\r\\n;\\\/]+";
+        exp = "([$]\\w+)\\s*=\\s*([#(),.\\w]*)\\s*[\\r\\n;\\/]+";
     }
     else
     {
@@ -57,7 +57,7 @@ void QssHelper::replaceDefsWithValues(QString &qssText, const QMap<QString, QStr
     auto iter = defsMap.constBegin();
     while (iter != defsMap.constEnd())
     {
-        //Òª¼ÓÉÏÆ¥Åäµ½µÄ×÷Îª·Ç"_"×Ö·ûµÄgroup2
+        //è¦åŠ ä¸ŠåŒ¹é…åˆ°çš„ä½œä¸ºé"_"å­—ç¬¦çš„group2
         QString replaceText = iter.value() + "\\2";
         qssText.replace(strToReplaceRegexp(iter.key()),replaceText);
         iter++;
@@ -68,8 +68,8 @@ QRegularExpression QssHelper::strToReplaceRegexp(const QString &str)
 {
     QString regExp = str;
     regExp.replace("$","");
-    //Æ¥Åä²»¾«È· Í¬Ê±¶¨ÒåÁËborderºÍborder_disabledÊ±½«³öÏÖÎÊÌâ
-    //ĞŞ¸Ä³ÉÕâ¸öÑù×Ó»áÆ¥Åä¶ÔÓ¦×Ö·û´®ÇÒºóÒ»¸ö×Ö·û²»ÊÇ_ ÕâÑùµÄ»°$xxxx±äÁ¿¾Í²»ÄÜ³öÏÖÔÚÎÄ¼şÎ²;
+    //åŒ¹é…ä¸ç²¾ç¡® åŒæ—¶å®šä¹‰äº†borderå’Œborder_disabledæ—¶å°†å‡ºç°é—®é¢˜
+    //ä¿®æ”¹æˆè¿™ä¸ªæ ·å­ä¼šåŒ¹é…å¯¹åº”å­—ç¬¦ä¸²ä¸”åä¸€ä¸ªå­—ç¬¦ä¸æ˜¯_ è¿™æ ·çš„è¯$xxxxå˜é‡å°±ä¸èƒ½å‡ºç°åœ¨æ–‡ä»¶å°¾;
     regExp = QString("(\\$%1)([^_])").arg(regExp);
     QRegularExpression reg(regExp);
     return reg;

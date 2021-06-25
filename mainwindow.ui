@@ -122,8 +122,20 @@
      <height>22</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuconfig">
+    <property name="title">
+     <string>config</string>
+    </property>
+    <addaction name="actionset"/>
+   </widget>
+   <addaction name="menuconfig"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionset">
+   <property name="text">
+    <string>set</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>

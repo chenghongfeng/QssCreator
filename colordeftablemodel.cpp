@@ -31,7 +31,7 @@ QVariant ColorDefTableModel::headerData(int section, Qt::Orientation orientation
 int ColorDefTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return defMap_.values().count();
+    return defMap_.size();
 }
 
 int ColorDefTableModel::columnCount(const QModelIndex &parent) const
@@ -115,6 +115,7 @@ bool ColorDefTableModel::setData(const QModelIndex &index, const QVariant &value
         return true;
 
     }
+    return false;
 }
 
 Qt::ItemFlags ColorDefTableModel::flags(const QModelIndex &index) const
