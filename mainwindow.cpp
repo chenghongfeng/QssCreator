@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->defsTableWidget->setColumnCount(2);
     defListsModel = new QStringListModel();
 
+    ui->defsTableWidget->setVisible(false);
+    ui->colorListView->setVisible(false);
 
 //    myModel = new MyModel(this);
 //    ui->colorTableView->setModel(myModel);
@@ -47,14 +49,14 @@ void MainWindow::getDefs()
 void MainWindow::on_openColorDefFileBtn_clicked()
 {
     //QString fileName = "F:/MyGitProject/qssHelper/qssFile/color.def";
-    QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "F:/MyGitProject/qssHelper/qssFile/", "颜色定义文件(*.qssdef)");
+    QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "D:/SourceCode/MyProject/qssHelper/qssFile/", "颜色定义文件(*.qssdef)");
     m_strColorDefFile = fileName;
 
 }
 
 void MainWindow::on_openQssFileBtn_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "F:/MyGitProject/qssHelper/qssFile/", "皮肤文件(*.qss)");
+    QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "D:/SourceCode/MyProject/qssHelper/qssFile/", "皮肤文件(*.qss)");
     m_strQssFile = fileName;
     if (!fileName.isEmpty()) {
         QFile file(fileName);
