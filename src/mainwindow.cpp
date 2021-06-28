@@ -79,14 +79,14 @@ void MainWindow::on_actionset_triggered()
 void MainWindow::on_openColorDefFileBtn_clicked()
 {
     //QString fileName = "F:/MyGitProject/qssHelper/qssFile/color.def";
-    QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "D:/SourceCode/MyProject/qssHelper/qssFile/", "颜色定义文件(*.qssdef)");
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), Path::getInstance()->qssDir(), tr("Color define file(*.qssdef)"));
     m_strColorDefFile = fileName;
 
 }
 
 void MainWindow::on_openQssFileBtn_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, "打开文件", "D:/SourceCode/MyProject/qssHelper/qssFile/", "皮肤文件(*.qss)");
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), Path::getInstance()->qssDir(), tr("Skin file(*.qss)"));
     m_strQssFile = fileName;
     if (!fileName.isEmpty()) {
         QFile file(fileName);
