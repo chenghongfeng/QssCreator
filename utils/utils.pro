@@ -1,6 +1,7 @@
-QT       += core gui
+QT += gui widgets
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+TEMPLATE = lib
+DEFINES += UTILS_LIBRARY
 
 CONFIG += c++11
 
@@ -10,24 +11,26 @@ CONFIG += c++11
 
 SOURCES += \
     colordeftablemodel.cpp \
-    main.cpp \
-    mainwindow.cpp \
+    config.cpp \
+    oshelper.cpp \
+    path.cpp \
     qss_helper.cpp \
-    qsshighlighter.cpp
+    qsshighlighter.cpp \
+    utils.cpp
 
 HEADERS += \
     colordeftablemodel.h \
-    mainwindow.h \
+    config.h \
+    oshelper.h \
+    path.h \
     qss_helper.h \
-    qsshighlighter.h
-
-FORMS += \
-    mainwindow.ui
-
-TRANSLATIONS += \
-    QssHelper_zh_CN.ts
+    qsshighlighter.h \
+    singleton.h \
+    utils_global.h \
+    utils.h
 
 # Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
+unix {
+    target.path = /usr/lib
+}
 !isEmpty(target.path): INSTALLS += target

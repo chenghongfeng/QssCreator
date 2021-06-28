@@ -12,6 +12,7 @@ class QFileDialog;
 class QStandardItemModel;
 class QStringListModel;
 class ColorDefTableModel;
+class ConfigDialog;
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
@@ -26,8 +27,11 @@ public:
 
 private:
     void getDefs();
+    void initSignalSlots();
+    void initSettings();
 
 private slots:
+    void on_actionset_triggered();
     void on_openColorDefFileBtn_clicked();
 
     void on_openQssFileBtn_clicked();
@@ -56,5 +60,7 @@ private:
     ColorDefTableModel *colorDefModel {nullptr};
 
     QssHighlighter *qssHighlighter { nullptr };
+
+    ConfigDialog *m_configDialog {nullptr};
 };
 #endif // MAINWINDOW_H

@@ -1,10 +1,11 @@
 #ifndef COLORDEFTABLEMODEL_H
 #define COLORDEFTABLEMODEL_H
 
+#include "utils_global.h"
 #include <QAbstractTableModel>
 #include <QMap>
 
-class ColorDefTableModel : public QAbstractTableModel
+class UTILS_EXPORT ColorDefTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 

@@ -119,7 +119,7 @@
      <x>0</x>
      <y>0</y>
      <width>786</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuconfig">
@@ -131,6 +131,18 @@
    <addaction name="menuconfig"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar_2">
+   <property name="windowTitle">
+    <string>toolBar_2</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>RightToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionset"/>
+  </widget>
   <action name="actionset">
    <property name="text">
     <string>set</string>

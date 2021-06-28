@@ -5,12 +5,12 @@
 1.变量命名要使用$开头
 2.变量不要使用_作为最后一个字符
 3.value结尾推荐使用 ';'*/
-
+#include "utils_global.h"
 #include <QStringList>
 #include <QMap>
 #include <QString>
 
-class QssHelper
+class UTILS_EXPORT QssHelper
 {
 public:
     QssHelper();

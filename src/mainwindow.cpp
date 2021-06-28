@@ -9,6 +9,10 @@
 
 #include "qss_helper.h"
 #include "colordeftablemodel.h"
+#include "config.h"
+#include "path.h"
+
+#include "configdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -31,6 +35,8 @@ MainWindow::MainWindow(QWidget *parent)
     palette.setColor(QPalette::Base, QColor("#002b36"));
     palette.setColor(QPalette::Text, QColor("#839496"));
     ui->qssTextEdit->setPalette(palette);
+    initSignalSlots();
+    m_configDialog = new ConfigDialog(this);
 }
 
 MainWindow::~MainWindow()
@@ -50,6 +56,23 @@ void MainWindow::getDefs()
         QString defsText = file.readAll();
         defs = QssHelper::getColorDefineFromQStr(defsText,pattern);
     }
+}
+
+void MainWindow::initSignalSlots()
+{
+    //connect(ui->actionset, &QAction::trigger, this, &MainWindow::on_setAction_triggered);
+}
+
+void MainWindow::initSettings()
+{
+//    QFont font("宋体",20);
+//    Config::getInstance()
+//    //ui->qssTextEdit->setText(Config::getInstance().)
+}
+
+void MainWindow::on_actionset_triggered()
+{
+    m_configDialog->setVisible(!m_configDialog->isVisible());
 }
 
 
