@@ -1,0 +1,6 @@
+border
+color
+font
+font-color
+font-size
+font-family

@@ -49,13 +49,13 @@ void QssHighlighter::highlightBlock(const QString &text)
             setFormat(match.capturedStart(), match.capturedLength(), rule.format);
         }
     }
-    //ÉèÖÃ´úÂë¿éµÄstate
-    // 0±íÊ¾Ã»ÓĞ×¢ÊÍ»òÕß×¢ÊÍÆğÊ¼ºÍ½áÊø¶¼ÔÚtextÖĞ
-    // 1±íÊ¾Ö»ÓĞ×¢ÊÍÆğÊ¼·û»òÕß¸Ã¿éÖ®Ç°ÓĞÆğÊ¼·ûµ«»¹Ã»ÓĞÆ¥Åä½áÊø·û ÏÂÒ»¸öBlockÈÔÒªÒªÑ°ÕÒ½áÊø·û
+    //è®¾ç½®ä»£ç å—çš„state
+    // 0è¡¨ç¤ºæ²¡æœ‰æ³¨é‡Šæˆ–è€…æ³¨é‡Šèµ·å§‹å’Œç»“æŸéƒ½åœ¨textä¸­
+    // 1è¡¨ç¤ºåªæœ‰æ³¨é‡Šèµ·å§‹ç¬¦æˆ–è€…è¯¥å—ä¹‹å‰æœ‰èµ·å§‹ç¬¦ä½†è¿˜æ²¡æœ‰åŒ¹é…ç»“æŸç¬¦ ä¸‹ä¸€ä¸ªBlockä»è¦è¦å¯»æ‰¾ç»“æŸç¬¦
     setCurrentBlockState(0);
 
     int startIndex = 0;
-    if (previousBlockState() != 1) //Èç¹ûÉÏÒ»¿éÃ»ÓĞ×¢ÊÍÆğÊ¼·û
+    if (previousBlockState() != 1) //å¦‚æœä¸Šä¸€å—æ²¡æœ‰æ³¨é‡Šèµ·å§‹ç¬¦
     {
         startIndex = text.indexOf(commentStartExpression);
     }
@@ -64,7 +64,7 @@ void QssHighlighter::highlightBlock(const QString &text)
         QRegularExpressionMatch match = commentEndExpression.match(text, startIndex);
         int endIndex = match.capturedStart();
         int commentLength = 0;
-        if (endIndex == -1)//Ã»ÓĞÕÒµ½×¢ÊÍ½áÊø·û,±¾¶ÎÈ«²¿×¢ÊÍ
+        if (endIndex == -1)//æ²¡æœ‰æ‰¾åˆ°æ³¨é‡Šç»“æŸç¬¦,æœ¬æ®µå…¨éƒ¨æ³¨é‡Š
         {
             setCurrentBlockState(1);
             commentLength = text.length() - startIndex;

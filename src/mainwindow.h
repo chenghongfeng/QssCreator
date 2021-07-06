@@ -29,6 +29,7 @@ private:
     void getDefs();
     void initSignalSlots();
     void initSettings();
+    void saveSettings();
 
 private slots:
     void on_actionset_triggered();

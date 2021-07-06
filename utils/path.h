@@ -25,6 +25,12 @@ public:
     QString qssDir(){
         return m_qssDir;
     }
+    QString confDir(){
+        return m_confDir;
+    }
+    QString qssKeywordFilePath(){
+        return m_qssKeywordFilePath;
+    }
 private:
     Path();
 
@@ -32,8 +38,10 @@ private:
     QString m_exeDir;
     QString m_appDir;
     QString m_dataDir;
+    QString m_confDir;
     QString m_configFilePath;
     QString m_qssDir;
+    QString m_qssKeywordFilePath;
 };
 
 #endif // PATH_H

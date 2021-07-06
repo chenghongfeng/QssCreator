@@ -3,6 +3,7 @@
 
 #include <QFile>
 #include <QFileDialog>
+#include <QFontDialog>
 #include <QStandardItemModel>
 #include <QTableView>
 #include <QStringListModel>
@@ -36,11 +37,14 @@ MainWindow::MainWindow(QWidget *parent)
     palette.setColor(QPalette::Text, QColor("#839496"));
     ui->qssTextEdit->setPalette(palette);
     initSignalSlots();
+    initSettings();
     m_configDialog = new ConfigDialog(this);
 }
 
 MainWindow::~MainWindow()
 {
+    saveSettings();
+    Config::closeInstance();
     delete ui;
 }
 
@@ -65,14 +69,27 @@ void MainWindow::initSignalSlots()
 
 void MainWindow::initSettings()
 {
-//    QFont font("宋体",20);
-//    Config::getInstance()
-//    //ui->qssTextEdit->setText(Config::getInstance().)
+    QString fontFamily = Config::getInstance()->value("Font/family", "宋体").toString();
+    int fontSize = Config::getInstance()->value("Font/size", 20).toInt();
+    QFont font(fontFamily, fontSize);
+    ui->qssTextEdit->setFont(font);
+}
+
+void MainWindow::saveSettings()
+{
+    Config::getInstance()->setValue("Font/family", ui->qssTextEdit->font().family());
+    Config::getInstance()->setValue("Font/size", ui->qssTextEdit->font().pointSize());
 }
 
 void MainWindow::on_actionset_triggered()
 {
-    m_configDialog->setVisible(!m_configDialog->isVisible());
+    //m_configDialog->setVisible(!m_configDialog->isVisible());
+    bool ok;
+    QFont font = QFontDialog::getFont(&ok, ui->qssTextEdit->font(), this, tr("set editor font"));
+    if (ok)
+    {
+        ui->qssTextEdit->setFont(font);
+    }
 }
 
 

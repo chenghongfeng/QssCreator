@@ -13,6 +13,13 @@ public:
         static T *instance = new T();
         return instance;
     }
+    static void closeInstance(){
+        if (getInstance() != nullptr)
+        {
+            delete getInstance();
+            getInstance() = nullptr;
+        }
+    }
 
     Singleton(const Singleton &) = delete;
     void operator=(const Singleton &) = delete;

@@ -4,18 +4,27 @@
 #include "utils_global.h"
 
 #include <QSettings>
+#include <QVariant>
 #include "singleton.h"
 
 
 class UTILS_EXPORT Config
         : public QObject, public Singleton<Config>
 {
+    Q_OBJECT
 public:
+    ~Config();
 
     void setConfigFilePathName(const QString &pathName){
         m_configFilePathName = pathName;
     }
     void readAllConfig();
+    void setValue(const QString &key, const QVariant &values);
+    QVariant value(const QString &key, const QVariant &defaultValue = QVariant());
+
+signals:
+    // 参数更新
+    void valueUpdated(const QString &key, const QVariant &value);
 protected:
 
 private:
