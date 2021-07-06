@@ -5,6 +5,7 @@
 QT_BEGIN_NAMESPACE
 class QCompleter;
 class QssHighlighter;
+class QStringListModel;
 QT_END_NAMESPACE
 
 class QssTextEdit : public QTextEdit
@@ -13,13 +14,17 @@ class QssTextEdit : public QTextEdit
 public:
     QssTextEdit(QWidget *parent = nullptr);
     void setCompleter(QCompleter *completer);
+    void setDefKeyword(const QStringList &defKeywords);
+private:
+    void initQssKeywordModel();
 
 private slots:
     void insertCompletion(const QString &completion);
 
 private:
-    QCompleter *m_pCompleter{nullptr};
-    QssHighlighter *m_pHighlighter{nullptr};
+    QCompleter *m_completer{nullptr};
+    QssHighlighter *m_highlighter{nullptr};
+    QStringListModel *m_qssKeywordModel{nullptr};
 };
 
 #endif // QSSTEXTEDIT_H
