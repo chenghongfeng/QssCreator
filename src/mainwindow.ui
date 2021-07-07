@@ -107,7 +107,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QTextEdit" name="qssTextEdit"/>
+       <widget class="QssTextEdit" name="qssTextEdit"/>
       </item>
      </layout>
     </item>
@@ -149,6 +149,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QssTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>qsstextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
