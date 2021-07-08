@@ -27,13 +27,21 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    app/main.cpp \
+    main.cpp \
     configdialog.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    QssTextEdit/colordeftablemodel.cpp \
+    QssTextEdit/qsshighlighter.cpp \
+    QssTextEdit/qssproxymodel.cpp \
+    QssTextEdit/qsstextedit.cpp
 
 HEADERS += \
     configdialog.h \
-    mainwindow.h
+    mainwindow.h \
+    QssTextEdit/colordeftablemodel.h \
+    QssTextEdit/qsshighlighter.h \
+    QssTextEdit/qssproxymodel.h \
+    QssTextEdit/qsstextedit.h
 
 FORMS += \
     configdialog.ui \

@@ -1,14 +1,11 @@
 #ifndef QSSHIGHLIGHTER_H
 #define QSSHIGHLIGHTER_H
 
-#include "utils_global.h"
-
 #include <QSyntaxHighlighter>
-
 #include <QRegularExpression>
 
 
-class UTILS_EXPORT QssHighlighter : public QSyntaxHighlighter
+class QssHighlighter : public QSyntaxHighlighter
 {
     Q_OBJECT
 public:

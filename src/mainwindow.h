@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QMap>
 
-#include "qsshighlighter.h"
+#include "QssTextEdit/qsshighlighter.h"
 
 QT_BEGIN_NAMESPACE
 class QFile;

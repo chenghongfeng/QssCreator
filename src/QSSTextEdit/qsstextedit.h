@@ -1,6 +1,5 @@
 #ifndef QSSTEXTEDIT_H
 #define QSSTEXTEDIT_H
-#include "utils_global.h"
 #include <QTextEdit>
 QT_BEGIN_NAMESPACE
 class QCompleter;
@@ -8,7 +7,7 @@ class QssHighlighter;
 class QStringListModel;
 QT_END_NAMESPACE
 
-class UTILS_EXPORT QssTextEdit : public QTextEdit
+class QssTextEdit : public QTextEdit
 {
     Q_OBJECT
 public:

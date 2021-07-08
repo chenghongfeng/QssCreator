@@ -19,6 +19,9 @@ public:
         m_configFilePathName = pathName;
     }
     void readAllConfig();
+    void setSkin();
+    void setSkin(const QString &qssFilePathName, const QString &colorDefFilePathName);
+    void setSkin(QString &qss,const QMap<QString,QString> &defs);
     void setValue(const QString &key, const QVariant &values);
     QVariant value(const QString &key, const QVariant &defaultValue = QVariant());
 

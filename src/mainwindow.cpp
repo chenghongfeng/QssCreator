@@ -10,7 +10,7 @@
 #include <QSortFilterProxyModel>
 
 #include "qss_helper.h"
-#include "colordeftablemodel.h"
+#include "QssTextEdit/colordeftablemodel.h"
 #include "config.h"
 #include "path.h"
 
