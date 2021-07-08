@@ -112,6 +112,8 @@ bool ColorDefTableModel::setData(const QModelIndex &index, const QVariant &value
         QColor color(values_[index.row()]);
         QColorDialog colorDialog(color);
         QColor resultColor = colorDialog.getColor(color);
+        values_[index.row()] = resultColor.name();
+        //emit dataChanged();
         return true;
 
     }

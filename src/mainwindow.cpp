@@ -7,6 +7,7 @@
 #include <QStandardItemModel>
 #include <QTableView>
 #include <QStringListModel>
+#include <QSortFilterProxyModel>
 
 #include "qss_helper.h"
 #include "colordeftablemodel.h"
@@ -138,7 +139,10 @@ void MainWindow::on_applyBtn_clicked()
     ui->colorListView->setModel(defListsModel);
 
     colorDefModel = new ColorDefTableModel(defs, this);
-    ui->colorTableView->setModel(colorDefModel);
+    QSortFilterProxyModel *proxyModle = new QSortFilterProxyModel(this);
+    proxyModle->setSourceModel(colorDefModel);
+    proxyModle->sort(1);
+    ui->colorTableView->setModel(proxyModle);
 
 }
 

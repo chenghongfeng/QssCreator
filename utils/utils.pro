@@ -27,6 +27,7 @@ SOURCES += \
     qss_helper.cpp \
     qsscompleter.cpp \
     qsshighlighter.cpp \
+    qssproxymodel.cpp \
     qsstextedit.cpp \
     utils.cpp
 
@@ -39,6 +40,7 @@ HEADERS += \
     qss_helper.h \
     qsscompleter.h \
     qsshighlighter.h \
+    qssproxymodel.h \
     qsstextedit.h \
     singleton.h \
     utils_global.h \
