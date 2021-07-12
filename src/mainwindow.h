@@ -27,6 +27,7 @@ public:
 
 private:
     void getDefs();
+    void initUi();
     void initSignalSlots();
     void initSettings();
     void saveSettings();

@@ -24,6 +24,7 @@ SOURCES += \
     oshelper.cpp \
     path.cpp \
     qss_helper.cpp \
+    tabwidget.cpp \
     utils.cpp
 
 HEADERS += \
@@ -33,6 +34,7 @@ HEADERS += \
     path.h \
     qss_helper.h \
     singleton.h \
+    tabwidget.h \
     utils_global.h \
     utils.h
 
@@ -41,3 +43,6 @@ unix {
     target.path = /usr/lib
 }
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+

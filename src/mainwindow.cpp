@@ -8,6 +8,9 @@
 #include <QTableView>
 #include <QStringListModel>
 #include <QSortFilterProxyModel>
+#include <QLabel>
+#include <QStackedWidget>
+#include <QDebug>
 
 #include "qss_helper.h"
 #include "QssTextEdit/colordeftablemodel.h"
@@ -40,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     initSignalSlots();
     initSettings();
     m_configDialog = new ConfigDialog(this);
+
 }
 
 MainWindow::~MainWindow()
@@ -49,6 +53,35 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::initUi()
+{
+    QAction *a = new QAction("1",this);
+    QTextEdit *e = new QTextEdit();
+    ui->widget->addPage(e, a);
+//    //设置tab在左侧,此时tabbar的文字垂直显示;
+//    ui->tabWidget->setTabPosition(QTabWidget::TabPosition::West);
+//    //设置toolbutton的widget为label,再将tabText隐藏,这样就可以得到水平文字
+//    QLabel *label1 = new QLabel();
+//    label1->setText("tab 1");
+//    ui->tabWidget->tabBar()->setTabButton(0, QTabBar::LeftSide, label1);
+//    ui->tabWidget->tabBar()->setTabText(0, "");
+//    auto * tab_pane = ui->tabWidget->findChild<QStackedWidget *>();
+//    //tab_pane->hide();
+//    tab_pane->setFixedWidth(1);
+//    auto widgets = ui->tabWidget->findChildren<QWidget *>(QString(),Qt::FindDirectChildrenOnly);
+//    foreach (auto w, widgets) {
+//        qDebug()<<w->objectName();
+//        //w->hide();
+//    }
+//    this->update();
+//    ui->tabWidget->hide();
+
+//    QHBoxLayout *a = new QHBoxLayout(this);
+//    a->addWidget(ui->tabWidget->tabBar());
+//    ui->widget->setLayout(a);
+
+
+}
 void MainWindow::getDefs()
 {
     if (m_strColorDefFile.isEmpty())
@@ -62,6 +95,8 @@ void MainWindow::getDefs()
         defs = QssHelper::getColorDefineFromQStr(defsText,pattern);
     }
 }
+
+
 
 void MainWindow::initSignalSlots()
 {
@@ -84,13 +119,14 @@ void MainWindow::saveSettings()
 
 void MainWindow::on_actionset_triggered()
 {
+    initUi();
     //m_configDialog->setVisible(!m_configDialog->isVisible());
-    bool ok;
-    QFont font = QFontDialog::getFont(&ok, ui->qssTextEdit->font(), this, tr("set editor font"));
-    if (ok)
-    {
-        ui->qssTextEdit->setFont(font);
-    }
+//    bool ok;
+//    QFont font = QFontDialog::getFont(&ok, ui->qssTextEdit->font(), this, tr("set editor font"));
+//    if (ok)
+//    {
+//        ui->qssTextEdit->setFont(font);
+//    }
 }
 
 

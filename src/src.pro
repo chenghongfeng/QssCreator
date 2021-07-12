@@ -33,7 +33,8 @@ SOURCES += \
     QssTextEdit/colordeftablemodel.cpp \
     QssTextEdit/qsshighlighter.cpp \
     QssTextEdit/qssproxymodel.cpp \
-    QssTextEdit/qsstextedit.cpp
+    QssTextEdit/qsstextedit.cpp \
+    mytabwidget.cpp
 
 HEADERS += \
     configdialog.h \
@@ -41,11 +42,13 @@ HEADERS += \
     QssTextEdit/colordeftablemodel.h \
     QssTextEdit/qsshighlighter.h \
     QssTextEdit/qssproxymodel.h \
-    QssTextEdit/qsstextedit.h
+    QssTextEdit/qsstextedit.h \
+    mytabwidget.h
 
 FORMS += \
     configdialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    mytabwidget.ui
 
 TRANSLATIONS += \
     QssHelper_zh_CN.ts

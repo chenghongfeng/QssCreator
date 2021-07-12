@@ -14,7 +14,17 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="1,2">
+   <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <item>
+     <widget class="TabWidget" name="widget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+     </widget>
+    </item>
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -154,6 +164,12 @@
    <class>QssTextEdit</class>
    <extends>QTextEdit</extends>
    <header>QssTextEdit/qsstextedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>TabWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">tabwidget.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>
