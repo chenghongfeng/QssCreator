@@ -26,7 +26,6 @@ public:
     ~MainWindow();
 
 private:
-    void getDefs();
     void initUi();
     void initSignalSlots();
     void initSettings();
@@ -34,14 +33,9 @@ private:
 
 private slots:
     void on_actionset_triggered();
-    void on_openColorDefFileBtn_clicked();
 
     void on_openQssFileBtn_clicked();
 
-
-    void on_applyBtn_clicked();
-
-    void on_regLineEdit_textChanged(const QString &arg1);
 
     void on_replaceBtn_clicked();
 
@@ -51,15 +45,7 @@ private:
     Ui::MainWindow *ui;
     QString m_strColorDefFile;
     QString m_strQssFile;
-    QMap<QString,QString> defs;
-    QString pattern;
 
-    QStandardItemModel *defsTableModel {nullptr};
-
-    QStringListModel *defListsModel {nullptr};
-    QStringList colorDefs;
-
-    ColorDefTableModel *colorDefModel {nullptr};
 
     QssHighlighter *qssHighlighter { nullptr };
 

@@ -13,27 +13,19 @@
 #include <QDebug>
 
 #include "qss_helper.h"
-#include "QssTextEdit/colordeftablemodel.h"
 #include "config.h"
 #include "path.h"
+#include "qssmanager.h"
 
 #include "configdialog.h"
+#include "colordefwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->defsTableWidget->setColumnCount(2);
-    defListsModel = new QStringListModel();
 
-    ui->defsTableWidget->setVisible(false);
-    ui->colorListView->setVisible(false);
-
-//    myModel = new MyModel(this);
-//    ui->colorTableView->setModel(myModel);
-    ui->colorListView->setVisible(false);;
-    ui->defsTableWidget->setVisible(false);
     qssHighlighter = new QssHighlighter(ui->qssTextEdit->document());
     //ui->qssTextEdit->setTextBackgroundColor(QColor("#002b36"));
     QPalette palette(ui->qssTextEdit->palette());
@@ -58,46 +50,12 @@ void MainWindow::initUi()
     QAction *a = new QAction("1",this);
     QTextEdit *e = new QTextEdit();
     QLabel *lbael = new QLabel("hgusdfahgsdffdsa\ndsfga");
+    ColorDefWidget *widget = new ColorDefWidget();
     ui->widget->addPage(e, a);
     ui->widget->addPage(lbael, a);
-//    //设置tab在左侧,此时tabbar的文字垂直显示;
-//    ui->tabWidget->setTabPosition(QTabWidget::TabPosition::West);
-//    //设置toolbutton的widget为label,再将tabText隐藏,这样就可以得到水平文字
-//    QLabel *label1 = new QLabel();
-//    label1->setText("tab 1");
-//    ui->tabWidget->tabBar()->setTabButton(0, QTabBar::LeftSide, label1);
-//    ui->tabWidget->tabBar()->setTabText(0, "");
-//    auto * tab_pane = ui->tabWidget->findChild<QStackedWidget *>();
-//    //tab_pane->hide();
-//    tab_pane->setFixedWidth(1);
-//    auto widgets = ui->tabWidget->findChildren<QWidget *>(QString(),Qt::FindDirectChildrenOnly);
-//    foreach (auto w, widgets) {
-//        qDebug()<<w->objectName();
-//        //w->hide();
-//    }
-//    this->update();
-//    ui->tabWidget->hide();
-
-//    QHBoxLayout *a = new QHBoxLayout(this);
-//    a->addWidget(ui->tabWidget->tabBar());
-//    ui->widget->setLayout(a);
-
+    ui->widget->addPage(widget,a);
 
 }
-void MainWindow::getDefs()
-{
-    if (m_strColorDefFile.isEmpty())
-    {
-        return;
-    }
-    QFile file(m_strColorDefFile);
-    if(file.open(QFile::ReadOnly))
-    {
-        QString defsText = file.readAll();
-        defs = QssHelper::getColorDefineFromQStr(defsText,pattern);
-    }
-}
-
 
 
 void MainWindow::initSignalSlots()
@@ -132,14 +90,6 @@ void MainWindow::on_actionset_triggered()
 }
 
 
-void MainWindow::on_openColorDefFileBtn_clicked()
-{
-    //QString fileName = "F:/MyGitProject/qssHelper/qssFile/color.def";
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), Path::getInstance()->qssDir(), tr("Color define file(*.qssdef)"));
-    m_strColorDefFile = fileName;
-
-}
-
 void MainWindow::on_openQssFileBtn_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), Path::getInstance()->qssDir(), tr("Skin file(*.qss)"));
@@ -154,46 +104,11 @@ void MainWindow::on_openQssFileBtn_clicked()
     }
 }
 
-void MainWindow::on_applyBtn_clicked()
-{
-    getDefs();
-    ui->defsTableWidget->clear();
-    ui->defsTableWidget->setRowCount(0);
-    colorDefs.clear();
-    auto iter = defs.constBegin();
-    int i = 0;
-    while (iter != defs.constEnd())
-    {
-        ui->defsTableWidget->insertRow(i);
-        QTableWidgetItem *keyItem = new QTableWidgetItem(iter.key());
-        QTableWidgetItem *valueItem = new QTableWidgetItem(iter.value());
-        colorDefs.append(iter.key());
-        ui->defsTableWidget->setItem(i,0,keyItem);
-        ui->defsTableWidget->setItem(i,1,valueItem);
-        iter++;
-        i++;
-    }
-    defListsModel->setStringList(colorDefs);
-    ui->colorListView->setModel(defListsModel);
-
-    colorDefModel = new ColorDefTableModel(defs, this);
-    QSortFilterProxyModel *proxyModle = new QSortFilterProxyModel(this);
-    proxyModle->setSourceModel(colorDefModel);
-    proxyModle->sort(1);
-    ui->colorTableView->setModel(proxyModle);
-
-}
-
-void MainWindow::on_regLineEdit_textChanged(const QString &arg1)
-{
-    pattern = arg1;
-}
-
 
 void MainWindow::on_replaceBtn_clicked()
 {
     QString resultText = ui->qssTextEdit->toPlainText();
-    QssHelper::replaceDefsWithValues(resultText,defs);
+    QssHelper::replaceDefsWithValues(resultText,QssManager::getInstance()->getDefs());
     ui->qssTextEdit->setText(resultText);
 }
 

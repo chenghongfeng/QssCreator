@@ -31,6 +31,12 @@ public:
     QString qssKeywordFilePath(){
         return m_qssKeywordFilePath;
     }
+    QString colorDefFilePath(){
+        return m_colorDefFilePath;
+    }
+    QString qssFilePath(){
+        return m_qssFilePath;
+    }
 private:
     Path();
 
@@ -41,6 +47,8 @@ private:
     QString m_confDir;
     QString m_configFilePath;
     QString m_qssDir;
+    QString m_colorDefFilePath;
+    QString m_qssFilePath;
     QString m_qssKeywordFilePath;
 };
 

@@ -27,6 +27,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    colordefwidget.cpp \
     main.cpp \
     configdialog.cpp \
     mainwindow.cpp \
@@ -34,18 +35,22 @@ SOURCES += \
     QssTextEdit/qsshighlighter.cpp \
     QssTextEdit/qssproxymodel.cpp \
     QssTextEdit/qsstextedit.cpp \
-    mytabwidget.cpp
+    mytabwidget.cpp \
+    qssmanager.cpp
 
 HEADERS += \
+    colordefwidget.h \
     configdialog.h \
     mainwindow.h \
     QssTextEdit/colordeftablemodel.h \
     QssTextEdit/qsshighlighter.h \
     QssTextEdit/qssproxymodel.h \
     QssTextEdit/qsstextedit.h \
-    mytabwidget.h
+    mytabwidget.h \
+    qssmanager.h
 
 FORMS += \
+    colordefwidget.ui \
     configdialog.ui \
     mainwindow.ui \
     mytabwidget.ui

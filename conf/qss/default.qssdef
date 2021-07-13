@@ -3,55 +3,10 @@
 //2.变量不要使用_作为最后一个字符
 //3.value结尾推荐使用 ';'
 
-
-$Normal_widget_separator = #2E3D57;
-$Normal_widget_btn = #0088ff;
-
-
-//QWidget
-//QGroupBox QAbstractSpinBox QCheckBox QComboBox 
-//QScrollBar QSlider
-$front = black;           /*前景色*/
-$bkg = #f1f4f8;               /*背景色*/
-$disabled = #808080;
-$hover_border = #00B8FF;    
-$hover_bkg = #50009CFF;
-$hover = #50009CFF;
-$selected = #599bf3;
-$focus = #50009CFF;
-$border = #afdfe4;
-$border_disabled = #44C0FE;
-
-$item_bkg = #f1f4f8;
-$item_color = black;
-
-$QScrollBar_handel_bkg = #4000B8FF;
-$QScrollBar_handel_hover = #7300B8FF;
-$QSlider_addPage = #bcbcbc;
-$QSlider_subPage = #439cf3;
-
-
-//inputWidgets {QLineEdit,QComboBox,QSpinBox QDateEdit,QTimeEdit,QDateTimeEdit,QTextEdit}
-$inputWidgets_disabled_bkg = #D9D9D9;
-$inputWidgets_disabled_front = #606060;
+$side_bkg = #404142; //(64, 65, 66); 
+$side_front = #bec0c1; //190, 192, 193
+$hfdsajfhddsahfgsdfjhafsdfadf = #1;
+$sdfad = #yuafssdftaodsfaywoefawefapefawefew;
 
 
 
-$Btn_hover_alarm = red;
-$Btn_hover_normal = #00FFFF;
-
-
-
-
-//QTreeView
-$QTreeView_item_select = #599BF3;
-$QTreeView_item_hover_bkg = #50009CFF;
-$QTreeView_item_hover_border = #00B8FF;
-
-//StatusBar
-$StatusBar_bkg = #d3e6ff;
-
-//QTableView
-$QTableView_item_border = #bfd2eb;
-$QTableView_item_hover = #D3E6FF;
-$QTableView_item_select = #599BF3;
