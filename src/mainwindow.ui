@@ -107,6 +107,30 @@
     <string>set</string>
    </property>
   </action>
+  <action name="actionOpenQssFile">
+   <property name="text">
+    <string>OpenQssFile</string>
+   </property>
+   <property name="toolTip">
+    <string>Open qss file</string>
+   </property>
+  </action>
+  <action name="actionReplaceText">
+   <property name="text">
+    <string>ReplaceText</string>
+   </property>
+   <property name="toolTip">
+    <string>Replace definded word</string>
+   </property>
+  </action>
+  <action name="actionSaveQssFile">
+   <property name="text">
+    <string>SaveQssFile</string>
+   </property>
+   <property name="toolTip">
+    <string>Save qss file</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
