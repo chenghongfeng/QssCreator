@@ -11,10 +11,12 @@ class QFile;
 class QFileDialog;
 class QStandardItemModel;
 class QStringListModel;
-class ColorDefTableModel;
-class ConfigDialog;
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+class ColorDefTableModel;
+class ConfigDialog;
+class TabWidget;
+class QssTextEdit;
 
 class MainWindow : public QMainWindow
 {
@@ -45,8 +47,8 @@ private:
     Ui::MainWindow *ui;
     QString m_strColorDefFile;
     QString m_strQssFile;
-
-
+    QssTextEdit *m_textEdit { nullptr };
+    TabWidget *m_tabWidget { nullptr };
     QssHighlighter *qssHighlighter { nullptr };
 
     ConfigDialog *m_configDialog {nullptr};

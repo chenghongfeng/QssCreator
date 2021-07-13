@@ -19,9 +19,12 @@ TabWidget::TabWidget(QWidget *parent) : QWidget(parent)
 void TabWidget::initUi()
 {
     QHBoxLayout *mainLayout = new QHBoxLayout();
+    mainLayout->setSizeConstraint(QLayout::SetMinimumSize);
     {
         QVBoxLayout *barLayout = new QVBoxLayout();
         m_toolsLayout = new QVBoxLayout();
+        m_toolsLayout->setSizeConstraint(QLayout::SetMinimumSize);
+        m_toolsLayout->setSpacing(0);
         barLayout->addLayout(m_toolsLayout);
         QSpacerItem *vSpacerItem = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
         barLayout->addSpacerItem(vSpacerItem);
@@ -51,7 +54,9 @@ void TabWidget::updateUi()
     else
     {
         m_stackedWidget->setVisible(false);
+        this->update();
     }
+
 }
 
 void TabWidget::addPage(QWidget *page, QAction *action)

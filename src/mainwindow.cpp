@@ -11,6 +11,8 @@
 #include <QLabel>
 #include <QStackedWidget>
 #include <QDebug>
+#include <QSplitter>
+#include <QHBoxLayout>
 
 #include "qss_helper.h"
 #include "config.h"
@@ -19,6 +21,8 @@
 
 #include "configdialog.h"
 #include "colordefwidget.h"
+#include "QSSTextEdit/qsstextedit.h"
+#include "tabwidget.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -26,12 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    qssHighlighter = new QssHighlighter(ui->qssTextEdit->document());
-    //ui->qssTextEdit->setTextBackgroundColor(QColor("#002b36"));
-    QPalette palette(ui->qssTextEdit->palette());
-    palette.setColor(QPalette::Base, QColor("#002b36"));
-    palette.setColor(QPalette::Text, QColor("#839496"));
-    ui->qssTextEdit->setPalette(palette);
+    initUi();
     initSignalSlots();
     initSettings();
     m_configDialog = new ConfigDialog(this);
@@ -51,9 +50,35 @@ void MainWindow::initUi()
     QTextEdit *e = new QTextEdit();
     QLabel *lbael = new QLabel("hgusdfahgsdffdsa\ndsfga");
     ColorDefWidget *widget = new ColorDefWidget();
-    ui->widget->addPage(e, a);
-    ui->widget->addPage(lbael, a);
-    ui->widget->addPage(widget,a);
+//    ui->widget->addPage(e, a);
+//    ui->widget->addPage(lbael, a);
+//    ui->widget->addPage(widget,a);
+
+
+    {
+        //init m_tabWidget
+        m_tabWidget = new TabWidget(this);
+        m_tabWidget->addPage(e, a);
+        m_tabWidget->addPage(lbael, a);
+        m_tabWidget->addPage(widget,a);
+    }
+    {
+        //init m_textEdit
+        m_textEdit = new QssTextEdit(this);
+        qssHighlighter = new QssHighlighter(m_textEdit->document());
+        //ui->qssTextEdit->setTextBackgroundColor(QColor("#002b36"));
+        QPalette palette(m_textEdit->palette());
+        palette.setColor(QPalette::Base, QColor("#002b36"));
+        palette.setColor(QPalette::Text, QColor("#839496"));
+        m_textEdit->setPalette(palette);
+    }
+
+    QSplitter *splitter = new QSplitter(this);
+    splitter->addWidget(m_tabWidget);
+    splitter->addWidget(m_textEdit);
+    QHBoxLayout *layout = new QHBoxLayout();
+    layout->addWidget(splitter);
+    ui->centralwidget->setLayout(layout);
 
 }
 
@@ -68,13 +93,13 @@ void MainWindow::initSettings()
     QString fontFamily = Config::getInstance()->value("Font/family", "宋体").toString();
     int fontSize = Config::getInstance()->value("Font/size", 20).toInt();
     QFont font(fontFamily, fontSize);
-    ui->qssTextEdit->setFont(font);
+    m_textEdit->setFont(font);
 }
 
 void MainWindow::saveSettings()
 {
-    Config::getInstance()->setValue("Font/family", ui->qssTextEdit->font().family());
-    Config::getInstance()->setValue("Font/size", ui->qssTextEdit->font().pointSize());
+    Config::getInstance()->setValue("Font/family", m_textEdit->font().family());
+    Config::getInstance()->setValue("Font/size", m_textEdit->font().pointSize());
 }
 
 void MainWindow::on_actionset_triggered()
@@ -99,7 +124,7 @@ void MainWindow::on_openQssFileBtn_clicked()
 
         if (file.open(QFile::ReadOnly)) {
             QString str = file.readAll();
-            ui->qssTextEdit->setText(str);
+            m_textEdit->setText(str);
         }
     }
 }
@@ -107,14 +132,14 @@ void MainWindow::on_openQssFileBtn_clicked()
 
 void MainWindow::on_replaceBtn_clicked()
 {
-    QString resultText = ui->qssTextEdit->toPlainText();
+    QString resultText = m_textEdit->toPlainText();
     QssHelper::replaceDefsWithValues(resultText,QssManager::getInstance()->getDefs());
-    ui->qssTextEdit->setText(resultText);
+    m_textEdit->setText(resultText);
 }
 
 void MainWindow::on_saveTextBtn_clicked()
 {
     //QString fileName = QFileDialog::getSaveFileName(this, "打开文件", QString("%1/%2.css").arg(qApp->applicationDirPath()).arg(dirName), "皮肤文件(*.css)");
     QString fileName = QFileDialog::getSaveFileName(this, "打开文件", "F:/MyGitProject/qssHelper/qssFile/default.qss", "皮肤文件(*.qss)");
-    QssHelper::writeQStrTofile(ui->qssTextEdit->toPlainText(),fileName);
+    QssHelper::writeQStrTofile(m_textEdit->toPlainText(),fileName);
 }
