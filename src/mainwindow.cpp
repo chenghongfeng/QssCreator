@@ -57,7 +57,9 @@ void MainWindow::initUi()
 {
     QAction *a = new QAction("1",this);
     QTextEdit *e = new QTextEdit();
+    QLabel *lbael = new QLabel("hgusdfahgsdffdsa\ndsfga");
     ui->widget->addPage(e, a);
+    ui->widget->addPage(lbael, a);
 //    //设置tab在左侧,此时tabbar的文字垂直显示;
 //    ui->tabWidget->setTabPosition(QTabWidget::TabPosition::West);
 //    //设置toolbutton的widget为label,再将tabText隐藏,这样就可以得到水平文字

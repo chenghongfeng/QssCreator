@@ -15,9 +15,13 @@ class UTILS_EXPORT TabWidget : public QWidget
 public:
     explicit TabWidget(QWidget *parent = nullptr);
     void initUi();
+    void updateUi();
     void addPage(QWidget *page, QAction *action);
+public slots:
+    void slot_toolBtn_clicked(bool checked);
 
 signals:
+
 
 private:
     QList<QToolButton *> m_buttons;
