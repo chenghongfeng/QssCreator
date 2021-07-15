@@ -1,7 +1,7 @@
 #ifndef CENTERWIDGET_H
 #define CENTERWIDGET_H
 
-#include <tabwidget.h>
+#include "tabwidget.h"
 
 class centerWidget : public TabWidget
 {

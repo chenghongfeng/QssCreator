@@ -8,6 +8,7 @@
 #include <QSpacerItem>
 #include <QVariant>
 #include <QSplitter>
+#include <QAction>
 
 #define STACK_INDEX "stackedWidgetIndex"
 
@@ -83,9 +84,9 @@ void TabWidget::updatAlwaysShowWidgets()
 
 void TabWidget::addPage(QWidget *page, QAction *action)
 {
+    action->setCheckable(true);
     QToolButton *b = new QToolButton();
-    b->setCheckable(true);
-    //b->setDefaultAction(action);
+    b->setDefaultAction(action);
     m_buttons.append(b);
     m_toolsLayout->addWidget(b);
     int index = m_stackedWidget->addWidget(page);

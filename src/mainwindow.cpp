@@ -46,22 +46,20 @@ MainWindow::~MainWindow()
 
 void MainWindow::initUi()
 {
-    QAction *a = new QAction("1",this);
+    //init m_tabWidget
+    m_tabWidget = new TabWidget(this);
     QTextEdit *e = new QTextEdit();
     QLabel *lbael = new QLabel("hgusdfahgsdffdsa\ndsfga");
-    ColorDefWidget *widget = new ColorDefWidget();
-//    ui->widget->addPage(e, a);
-//    ui->widget->addPage(lbael, a);
-//    ui->widget->addPage(widget,a);
-
-
+    ColorDefWidget *colorWidget = new ColorDefWidget();
+    QAction *a = new QAction("1",this);
     {
-        //init m_tabWidget
-        m_tabWidget = new TabWidget(this);
+        QAction *showColorDefAction = new QAction(this);
+        showColorDefAction->setToolTip(tr("Show/Hide color defines widget"));
+        m_tabWidget->addPage(colorWidget,showColorDefAction);
         m_tabWidget->addPage(e, a);
         m_tabWidget->addPage(lbael, a);
-        m_tabWidget->addPage(widget,a);
     }
+
     {
         //init m_textEdit
         m_textEdit = new QssTextEdit(this);
