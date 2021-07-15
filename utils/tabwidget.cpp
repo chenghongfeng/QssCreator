@@ -7,6 +7,7 @@
 #include <QVBoxLayout>
 #include <QSpacerItem>
 #include <QVariant>
+#include <QSplitter>
 
 #define STACK_INDEX "stackedWidgetIndex"
 
@@ -30,7 +31,8 @@ void TabWidget::initUi()
         barLayout->addSpacerItem(vSpacerItem);
         mainLayout->addLayout(barLayout);
     }
-    mainLayout->addWidget(m_stackedWidget);
+    m_workArea->addWidget(m_stackedWidget);
+    mainLayout->addWidget(m_workArea);
     this->setLayout(mainLayout);
 }
 
@@ -56,6 +58,20 @@ void TabWidget::updateUi()
         m_stackedWidget->setVisible(false);
         this->update();
     }
+
+}
+
+void TabWidget::addAlwaysShowWidget(QList<QWidget *> widgets)
+{
+    m_addAlwaysShowWidgets.append(widgets);
+    for (auto w : widgets) {
+        m_workArea->addWidget(w);
+    }
+    updatAlwaysShowWidgets();
+}
+
+void TabWidget::updatAlwaysShowWidgets()
+{
 
 }
 
