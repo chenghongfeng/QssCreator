@@ -71,13 +71,18 @@ void MainWindow::initUi()
         palette.setColor(QPalette::Base, QColor("#002b36"));
         palette.setColor(QPalette::Text, QColor("#839496"));
         m_textEdit->setPalette(palette);
+        QWidgetList list;
+        list.append(m_textEdit);
+
+        m_tabWidget->addAlwaysShowWidget(list);
+        m_tabWidget->setWorkAreaSplitterChildernCollapsible(false);
     }
 
-    QSplitter *splitter = new QSplitter(this);
-    splitter->addWidget(m_tabWidget);
-    splitter->addWidget(m_textEdit);
+    //QSplitter *splitter = new QSplitter(this);
+    //splitter->addWidget(m_tabWidget);
+    //splitter->addWidget(m_textEdit);
     QHBoxLayout *layout = new QHBoxLayout();
-    layout->addWidget(splitter);
+    layout->addWidget(m_tabWidget);
     ui->centralwidget->setLayout(layout);
 
 }

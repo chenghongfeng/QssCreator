@@ -14,6 +14,7 @@
 TabWidget::TabWidget(QWidget *parent) : QWidget(parent)
 {
     m_stackedWidget = new QStackedWidget(this);
+    m_workAreaSplitter = new QSplitter(this);
     initUi();
 }
 
@@ -31,8 +32,8 @@ void TabWidget::initUi()
         barLayout->addSpacerItem(vSpacerItem);
         mainLayout->addLayout(barLayout);
     }
-    m_workArea->addWidget(m_stackedWidget);
-    mainLayout->addWidget(m_workArea);
+    m_workAreaSplitter->addWidget(m_stackedWidget);
+    mainLayout->addWidget(m_workAreaSplitter);
     this->setLayout(mainLayout);
 }
 
@@ -65,9 +66,14 @@ void TabWidget::addAlwaysShowWidget(QList<QWidget *> widgets)
 {
     m_addAlwaysShowWidgets.append(widgets);
     for (auto w : widgets) {
-        m_workArea->addWidget(w);
+        m_workAreaSplitter->addWidget(w);
     }
     updatAlwaysShowWidgets();
+}
+
+void TabWidget::initSignelSlots()
+{
+    //connect(m_workAreaSplitter, &QSplitter::splitterMoved ,this)
 }
 
 void TabWidget::updatAlwaysShowWidgets()
@@ -87,6 +93,11 @@ void TabWidget::addPage(QWidget *page, QAction *action)
     connect(b, QOverload<bool>::of(&QToolButton::clicked), this, &TabWidget::slot_toolBtn_clicked);
 
     updateUi();
+}
+
+void TabWidget::setWorkAreaSplitterChildernCollapsible(bool b)
+{
+    m_workAreaSplitter->setChildrenCollapsible(b);
 }
 
 void TabWidget::slot_toolBtn_clicked(bool checked)

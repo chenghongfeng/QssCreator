@@ -26,7 +26,7 @@ public:
     QVariant value(const QString &key, const QVariant &defaultValue = QVariant());
 
 signals:
-    // 参数更新
+
     void valueUpdated(const QString &key, const QVariant &value);
 protected:
 

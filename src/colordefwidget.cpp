@@ -26,8 +26,8 @@ ColorDefWidget::~ColorDefWidget()
 
 void ColorDefWidget::initUi()
 {
-    ui->colorTableView->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
-    //ui->colorTableView->horizontalHeader()->se
+
+
     ui->colorTableView->setSelectionBehavior(QHeaderView::SelectItems);
     ui->defsTableWidget->setColumnCount(2);
     defListsModel = new QStringListModel();
@@ -68,6 +68,11 @@ void ColorDefWidget::on_applyBtn_clicked()
     proxyModle->setSourceModel(colorDefModel);
     proxyModle->sort(1);
     ui->colorTableView->setModel(proxyModle);
+    //设置model之后才能在setSectionResizeMode时指定logiclIndex
+    //不指定logiclIndex时设置Interactive不会自动拉伸.设置Stretch则不能调整section的width
+    //将第一列设置Interactive则可调整第一列的宽度,从而可以调整第一列和第二列的大小,调整整个窗口时第二列自动拉伸,达到想要的效果
+    ui->colorTableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
+    ui->colorTableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
 }
 
 void ColorDefWidget::on_regLineEdit_textChanged(const QString &arg1)
