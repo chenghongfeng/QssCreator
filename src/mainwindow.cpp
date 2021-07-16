@@ -55,6 +55,8 @@ void MainWindow::initUi()
     {
         QAction *showColorDefAction = new QAction(this);
         showColorDefAction->setToolTip(tr("Show/Hide color defines widget"));
+        showColorDefAction->setCheckable(true);
+        showColorDefAction->setChecked(true);
         m_tabWidget->addPage(colorWidget,showColorDefAction);
         m_tabWidget->addPage(e, a);
         m_tabWidget->addPage(lbael, a);
@@ -95,41 +97,17 @@ void MainWindow::initSettings()
 {
     QString fontFamily = Config::getInstance()->value("Font/family", "宋体").toString();
     int fontSize = Config::getInstance()->value("Font/size", 20).toInt();
+    QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssFilePath()).toString();
     QFont font(fontFamily, fontSize);
+
     m_textEdit->setFont(font);
+    m_textEdit->setFile(fileName);
 }
 
 void MainWindow::saveSettings()
 {
     Config::getInstance()->setValue("Font/family", m_textEdit->font().family());
     Config::getInstance()->setValue("Font/size", m_textEdit->font().pointSize());
-}
-
-void MainWindow::on_actionset_triggered()
-{
-    initUi();
-    //m_configDialog->setVisible(!m_configDialog->isVisible());
-//    bool ok;
-//    QFont font = QFontDialog::getFont(&ok, ui->qssTextEdit->font(), this, tr("set editor font"));
-//    if (ok)
-//    {
-//        ui->qssTextEdit->setFont(font);
-//    }
-}
-
-
-void MainWindow::on_openQssFileBtn_clicked()
-{
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open file"), Path::getInstance()->qssDir(), tr("Skin file(*.qss)"));
-    m_strQssFile = fileName;
-    if (!fileName.isEmpty()) {
-        QFile file(fileName);
-
-        if (file.open(QFile::ReadOnly)) {
-            QString str = file.readAll();
-            m_textEdit->setText(str);
-        }
-    }
 }
 
 
@@ -145,4 +123,25 @@ void MainWindow::on_saveTextBtn_clicked()
     //QString fileName = QFileDialog::getSaveFileName(this, "打开文件", QString("%1/%2.css").arg(qApp->applicationDirPath()).arg(dirName), "皮肤文件(*.css)");
     QString fileName = QFileDialog::getSaveFileName(this, "打开文件", "F:/MyGitProject/qssHelper/qssFile/default.qss", "皮肤文件(*.qss)");
     QssHelper::writeQStrTofile(m_textEdit->toPlainText(),fileName);
+}
+
+void MainWindow::on_actionOpenQssFile_triggered()
+{
+    QString fileName = Config::getInstance()->value("Qss/UserQssFile", Path::getInstance()->qssFilePath()).toString();
+    fileName = QFileDialog::getOpenFileName(this, tr("Open qss file"), Path::cdUp(fileName), tr("Skin file(*.qss)"));
+    if (fileName == QString())
+        return;
+    Config::getInstance()->setValue("Qss/UserQssFilePath",fileName);
+    //m_strQssFile = fileName;
+    m_textEdit->setFile(fileName);
+}
+
+void MainWindow::on_actionOpenDefineFile_triggered()
+{
+    QString fileName = Config::getInstance()->value("Qss/UserColorDefineFile", Path::getInstance()->colorDefFilePath()).toString();
+    fileName = QFileDialog::getOpenFileName(this, tr("Open color define file"), Path::cdUp(fileName), tr("Color define file(*.qssdef)"));
+    if (fileName == QString())
+        return;
+    Config::getInstance()->setValue("Qss/UserColorDefineFile",fileName);
+    //m_strQssFile = fileName;
 }

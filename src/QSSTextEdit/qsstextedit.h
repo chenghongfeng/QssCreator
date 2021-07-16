@@ -14,6 +14,7 @@ public:
     QssTextEdit(QWidget *parent = nullptr);
     void setCompleter(QCompleter *completer);
     void setDefKeyword(const QStringList &defKeywords);
+    void setFile(const QString &fileName);
 
 protected:
     //待优化 现在只替换后面一部分,导致键入大写部分然后出现小写单词,补全后前面是用户键入的,后面是自动不全的的

@@ -14,35 +14,19 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>786</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuconfig">
-    <property name="title">
-     <string>config</string>
-    </property>
-    <addaction name="actionset"/>
-   </widget>
-   <addaction name="menuconfig"/>
-  </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar_2">
    <property name="windowTitle">
     <string>toolBar_2</string>
    </property>
    <attribute name="toolBarArea">
-    <enum>RightToolBarArea</enum>
+    <enum>TopToolBarArea</enum>
    </attribute>
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionset"/>
+   <addaction name="actionOpenQssFile"/>
+   <addaction name="actionOpenDefineFile"/>
   </widget>
   <action name="actionset">
    <property name="text">
@@ -71,6 +55,14 @@
    </property>
    <property name="toolTip">
     <string>Save qss file</string>
+   </property>
+  </action>
+  <action name="actionOpenDefineFile">
+   <property name="text">
+    <string>OpenDefineFile</string>
+   </property>
+   <property name="toolTip">
+    <string>OpenDefineFile</string>
    </property>
   </action>
  </widget>

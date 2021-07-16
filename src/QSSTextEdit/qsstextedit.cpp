@@ -42,6 +42,18 @@ void QssTextEdit::setDefKeyword(const QStringList &defKeywords)
     m_qssKeywordModel->setStringList(qssKeywords);
 }
 
+void QssTextEdit::setFile(const QString &fileName)
+{
+    if (!fileName.isEmpty()) {
+        QFile file(fileName);
+
+        if (file.open(QFile::ReadOnly)) {
+            QString str = file.readAll();
+            this->setText(str);
+        }
+    }
+}
+
 void QssTextEdit::keyPressEvent(QKeyEvent *e)
 {
     if (m_completer && m_completer->popup()->isVisible()) {

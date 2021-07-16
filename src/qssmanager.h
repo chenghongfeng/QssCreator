@@ -14,10 +14,17 @@ public:
         return m_defs;
     }
 
+signals:
+    void defsUpdated();
+public slots:
+    void updateDefs();
+    void slot_Config_valueUpdated(const QString &key, const QVariant &value);
+
 protected:
     QssManager();
 private:
     void initDefs();
+    void setDefsFile(const QString &fileName);
 
 
 private:

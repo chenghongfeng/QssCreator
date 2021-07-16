@@ -8,6 +8,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    //AA_UseDesktopOpenGL  AA_UseOpenGLES AA_UseSoftwareOpenGL AA_ShareOpenGLContexts
+    QCoreApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     Config::getInstance()->setConfigFilePathName(Path::getInstance()->configFilePath());
     Config::getInstance()->readAllConfig();

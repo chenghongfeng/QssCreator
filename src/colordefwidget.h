@@ -24,12 +24,14 @@ public:
 
     void initUi();
 
+public slots:
+    void updateDefs();
+
 private slots:
     void on_applyBtn_clicked();
 
     void on_regLineEdit_textChanged(const QString &arg1);
 
-    void on_openColorDefFileBtn_clicked();
 
 private:
     Ui::ColorDefWidget *ui;

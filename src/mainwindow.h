@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QMap>
+#include <QFontComboBox>
 
 #include "QssTextEdit/qsshighlighter.h"
 
@@ -34,14 +35,13 @@ private:
     void saveSettings();
 
 private slots:
-    void on_actionset_triggered();
-
-    void on_openQssFileBtn_clicked();
-
-
     void on_replaceBtn_clicked();
 
     void on_saveTextBtn_clicked();
+
+    void on_actionOpenQssFile_triggered();
+
+    void on_actionOpenDefineFile_triggered();
 
 private:
     Ui::MainWindow *ui;

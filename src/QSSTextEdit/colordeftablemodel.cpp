@@ -124,3 +124,18 @@ Qt::ItemFlags ColorDefTableModel::flags(const QModelIndex &index) const
 {
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }
+
+void ColorDefTableModel::resetDefMap(QMap<QString, QString> &map)
+{
+    defMap_ = map;
+    defMapChanegd();
+
+}
+
+void ColorDefTableModel::defMapChanegd()
+{
+    beginResetModel();
+    defs_ = defMap_.keys();
+    values_ = defMap_.values();
+    endResetModel() ;
+}

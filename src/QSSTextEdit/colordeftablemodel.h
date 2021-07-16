@@ -24,6 +24,12 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) override;
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
+    //
+    void resetDefMap(QMap<QString,QString> &map);
+
+public slots:
+    void defMapChanegd();
+
 private:
     QMap<QString, QString> defMap_;
     QStringList defs_;

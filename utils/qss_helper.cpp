@@ -99,6 +99,5 @@ void QssHelper::writeQStrTofile(const QString &str, const QString &fileName)
     QTextStream out(&file);
     out.setCodec("UTF-8");
     out<<str;
-    //file.write(str.toLatin1());
     file.close();
 }
