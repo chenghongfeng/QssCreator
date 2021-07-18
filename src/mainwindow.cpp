@@ -19,7 +19,7 @@
 #include "path.h"
 #include "qssmanager.h"
 
-#include "configdialog.h"
+#include "textsettingswidget.h"
 #include "colordefwidget.h"
 #include "QSSTextEdit/qsstextedit.h"
 #include "tabwidget.h"
@@ -33,7 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
     initUi();
     initSignalSlots();
     initSettings();
-    m_configDialog = new ConfigDialog(this);
 
 }
 
@@ -53,13 +52,18 @@ void MainWindow::initUi()
     ColorDefWidget *colorWidget = new ColorDefWidget();
     QAction *a = new QAction("1",this);
     {
+        //添加颜色定义页
         QAction *showColorDefAction = new QAction(this);
         showColorDefAction->setToolTip(tr("Show/Hide color defines widget"));
         showColorDefAction->setCheckable(true);
-        showColorDefAction->setChecked(true);
+        showColorDefAction->setChecked(true);//默认显示此页
         m_tabWidget->addPage(colorWidget,showColorDefAction);
-        m_tabWidget->addPage(e, a);
-        m_tabWidget->addPage(lbael, a);
+
+        //添加设置页
+        m_textSettingsWidget = new TextSettingsWidget(getFontFromConfig(), this);
+        connect(m_textSettingsWidget, &TextSettingsWidget::fontSsttingsChanged,
+                this, &MainWindow::slot_fontSettingsChanged);
+        m_tabWidget->addPage(m_textSettingsWidget, a);
     }
 
     {
@@ -95,10 +99,8 @@ void MainWindow::initSignalSlots()
 
 void MainWindow::initSettings()
 {
-    QString fontFamily = Config::getInstance()->value("Font/family", "宋体").toString();
-    int fontSize = Config::getInstance()->value("Font/size", 20).toInt();
     QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssFilePath()).toString();
-    QFont font(fontFamily, fontSize);
+    QFont font = getFontFromConfig();
 
     m_textEdit->setFont(font);
     m_textEdit->setFile(fileName);
@@ -108,6 +110,24 @@ void MainWindow::saveSettings()
 {
     Config::getInstance()->setValue("Font/family", m_textEdit->font().family());
     Config::getInstance()->setValue("Font/size", m_textEdit->font().pointSize());
+    Config::getInstance()->setValue("Font/styleName", m_textEdit->font().styleName());
+}
+
+QFont MainWindow::getFontFromConfig()
+{
+    QString fontFamily = Config::getInstance()->value("Font/family", "宋体").toString();
+    int fontSize = Config::getInstance()->value("Font/size", 20).toInt();
+    bool fontAntialias = Config::getInstance()->value("Font/Antialias", true).toBool();
+    QFont font(fontFamily, fontSize);
+    if(fontAntialias)
+    {
+        font.setStyleStrategy(QFont::PreferAntialias);
+    }
+    else
+    {
+        font.setStyleStrategy(QFont::NoAntialias);
+    }
+    return font;
 }
 
 
@@ -144,4 +164,32 @@ void MainWindow::on_actionOpenDefineFile_triggered()
         return;
     Config::getInstance()->setValue("Qss/UserColorDefineFile",fileName);
     //m_strQssFile = fileName;
+}
+
+void MainWindow::on_actionset_triggered()
+{
+    bool ok;
+    QFont font = QFontDialog::getFont(&ok, m_textEdit->font());
+    if (ok)
+    {
+        m_textEdit->setFont(font);
+    }
+    QFontInfo info(font);
+    info.styleName();
+}
+
+void MainWindow::slot_fontSettingsChanged(const FontSettings &fontSettings)
+{
+    QFont font(m_textEdit->font());
+    font.setFamily(fontSettings.fontFamily);
+    font.setPointSize(fontSettings.fontSize);
+    if (fontSettings.isAntialias)
+    {
+        font.setStyleStrategy(QFont::PreferAntialias);
+    }
+    else
+    {
+        font.setStyleStrategy(QFont::NoAntialias);
+    }
+    m_textEdit->setFont(font);
 }

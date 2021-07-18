@@ -6,6 +6,7 @@
 #include <QFontComboBox>
 
 #include "QssTextEdit/qsshighlighter.h"
+#include "textsettingswidget.h"
 
 QT_BEGIN_NAMESPACE
 class QFile;
@@ -15,9 +16,9 @@ class QStringListModel;
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 class ColorDefTableModel;
-class ConfigDialog;
 class TabWidget;
 class QssTextEdit;
+class TextSettingsWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -33,6 +34,7 @@ private:
     void initSignalSlots();
     void initSettings();
     void saveSettings();
+    QFont getFontFromConfig();
 
 private slots:
     void on_replaceBtn_clicked();
@@ -43,6 +45,10 @@ private slots:
 
     void on_actionOpenDefineFile_triggered();
 
+    void on_actionset_triggered();
+
+    void slot_fontSettingsChanged(const FontSettings &font);
+
 private:
     Ui::MainWindow *ui;
     QString m_strColorDefFile;
@@ -50,7 +56,6 @@ private:
     QssTextEdit *m_textEdit { nullptr };
     TabWidget *m_tabWidget { nullptr };
     QssHighlighter *qssHighlighter { nullptr };
-
-    ConfigDialog *m_configDialog {nullptr};
+    TextSettingsWidget *m_textSettingsWidget { nullptr };
 };
 #endif // MAINWINDOW_H
