@@ -47,10 +47,7 @@ void MainWindow::initUi()
 {
     //init m_tabWidget
     m_tabWidget = new TabWidget(this);
-    QTextEdit *e = new QTextEdit();
-    QLabel *lbael = new QLabel("hgusdfahgsdffdsa\ndsfga");
     ColorDefWidget *colorWidget = new ColorDefWidget();
-    QAction *a = new QAction("1",this);
     {
         //添加颜色定义页
         QAction *showColorDefAction = new QAction(this);
@@ -60,10 +57,14 @@ void MainWindow::initUi()
         m_tabWidget->addPage(colorWidget,showColorDefAction);
 
         //添加设置页
+        QAction *showConfigAction = new QAction(this);
+        showConfigAction->setToolTip(tr("Show/Hide color config widget"));
+        showConfigAction->setCheckable(true);
+       // showConfigAction->setChecked(true);//默认显示此页
         m_textSettingsWidget = new TextSettingsWidget(getFontFromConfig(), this);
         connect(m_textSettingsWidget, &TextSettingsWidget::fontSsttingsChanged,
                 this, &MainWindow::slot_fontSettingsChanged);
-        m_tabWidget->addPage(m_textSettingsWidget, a);
+        m_tabWidget->addPage(m_textSettingsWidget, showConfigAction);
     }
 
     {
