@@ -86,7 +86,10 @@ void MainWindow::initUi()
     //QSplitter *splitter = new QSplitter(this);
     //splitter->addWidget(m_tabWidget);
     //splitter->addWidget(m_textEdit);
+
     QHBoxLayout *layout = new QHBoxLayout();
+    layout->setSizeConstraint(QLayout::SetNoConstraint);
+    //layout->setContentsMargins()
     layout->addWidget(m_tabWidget);
     ui->centralwidget->setLayout(layout);
 
@@ -168,17 +171,17 @@ void MainWindow::on_actionOpenDefineFile_triggered()
     //m_strQssFile = fileName;
 }
 
-void MainWindow::on_actionset_triggered()
-{
-    bool ok;
-    QFont font = QFontDialog::getFont(&ok, m_textEdit->font());
-    if (ok)
-    {
-        m_textEdit->setFont(font);
-    }
-    QFontInfo info(font);
-    info.styleName();
-}
+//void MainWindow::on_actionset_triggered()
+//{
+//    bool ok;
+//    QFont font = QFontDialog::getFont(&ok, m_textEdit->font());
+//    if (ok)
+//    {
+//        m_textEdit->setFont(font);
+//    }
+//    QFontInfo info(font);
+//    info.styleName();
+//}
 
 void MainWindow::slot_fontSettingsChanged(const FontSettings &fontSettings)
 {
@@ -194,4 +197,10 @@ void MainWindow::slot_fontSettingsChanged(const FontSettings &fontSettings)
         font.setStyleStrategy(QFont::NoAntialias);
     }
     m_textEdit->setFont(font);
+}
+
+void MainWindow::on_actionSetQss_triggered()
+{
+    QString a = m_textEdit->toPlainText();
+    Config::getInstance()->setSkin(a, QssManager::getInstance()->getDefs());
 }

@@ -27,14 +27,14 @@
    </attribute>
    <addaction name="actionOpenQssFile"/>
    <addaction name="actionOpenDefineFile"/>
-   <addaction name="actionset"/>
+   <addaction name="actionSetQss"/>
   </widget>
-  <action name="actionset">
+  <action name="actionSetQss">
    <property name="text">
-    <string>Font</string>
+    <string>Load qss</string>
    </property>
    <property name="toolTip">
-    <string>Set Font</string>
+    <string>Reload Cur Qss</string>
    </property>
   </action>
   <action name="actionOpenQssFile">

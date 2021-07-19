@@ -45,9 +45,11 @@ private slots:
 
     void on_actionOpenDefineFile_triggered();
 
-    void on_actionset_triggered();
+    //void on_actionset_triggered();
 
     void slot_fontSettingsChanged(const FontSettings &font);
+
+    void on_actionSetQss_triggered();
 
 private:
     Ui::MainWindow *ui;

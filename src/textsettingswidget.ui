@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>306</width>
-    <height>438</height>
+    <height>360</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,6 +70,61 @@ Influences the indentation of continuation lines.
           <string>With Regular Indent</string>
          </property>
         </item>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="tabPolicy">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <item>
+         <property name="text">
+          <string>Spaces Only</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Tabs Only</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Mixed</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QLabel" name="continuationAlignBehaviorLabel">
+        <property name="text">
+         <string>Align continuation lines:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>30</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="QLabel" name="tabPolicyLabel">
+        <property name="text">
+         <string>Tab policy:</string>
+        </property>
        </widget>
       </item>
       <item row="3" column="0" colspan="2">
@@ -152,61 +207,6 @@ Influences the indentation of continuation lines.
          </spacer>
         </item>
        </layout>
-      </item>
-      <item row="2" column="1">
-       <widget class="QComboBox" name="tabPolicy">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <item>
-         <property name="text">
-          <string>Spaces Only</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Tabs Only</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Mixed</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QLabel" name="continuationAlignBehaviorLabel">
-        <property name="text">
-         <string>Align continuation lines:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Fixed</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>30</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QLabel" name="tabPolicyLabel">
-        <property name="text">
-         <string>Tab policy:</string>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>
