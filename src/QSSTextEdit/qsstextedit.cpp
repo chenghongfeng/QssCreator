@@ -9,7 +9,7 @@
 #include "fileHelper.h"
 #include "path.h"
 QssTextEdit::QssTextEdit(QWidget *parent)
-    : QTextEdit(parent)
+    : QPlainTextEdit(parent)
 {
     m_highlighter = new QssHighlighter(this->document());
     m_completer = new QCompleter(this);
@@ -30,7 +30,6 @@ void QssTextEdit::setCompleter(QCompleter *completer)
     m_completer->setModel(m_qssKeywordModel);
     m_completer->setCompletionMode(QCompleter::PopupCompletion);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
-    //指定参数为const QString &的QCompleter::activated的信号
     QObject::connect(m_completer, QOverload<const QString &>::of(&QCompleter::activated),
                      this, &QssTextEdit::insertCompletion);
 }
@@ -50,7 +49,7 @@ void QssTextEdit::setFile(const QString &fileName)
 
         if (file.open(QFile::ReadOnly)) {
             QString str = file.readAll();
-            this->setText(str);
+            this->setPlainText(str);
         }
     }
 }
@@ -74,7 +73,7 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
 
     const bool isShortcut = (e->modifiers().testFlag(Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
     if (!m_completer || !isShortcut) // do not process the shortcut when we have a completer
-        QTextEdit::keyPressEvent(e);
+        QPlainTextEdit::keyPressEvent(e);
 
     const bool ctrlOrShift = e->modifiers().testFlag(Qt::ControlModifier) ||
                              e->modifiers().testFlag(Qt::ShiftModifier);
@@ -105,7 +104,7 @@ void QssTextEdit::focusInEvent(QFocusEvent *e)
 {
     if (m_completer)
         m_completer->setWidget(this);
-    QTextEdit::focusInEvent(e);
+    QPlainTextEdit::focusInEvent(e);
 }
 
 void QssTextEdit::initQssKeywordModel()

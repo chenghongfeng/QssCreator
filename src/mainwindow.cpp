@@ -135,7 +135,8 @@ void MainWindow::on_replaceBtn_clicked()
 {
     QString resultText = m_textEdit->toPlainText();
     QssHelper::replaceDefsWithValues(resultText,QssManager::getInstance()->getDefs());
-    m_textEdit->setText(resultText);
+    m_textEdit->setPlainText(resultText);
+    //m_textEdit->setText(resultText);
 }
 
 void MainWindow::on_saveTextBtn_clicked()

@@ -1,13 +1,14 @@
 #ifndef QSSTEXTEDIT_H
 #define QSSTEXTEDIT_H
 #include <QTextEdit>
+#include <QPlainTextEdit>
 QT_BEGIN_NAMESPACE
 class QCompleter;
 class QssHighlighter;
 class QStringListModel;
 QT_END_NAMESPACE
 
-class QssTextEdit : public QTextEdit
+class QssTextEdit : public QPlainTextEdit
 {
     Q_OBJECT
 public:
