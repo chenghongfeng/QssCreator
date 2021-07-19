@@ -9,6 +9,7 @@
 #include <QVariant>
 #include <QSplitter>
 #include <QAction>
+#include <QDebug>
 
 #define STACK_INDEX "stackedWidgetIndex"
 
@@ -58,7 +59,7 @@ void TabWidget::updateUi()
     else
     {
         m_stackedWidget->setVisible(false);
-        this->update();
+        //this->update();
     }
 
 }
@@ -81,12 +82,15 @@ void TabWidget::updatAlwaysShowWidgets()
 {
 
 }
-
+//qt 存在 setDefaultAction 后 再在代码中设置setChecked会导致按钮状态不正确的bug
+//https://bugreports.qt.io/browse/QTBUG-95255
 void TabWidget::addPage(QWidget *page, QAction *action)
 {
-    action->setCheckable(true);
+    //action->setCheckable(true);
     QToolButton *b = new QToolButton();
-    b->setDefaultAction(action);
+    b->setCheckable(true);
+    b->setToolTip(action->toolTip());
+    //b->setDefaultAction(action);
     m_buttons.append(b);
     m_toolsLayout->addWidget(b);
     int index = m_stackedWidget->addWidget(page);
@@ -104,9 +108,19 @@ void TabWidget::setWorkAreaSplitterChildernCollapsible(bool b)
 void TabWidget::slot_toolBtn_clicked(bool checked)
 {
     QToolButton *senderBtn = (QToolButton *)sender();
+    qDebug()<<"Sender Btn Name:"<<senderBtn->toolTip();
     for (auto btn : m_buttons) {
+
+        qDebug()<<btn->toolTip()<<" Before CheckStatus:"<<btn->isChecked();
         if(btn != senderBtn)
+        {
+            qDebug()<<" Set false ";
             btn->setChecked(false);
+        }
+        else{
+            qDebug()<<btn->toolTip()<<":  sender button do nothing";
+        }
+        qDebug()<<btn->toolTip()<<" After CheckStatus:"<<btn->isChecked();
     }
     updateUi();
 }
