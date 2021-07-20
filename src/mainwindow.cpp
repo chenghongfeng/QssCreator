@@ -105,7 +105,8 @@ void MainWindow::initSettings()
 {
     QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssFilePath()).toString();
     QFont font = getFontFromConfig();
-
+    QFontMetrics metrics(font);
+    m_textEdit->setTabStopDistance(4*metrics.width(' '));
     m_textEdit->setFont(font);
     m_textEdit->setFile(fileName);
 }
@@ -204,3 +205,14 @@ void MainWindow::on_actionSetQss_triggered()
     QString a = m_textEdit->toPlainText();
     Config::getInstance()->setSkin(a, QssManager::getInstance()->getDefs());
 }
+
+void MainWindow::on_actionSaveQssFile_triggered()
+{
+    QString text = m_textEdit->toPlainText();
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"),
+                                 Config::getInstance()->value("Qss/UserQssFile", Path::getInstance()->qssFilePath()).toString(),
+                                 tr("Qss File(*.qss *.css *.txt)"));
+    Config::getInstance()->setValue("Qss/UserQssFile",fileName);
+    QssHelper::writeQStrTofile(text,fileName);
+}
+

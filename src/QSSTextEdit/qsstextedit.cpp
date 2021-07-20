@@ -15,7 +15,6 @@ QssTextEdit::QssTextEdit(QWidget *parent)
     m_completer = new QCompleter(this);
     initQssKeywordModel();
     setCompleter(m_completer);
-    //setTabStopDistance();
 }
 
 void QssTextEdit::setCompleter(QCompleter *completer)

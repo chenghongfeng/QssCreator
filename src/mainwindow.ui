@@ -28,6 +28,7 @@
    <addaction name="actionOpenQssFile"/>
    <addaction name="actionOpenDefineFile"/>
    <addaction name="actionSetQss"/>
+   <addaction name="actionSaveQssFile"/>
   </widget>
   <action name="actionSetQss">
    <property name="text">

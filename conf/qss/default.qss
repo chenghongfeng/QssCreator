@@ -1,4 +1,4 @@
-QWidget{
+QMainWindow{
     background:$side_bkg;
     color:$side_front;
 }
