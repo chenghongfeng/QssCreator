@@ -36,6 +36,10 @@ private:
     void saveSettings();
     QFont getFontFromConfig();
 
+
+protected:
+    void keyPressEvent(QKeyEvent *e) override;
+
 private slots:
     void on_replaceBtn_clicked();
 

@@ -13,6 +13,7 @@
 #include <QDebug>
 #include <QSplitter>
 #include <QHBoxLayout>
+#include <QSizePolicy>
 
 #include "qss_helper.h"
 #include "config.h"
@@ -24,7 +25,7 @@
 #include "QSSTextEdit/qsstextedit.h"
 #include "tabwidget.h"
 
-#ifdef INTERNAL_TEXT
+#ifdef INTERNAL_TEST
 #include <QLineEdit>
 #endif
 
@@ -46,6 +47,25 @@ MainWindow::~MainWindow()
     saveSettings();
     Config::closeInstance();
     delete ui;
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *e)
+{
+    qDebug()<< "------------MainWindow---------------";
+    qDebug()<< "QKeyEvent Text:"<<e->text();
+    qDebug()<< "QKeyEvent Count:"<<e->count();
+    qDebug()<< "QKeyEvent isAutoRepeat:"<<e->isAutoRepeat();
+    if(e->modifiers().testFlag(Qt::ControlModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
+    if(e->modifiers().testFlag(Qt::NoModifier)){qDebug()<<"QKeyEvent modifier:"<<"NoModifier";}
+    if(e->modifiers().testFlag(Qt::ShiftModifier)){qDebug()<<"QKeyEvent modifier:"<<"ShiftModifier";}
+    if(e->modifiers().testFlag(Qt::AltModifier)){qDebug()<<"QKeyEvent modifier:"<<"AltModifier";}
+    if(e->modifiers().testFlag(Qt::MetaModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
+    if(e->modifiers().testFlag(Qt::KeypadModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
+    if(e->modifiers().testFlag(Qt::GroupSwitchModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
+    if(e->modifiers().testFlag(Qt::KeyboardModifierMask)){qDebug()<<"QKeyEvent modifier:"<<"KeyboardModifierMask";}
+    qDebug()<< "QKeyEvent key:"<<e->key();
+    qDebug()<< "-------------------------------------";
+    return QMainWindow::keyPressEvent(e);
 }
 
 void MainWindow::initUi()
@@ -99,16 +119,16 @@ void MainWindow::initUi()
     QHBoxLayout *layout = new QHBoxLayout();
     layout->setSizeConstraint(QLayout::SetNoConstraint);
     //layout->setContentsMargins()
-#ifdef INTERNAL_TEXT
-    QVBoxLayout *testLayout = new QVBoxLayout();
-    QLineEdit *lineEdit = new QLineEdit(this);
-    connect(m_textEdit, &QssTextEdit::completionPrefixChanged,
-            lineEdit, &QLineEdit::setText);
-    testLayout->addWidget(lineEdit);
-    layout->addLayout(testLayout);
+#ifdef INTERNAL_TEST
+//    QVBoxLayout *testLayout = new QVBoxLayout();
+//    QLineEdit *lineEdit = new QLineEdit(this);
+//    connect(m_textEdit, &QssTextEdit::completionPrefixChanged,
+//            lineEdit, &QLineEdit::setText);
+//    testLayout->addWidget(lineEdit);
+//    layout->addLayout(testLayout,1);
 #endif
 
-    layout->addWidget(m_tabWidget);
+    layout->addWidget(m_tabWidget,2);
     ui->centralwidget->setLayout(layout);
 
 }

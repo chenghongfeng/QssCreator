@@ -52,11 +52,21 @@ void QssTextEdit::setFile(const QString &fileName)
 
 void QssTextEdit::keyPressEvent(QKeyEvent *e)
 {
-    qDebug()<<e->text();
-    if(e->key() == Qt::Key_Dollar)
-    {
-        qDebug()<<"Qt::Key_Exclam";
-    }
+    qDebug()<< "-------------QssTextEdit--------------";
+    qDebug()<< "QKeyEvent Text:"<<e->text();
+    qDebug()<< "QKeyEvent Count:"<<e->count();
+    qDebug()<< "QKeyEvent isAutoRepeat:"<<e->isAutoRepeat();
+    if(e->modifiers().testFlag(Qt::ControlModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
+    if(e->modifiers().testFlag(Qt::NoModifier)){qDebug()<<"QKeyEvent modifier:"<<"NoModifier";}
+    if(e->modifiers().testFlag(Qt::ShiftModifier)){qDebug()<<"QKeyEvent modifier:"<<"ShiftModifier";}
+    if(e->modifiers().testFlag(Qt::AltModifier)){qDebug()<<"QKeyEvent modifier:"<<"AltModifier";}
+    if(e->modifiers().testFlag(Qt::MetaModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
+    if(e->modifiers().testFlag(Qt::KeypadModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
+    if(e->modifiers().testFlag(Qt::GroupSwitchModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
+    if(e->modifiers().testFlag(Qt::KeyboardModifierMask)){qDebug()<<"QKeyEvent modifier:"<<"KeyboardModifierMask";}
+    qDebug()<< "QKeyEvent key:"<<e->key();
+    return QPlainTextEdit::keyPressEvent(e);
+
     if (m_completer && m_completer->popup()->isVisible()) {
         // The following keys are forwarded by the completer to the widget
        switch (e->key()) {
@@ -66,6 +76,7 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
        case Qt::Key_Tab:
        case Qt::Key_Backtab:
             e->ignore();
+            qDebug()<< "return at:"<<__LINE__;
             return; // let the completer do default behavior
        default:
            break;
@@ -79,6 +90,7 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
     const bool ctrlOrShift = e->modifiers().testFlag(Qt::ControlModifier) ||
                              e->modifiers().testFlag(Qt::ShiftModifier);
     if (!m_completer || (ctrlOrShift && e->text().isEmpty()))
+        qDebug()<< "return at:"<<__LINE__;
         return;
 
     static QString eow("~!@#%^&*()_+{}|:\"<>?,./;'[]\\-="); // end of word
@@ -88,6 +100,7 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
     if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 1
                       || eow.contains(e->text().right(1)))) {
         m_completer->popup()->hide();
+        qDebug()<< "return at:"<<__LINE__;
         return;
     }
 
@@ -99,6 +112,7 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
     cr.setWidth(m_completer->popup()->sizeHintForColumn(0)
                 + m_completer->popup()->verticalScrollBar()->sizeHint().width());
     m_completer->complete(cr); // popup it up!
+    qDebug()<< "-------------------------------------";
 }
 
 void QssTextEdit::focusInEvent(QFocusEvent *e)
@@ -138,7 +152,7 @@ QString QssTextEdit::textUnderCursor()
 
     QTextCursor tc = textCursor();
     tc.select(QTextCursor::BlockUnderCursor);
-#ifdef INTERNAL_TEXT
+#ifdef INTERNAL_TEST
     QString txt = tc.selectedText();
     emit completionPrefixChanged(txt);
 #endif
