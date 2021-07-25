@@ -1,4 +1,5 @@
 QT       += widgets
+include(../defines.pri)
 
 greaterThan(QT_MAJOR_VERSION, 4){
     # QT5

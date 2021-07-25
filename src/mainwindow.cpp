@@ -24,6 +24,11 @@
 #include "QSSTextEdit/qsstextedit.h"
 #include "tabwidget.h"
 
+#ifdef INTERNAL_TEXT
+#include <QLineEdit>
+#endif
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -71,6 +76,8 @@ void MainWindow::initUi()
         //init m_textEdit
         m_textEdit = new QssTextEdit(this);
         qssHighlighter = new QssHighlighter(m_textEdit->document());
+        m_textEdit->setDefKeyword(QssManager::getInstance()->getDefs().keys());
+        m_textEdit->initCompleter();
         //ui->qssTextEdit->setTextBackgroundColor(QColor("#002b36"));
         QPalette palette(m_textEdit->palette());
         palette.setColor(QPalette::Base, QColor("#002b36"));
@@ -81,6 +88,8 @@ void MainWindow::initUi()
 
         m_tabWidget->addAlwaysShowWidget(list);
         m_tabWidget->setWorkAreaSplitterChildernCollapsible(false);
+
+
     }
 
     //QSplitter *splitter = new QSplitter(this);
@@ -90,6 +99,15 @@ void MainWindow::initUi()
     QHBoxLayout *layout = new QHBoxLayout();
     layout->setSizeConstraint(QLayout::SetNoConstraint);
     //layout->setContentsMargins()
+#ifdef INTERNAL_TEXT
+    QVBoxLayout *testLayout = new QVBoxLayout();
+    QLineEdit *lineEdit = new QLineEdit(this);
+    connect(m_textEdit, &QssTextEdit::completionPrefixChanged,
+            lineEdit, &QLineEdit::setText);
+    testLayout->addWidget(lineEdit);
+    layout->addLayout(testLayout);
+#endif
+
     layout->addWidget(m_tabWidget);
     ui->centralwidget->setLayout(layout);
 

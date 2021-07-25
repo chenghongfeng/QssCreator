@@ -4,6 +4,7 @@
 #include <QStringListModel>
 #include <QAbstractItemView>
 #include <QScrollBar>
+#include <QDebug>
 
 #include "qsshighlighter.h"
 #include "fileHelper.h"
@@ -14,15 +15,11 @@ QssTextEdit::QssTextEdit(QWidget *parent)
     m_highlighter = new QssHighlighter(this->document());
     m_completer = new QCompleter(this);
     initQssKeywordModel();
-    setCompleter(m_completer);
+    //setCompleter(m_completer);
 }
 
-void QssTextEdit::setCompleter(QCompleter *completer)
+void QssTextEdit::initCompleter()
 {
-    if(m_completer)
-        m_completer->disconnect(this);
-    m_completer = completer;
-
     if(!m_completer)
         return;
     m_completer->setWidget(this);
@@ -55,6 +52,11 @@ void QssTextEdit::setFile(const QString &fileName)
 
 void QssTextEdit::keyPressEvent(QKeyEvent *e)
 {
+    qDebug()<<e->text();
+    if(e->key() == Qt::Key_Dollar)
+    {
+        qDebug()<<"Qt::Key_Exclam";
+    }
     if (m_completer && m_completer->popup()->isVisible()) {
         // The following keys are forwarded by the completer to the widget
        switch (e->key()) {
@@ -79,11 +81,11 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
     if (!m_completer || (ctrlOrShift && e->text().isEmpty()))
         return;
 
-    static QString eow("~!@#$%^&*()_+{}|:\"<>?,./;'[]\\-="); // end of word
+    static QString eow("~!@#%^&*()_+{}|:\"<>?,./;'[]\\-="); // end of word
     const bool hasModifier = (e->modifiers() != Qt::NoModifier) && !ctrlOrShift;
     QString completionPrefix = textUnderCursor();
 
-    if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 3
+    if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 1
                       || eow.contains(e->text().right(1)))) {
         m_completer->popup()->hide();
         return;
@@ -118,16 +120,50 @@ void QssTextEdit::insertCompletion(const QString &completion)
     if (m_completer->widget() != this)
         return;
     QTextCursor tc = textCursor();
+    //tc.removeSelectedText();
     int extra = completion.length() - m_completer->completionPrefix().length();
-    tc.movePosition(QTextCursor::Left);
-    tc.movePosition(QTextCursor::EndOfWord);
-    tc.insertText(completion.right(extra));
+    while (extra > 1) {
+        tc.deletePreviousChar();
+        extra--;
+    }
+    //tc.movePosition(QTextCursor::Left);
+    //tc.movePosition(QTextCursor::StartOfWord);
+    tc.insertText(completion/*.right(extra)*/);
     setTextCursor(tc);
 }
 
-QString QssTextEdit::textUnderCursor() const
+QString QssTextEdit::textUnderCursor()
 {
+    //
+
     QTextCursor tc = textCursor();
+    tc.select(QTextCursor::BlockUnderCursor);
+#ifdef INTERNAL_TEXT
+    QString txt = tc.selectedText();
+    emit completionPrefixChanged(txt);
+#endif
+    if(tc.selectedText() == '$')
+    {
+        return tc.selectedText();
+    }
     tc.select(QTextCursor::WordUnderCursor);
+    QString text = tc.selectedText();
+    tc.movePosition(QTextCursor::StartOfWord);
+    tc.select(QTextCursor::BlockUnderCursor);
+    if(tc.selectedText() == '$')
+    {
+        tc.movePosition(QTextCursor::EndOfWord);
+        emit completionPrefixChanged('$' + text);
+        return '$' + text;
+    }
+    else{
+        tc.movePosition(QTextCursor::EndOfWord);
+        emit completionPrefixChanged(text);
+        return text;
+    }
+
+    //int start = tc.selectionStart();
+
+
     return tc.selectedText();
 }

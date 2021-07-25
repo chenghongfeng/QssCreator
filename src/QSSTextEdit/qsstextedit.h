@@ -13,9 +13,12 @@ class QssTextEdit : public QPlainTextEdit
     Q_OBJECT
 public:
     QssTextEdit(QWidget *parent = nullptr);
-    void setCompleter(QCompleter *completer);
+    void initCompleter();
     void setDefKeyword(const QStringList &defKeywords);
     void setFile(const QString &fileName);
+
+signals:
+    void completionPrefixChanged(QString text);
 
 protected:
     //待优化 现在只替换后面一部分,导致键入大写部分然后出现小写单词,补全后前面是用户键入的,后面是自动不全的的
@@ -26,7 +29,7 @@ private:
 
 private slots:
     void insertCompletion(const QString &completion);
-    QString textUnderCursor() const;
+    QString textUnderCursor() ;
 
 private:
     QCompleter *m_completer{nullptr};
