@@ -112,13 +112,8 @@ void MainWindow::initUi()
 
     }
 
-    //QSplitter *splitter = new QSplitter(this);
-    //splitter->addWidget(m_tabWidget);
-    //splitter->addWidget(m_textEdit);
-
     QHBoxLayout *layout = new QHBoxLayout();
-    layout->setSizeConstraint(QLayout::SetNoConstraint);
-    //layout->setContentsMargins()
+    layout->setContentsMargins(0,0,0,0);
 #ifdef INTERNAL_TEST
 //    QVBoxLayout *testLayout = new QVBoxLayout();
 //    QLineEdit *lineEdit = new QLineEdit(this);
@@ -127,7 +122,6 @@ void MainWindow::initUi()
 //    testLayout->addWidget(lineEdit);
 //    layout->addLayout(testLayout,1);
 #endif
-
     layout->addWidget(m_tabWidget,2);
     ui->centralwidget->setLayout(layout);
 

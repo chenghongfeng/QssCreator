@@ -52,6 +52,7 @@ void QssTextEdit::setFile(const QString &fileName)
 
 void QssTextEdit::keyPressEvent(QKeyEvent *e)
 {
+#ifdef KeyEvent_Test
     qDebug()<< "-------------QssTextEdit--------------";
     qDebug()<< "QKeyEvent Text:"<<e->text();
     qDebug()<< "QKeyEvent Count:"<<e->count();
@@ -66,6 +67,7 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
     if(e->modifiers().testFlag(Qt::KeyboardModifierMask)){qDebug()<<"QKeyEvent modifier:"<<"KeyboardModifierMask";}
     qDebug()<< "QKeyEvent key:"<<e->key();
     return QPlainTextEdit::keyPressEvent(e);
+#endif
 
     if (m_completer && m_completer->popup()->isVisible()) {
         // The following keys are forwarded by the completer to the widget
@@ -76,7 +78,6 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
        case Qt::Key_Tab:
        case Qt::Key_Backtab:
             e->ignore();
-            qDebug()<< "return at:"<<__LINE__;
             return; // let the completer do default behavior
        default:
            break;
@@ -90,7 +91,6 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
     const bool ctrlOrShift = e->modifiers().testFlag(Qt::ControlModifier) ||
                              e->modifiers().testFlag(Qt::ShiftModifier);
     if (!m_completer || (ctrlOrShift && e->text().isEmpty()))
-        qDebug()<< "return at:"<<__LINE__;
         return;
 
     static QString eow("~!@#%^&*()_+{}|:\"<>?,./;'[]\\-="); // end of word
@@ -100,7 +100,6 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
     if (!isShortcut && (hasModifier || e->text().isEmpty()|| completionPrefix.length() < 1
                       || eow.contains(e->text().right(1)))) {
         m_completer->popup()->hide();
-        qDebug()<< "return at:"<<__LINE__;
         return;
     }
 
@@ -112,7 +111,6 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
     cr.setWidth(m_completer->popup()->sizeHintForColumn(0)
                 + m_completer->popup()->verticalScrollBar()->sizeHint().width());
     m_completer->complete(cr); // popup it up!
-    qDebug()<< "-------------------------------------";
 }
 
 void QssTextEdit::focusInEvent(QFocusEvent *e)
@@ -134,50 +132,36 @@ void QssTextEdit::insertCompletion(const QString &completion)
     if (m_completer->widget() != this)
         return;
     QTextCursor tc = textCursor();
-    //tc.removeSelectedText();
-    int extra = completion.length() - m_completer->completionPrefix().length();
-    while (extra > 1) {
+    tc.beginEditBlock();
+    int completionPrefixLength = m_completer->completionPrefix().length();
+    //delete completionPrefix
+    while (completionPrefixLength > 0) {
         tc.deletePreviousChar();
-        extra--;
+        completionPrefixLength--;
     }
-    //tc.movePosition(QTextCursor::Left);
-    //tc.movePosition(QTextCursor::StartOfWord);
-    tc.insertText(completion/*.right(extra)*/);
+    //insert completion
+    tc.insertText(completion);
+    tc.endEditBlock();
+
+
+
     setTextCursor(tc);
 }
 
 QString QssTextEdit::textUnderCursor()
 {
-    //
-
+    //获取当前word
     QTextCursor tc = textCursor();
-    tc.select(QTextCursor::BlockUnderCursor);
+    tc.movePosition(QTextCursor::MoveOperation::StartOfWord, QTextCursor::MoveMode::KeepAnchor);
+    QString selectWord = tc.selectedText();
+    //前移一位看看能不能找到$
+    tc.movePosition(QTextCursor::MoveOperation::Left, QTextCursor::MoveMode::KeepAnchor);
+    if(tc.selectedText() != QString() && tc.selectedText().at(0) == '$')
+    {
+        selectWord = tc.selectedText();
+    }
 #ifdef INTERNAL_TEST
-    QString txt = tc.selectedText();
-    emit completionPrefixChanged(txt);
+    emit completionPrefixChanged(selectWord);
 #endif
-    if(tc.selectedText() == '$')
-    {
-        return tc.selectedText();
-    }
-    tc.select(QTextCursor::WordUnderCursor);
-    QString text = tc.selectedText();
-    tc.movePosition(QTextCursor::StartOfWord);
-    tc.select(QTextCursor::BlockUnderCursor);
-    if(tc.selectedText() == '$')
-    {
-        tc.movePosition(QTextCursor::EndOfWord);
-        emit completionPrefixChanged('$' + text);
-        return '$' + text;
-    }
-    else{
-        tc.movePosition(QTextCursor::EndOfWord);
-        emit completionPrefixChanged(text);
-        return text;
-    }
-
-    //int start = tc.selectionStart();
-
-
-    return tc.selectedText();
+    return selectWord;
 }
