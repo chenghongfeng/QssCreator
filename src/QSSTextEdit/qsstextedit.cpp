@@ -83,6 +83,24 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
            break;
        }
     }
+    else if(e->key() == Qt::Key_Return)
+    {
+        //https://www.cnblogs.com/cute/p/14875836.html
+        ReturnOperation op = nextLineOperation();
+        QPlainTextEdit::keyPressEvent(e);
+        doReturnOpreation(op);
+        return;
+    }
+
+    if(e->text() == "(")
+    {
+        QPlainTextEdit::keyPressEvent(e);
+        insertPlainText(")");
+        QTextCursor tc = textCursor();
+        tc.movePosition(QTextCursor::Left);
+        setTextCursor(tc);
+        return;
+    }
 
     const bool isShortcut = (e->modifiers().testFlag(Qt::ControlModifier) && e->key() == Qt::Key_E); // CTRL+E
     if (!m_completer || !isShortcut) // do not process the shortcut when we have a completer
@@ -124,6 +142,55 @@ void QssTextEdit::initQssKeywordModel()
 {
     QStringList qssKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qssKeywordFilePath());
     m_qssKeywordModel = new QStringListModel(qssKeywords, m_completer);
+}
+
+
+QssTextEdit::ReturnOperation QssTextEdit::nextLineOperation()
+{
+    QTextCursor tc = textCursor();
+    tc.movePosition(QTextCursor::Left,QTextCursor::KeepAnchor);
+    QString endChar = tc.selectedText();
+    if(endChar == "{")
+    {
+        int pos = tc.position();
+        QString text = this->toPlainText();
+        int leftBraceIndex = text.indexOf('{',pos + 1);
+        int rightBraceIndex = text.indexOf('}',pos + 1);
+        //don't fix brace When we can't find leftBrace but rightBrace is existed or leftBrace is in the front of rightBrace
+        if((leftBraceIndex == -1 || leftBraceIndex > rightBraceIndex) && rightBraceIndex > 0)
+        {
+            return ReturnOperation::AddTab;
+        }
+        return ReturnOperation::FixBrace;
+    }
+    tc.movePosition(QTextCursor::StartOfLine,QTextCursor::KeepAnchor);
+    QString line = tc.selectedText();
+    if(line.startsWith("\t"))
+    {
+        return ReturnOperation::AddTab;
+    }
+    return ReturnOperation::None;
+}
+
+void QssTextEdit::doReturnOpreation(ReturnOperation op)
+{
+    QTextCursor tempTc;
+    switch (op) {
+    case ReturnOperation::None:
+        break;
+    case ReturnOperation::AddTab:
+        insertPlainText("\t");
+        break;
+    case ReturnOperation::FixBrace:
+        insertPlainText("\t\n}");
+        tempTc = textCursor();
+        tempTc.movePosition(QTextCursor::Up);
+        tempTc.movePosition(QTextCursor::Right);
+        setTextCursor(tempTc);
+        break;
+    default:
+        break;
+    }
 }
 
 

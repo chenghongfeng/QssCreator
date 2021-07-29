@@ -1,4 +1,7 @@
-QMainWindow{
-    background:$side_bkg;
-    color:$side_front;
+QToolBar {
+    background: $side_bkg;
+    spacing: 3px; 
+}
+QToolBar QToolButton{
+	color:$side_front;
 }
