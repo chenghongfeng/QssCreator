@@ -7,34 +7,38 @@
 QssHighlighter::QssHighlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent)
 {
+
+
+}
+
+void QssHighlighter::appendKeyWords(const QStringList &keywords, const QTextCharFormat &format)
+{
+    QStringList keywordPatterns;
+    for (auto key : keywords) {
+        keywordPatterns.append(QStringLiteral("\\%1\\b").arg(key));
+    }
+    appendHighLightRule(keywords,format);
+}
+
+void QssHighlighter::appendHighLightRule(const QStringList &rulePatterns, const QTextCharFormat &format)
+{
     QssHighlightingRule rule;
-    QBrush keywordBrush(QColor("#b58909"));
-    m_keywordFormat.setForeground(keywordBrush);
-    const QString keywordPatterns[] = {
-        QStringLiteral("\\bimage\\b"), QStringLiteral("\\bwidth\\b"), QStringLiteral("\\bheight\\b"),
-        QStringLiteral("\\bfont-family\\b"), QStringLiteral("\\bcolor\\b"), QStringLiteral("\\bbackground-color\\b"),
-        QStringLiteral("\\bborder\\b"), QStringLiteral("\\bborder-radius\\b"), QStringLiteral("\\bpadding-top\\b"),
-        QStringLiteral("\\bpadding-left\\b"), QStringLiteral("\\bpadding-right\\b"), QStringLiteral("\\bleft\\b"),
-        QStringLiteral("\\bsubcontrol-origin\\b"), QStringLiteral("\\bsubcontrol-position\\b"), QStringLiteral("\\bmargin-top\\b"),
-        QStringLiteral("\\bmargin-bottom\\b"), QStringLiteral("\\bsignals\\b"), QStringLiteral("\\bsigned\\b"),
-        QStringLiteral("\\bslots\\b"), QStringLiteral("\\bstatic\\b"), QStringLiteral("\\bstruct\\b"),
-        QStringLiteral("\\btemplate\\b"), QStringLiteral("\\btypedef\\b"), QStringLiteral("\\btypename\\b"),
-        QStringLiteral("\\bunion\\b"), QStringLiteral("\\bunsigned\\b"), QStringLiteral("\\bvirtual\\b"),
-        QStringLiteral("\\bvoid\\b"), QStringLiteral("\\bvolatile\\b"), QStringLiteral("\\bbool\\b")
-    };
-    for (const QString &patten : keywordPatterns) {
-        rule.pattern = QRegularExpression(patten);
-        rule.format = m_keywordFormat;
+    for (auto pattern : rulePatterns) {
+        rule.pattern = QRegularExpression(pattern);
+        rule.format = format;
         m_qssHighlightingRules.append(rule);
     }
+}
 
-    singleLineCommentFormat.setForeground(Qt::red);
+void QssHighlighter::setCommentFormat(const QTextCharFormat &format)
+{
+    QssHighlightingRule rule;
+    singleLineCommentFormat = format;
     rule.pattern = QRegularExpression(QStringLiteral("//[^\n]*"));
     rule.format = singleLineCommentFormat;
     m_qssHighlightingRules.append(rule);
 
-    multiLineCommentFormat.setForeground(Qt::red);
-
+    multiLineCommentFormat = format;
     commentStartExpression = QRegularExpression(QStringLiteral("/\\*"));
     commentEndExpression = QRegularExpression(QStringLiteral("\\*/"));
 }
