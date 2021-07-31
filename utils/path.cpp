@@ -24,4 +24,5 @@ Path::Path()
     m_qssFilePath = QString("%1/default.qss").arg(m_qssDir);
     m_colorDefFilePath = QString("%1/default.qssdef").arg(m_qssDir);
     m_qssKeywordFilePath = QString("%1/qssKeyWord.txt").arg(m_confDir);
+    m_qClassKeywordFilePath = QString("%1/QtClassKeyWord.txt").arg(m_confDir);
 }

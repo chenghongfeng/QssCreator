@@ -5,6 +5,7 @@
 #include <QAbstractItemView>
 #include <QScrollBar>
 #include <QDebug>
+#include "config.h"
 
 #include "qsshighlighter.h"
 #include "fileHelper.h"
@@ -23,7 +24,7 @@ void QssTextEdit::initCompleter()
     if(!m_completer)
         return;
     m_completer->setWidget(this);
-    m_completer->setModel(m_qssKeywordModel);
+    m_completer->setModel(m_completerWordModel);
     m_completer->setCompletionMode(QCompleter::PopupCompletion);
     m_completer->setCaseSensitivity(Qt::CaseInsensitive);
     QObject::connect(m_completer, QOverload<const QString &>::of(&QCompleter::activated),
@@ -32,10 +33,15 @@ void QssTextEdit::initCompleter()
 
 void QssTextEdit::setDefKeyword(const QStringList &defKeywords)
 {
-    if (!m_qssKeywordModel) return;
+    QTextCharFormat format;
+    QColor defKeywordTextColor(Config::getInstance()->value("Text/UserDefineWordTextColor","#cb4b16").toString());
+    format.setForeground(defKeywordTextColor);
+    m_highlighter->appendKeyWords(defKeywords, format);
+
+    if (!m_completerWordModel) return;
     QStringList qssKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qssKeywordFilePath());
     qssKeywords += defKeywords;
-    m_qssKeywordModel->setStringList(qssKeywords);
+    m_completerWordModel->setStringList(qssKeywords);
 }
 
 void QssTextEdit::setFile(const QString &fileName)
@@ -140,8 +146,19 @@ void QssTextEdit::focusInEvent(QFocusEvent *e)
 
 void QssTextEdit::initQssKeywordModel()
 {
+    QStringList qclassKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qClassKeyWordFilePath());
+    QTextCharFormat format;
+    QColor qtClassTextColor(Config::getInstance()->value("Text/QtClassTextColor","#b58900").toString());
+    format.setForeground(qtClassTextColor);
+    m_highlighter->appendKeyWords(qclassKeywords, format);
+
     QStringList qssKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qssKeywordFilePath());
-    m_qssKeywordModel = new QStringListModel(qssKeywords, m_completer);
+    QColor qssKeywordTextColor(Config::getInstance()->value("Text/QssKeywordTextColor","#709d06").toString());
+    format.setForeground(qssKeywordTextColor);
+    m_highlighter->appendKeyWords(qssKeywords,format);
+
+    qssKeywords.append(qclassKeywords);
+    m_completerWordModel = new QStringListModel(qssKeywords, m_completer);
 }
 
 

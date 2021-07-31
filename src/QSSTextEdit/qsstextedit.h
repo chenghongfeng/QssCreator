@@ -43,7 +43,7 @@ private:
 
     QCompleter *m_completer{nullptr};
     QssHighlighter *m_highlighter{nullptr};
-    QStringListModel *m_qssKeywordModel{nullptr};
+    QStringListModel *m_completerWordModel{nullptr};
 };
 
 #endif // QSSTEXTEDIT_H
