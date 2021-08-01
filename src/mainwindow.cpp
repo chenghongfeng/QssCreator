@@ -18,7 +18,7 @@
 #include "qss_helper.h"
 #include "config.h"
 #include "path.h"
-#include "qssmanager.h"
+#include "qsstexteditmanager.h"
 
 #include "textsettingswidget.h"
 #include "colordefwidget.h"
@@ -96,7 +96,7 @@ void MainWindow::initUi()
         //init m_textEdit
         m_textEdit = new QssTextEdit(this);
         qssHighlighter = new QssHighlighter(m_textEdit->document());
-        m_textEdit->setDefKeyword(QssManager::getInstance()->getDefs().keys());
+        m_textEdit->setDefKeyword(QssTextEditManager::getInstance()->getDefs().keys());
         m_textEdit->initCompleter();
         //ui->qssTextEdit->setTextBackgroundColor(QColor("#002b36"));
         QPalette palette(m_textEdit->palette());
@@ -140,7 +140,7 @@ void MainWindow::initSettings()
     QFontMetrics metrics(font);
     m_textEdit->setTabStopDistance(4*metrics.width(' '));
     m_textEdit->setFont(font);
-    m_textEdit->setFile(fileName);
+    m_textEdit->setTextFromFile(fileName);
 }
 
 void MainWindow::saveSettings()
@@ -171,7 +171,7 @@ QFont MainWindow::getFontFromConfig()
 void MainWindow::on_replaceBtn_clicked()
 {
     QString resultText = m_textEdit->toPlainText();
-    QssHelper::replaceDefsWithValues(resultText,QssManager::getInstance()->getDefs());
+    QssHelper::replaceDefsWithValues(resultText,QssTextEditManager::getInstance()->getDefs());
     m_textEdit->setPlainText(resultText);
     //m_textEdit->setText(resultText);
 }
@@ -191,7 +191,7 @@ void MainWindow::on_actionOpenQssFile_triggered()
         return;
     Config::getInstance()->setValue("Qss/UserQssFilePath",fileName);
     //m_strQssFile = fileName;
-    m_textEdit->setFile(fileName);
+    m_textEdit->setTextFromFile(fileName);
 }
 
 void MainWindow::on_actionOpenDefineFile_triggered()
@@ -235,7 +235,7 @@ void MainWindow::slot_fontSettingsChanged(const FontSettings &fontSettings)
 void MainWindow::on_actionSetQss_triggered()
 {
     QString a = m_textEdit->toPlainText();
-    Config::getInstance()->setSkin(a, QssManager::getInstance()->getDefs());
+    Config::getInstance()->setSkin(a, QssTextEditManager::getInstance()->getDefs());
 }
 
 void MainWindow::on_actionSaveQssFile_triggered()

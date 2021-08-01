@@ -3,44 +3,71 @@
 #include <QRegularExpressionMatchIterator>
 #include <QRegularExpressionMatch>
 
+#include <QDebug>
+#include "qsstexteditmanager.h"
+
 
 QssHighlighter::QssHighlighter(QTextDocument *parent)
     : QSyntaxHighlighter(parent)
 {
+    commentStartExpression = QRegularExpression(QStringLiteral("/\\*"));
+    commentEndExpression = QRegularExpression(QStringLiteral("\\*/"));
+}
 
+void QssHighlighter::appendKeyword(const QString &keyword, const QTextCharFormat &format)
+{
+    QStringList keywords;
+    keywords.append(keyword);
+    appendKeywords(keywords,format);
 
 }
 
-void QssHighlighter::appendKeyWords(const QStringList &keywords, const QTextCharFormat &format)
+void QssHighlighter::appendKeywords(const QStringList &keywords, const QTextCharFormat &format)
 {
     QStringList keywordPatterns;
     for (auto key : keywords) {
-        keywordPatterns.append(QStringLiteral("\\%1\\b").arg(key));
+        keywordPatterns.append(QStringLiteral("\\b%1\\b").arg(key));
     }
-    appendHighLightRule(keywords,format);
+    appendHighLightRule(keywordPatterns,format);
 }
 
 void QssHighlighter::appendHighLightRule(const QStringList &rulePatterns, const QTextCharFormat &format)
 {
-    QssHighlightingRule rule;
+
     for (auto pattern : rulePatterns) {
+        QssHighlightingRule rule;
         rule.pattern = QRegularExpression(pattern);
         rule.format = format;
         m_qssHighlightingRules.append(rule);
     }
+    qDebug()<<"__________start print rules______________";
+    for (const QssHighlightingRule &rule : qAsConst(m_qssHighlightingRules)) {
+
+        qDebug()<<rule.pattern;
+        qDebug()<<rule.format.foreground().color();
+
+    }
+    qDebug()<<"____________end print rules______________";
 }
 
 void QssHighlighter::setCommentFormat(const QTextCharFormat &format)
 {
+    qDebug()<<"setCommentFormat...";
+    printFormatInfo(format);
     QssHighlightingRule rule;
     singleLineCommentFormat = format;
+    printFormatInfo(singleLineCommentFormat);
     rule.pattern = QRegularExpression(QStringLiteral("//[^\n]*"));
     rule.format = singleLineCommentFormat;
     m_qssHighlightingRules.append(rule);
 
     multiLineCommentFormat = format;
-    commentStartExpression = QRegularExpression(QStringLiteral("/\\*"));
-    commentEndExpression = QRegularExpression(QStringLiteral("\\*/"));
+
+}
+
+void QssHighlighter::printFormatInfo(const QTextCharFormat &format)
+{
+    qDebug()<<format.foreground();
 }
 
 void QssHighlighter::highlightBlock(const QString &text)
@@ -49,6 +76,11 @@ void QssHighlighter::highlightBlock(const QString &text)
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
         while (matchIterator.hasNext())
         {
+            qDebug()<<text;
+            qDebug()<<rand();
+            qDebug()<< rule.format;
+            qDebug()<< rule.format.foreground();
+            qDebug()<<rule.pattern;
             QRegularExpressionMatch match = matchIterator.next();
             setFormat(match.capturedStart(), match.capturedLength(), rule.format);
         }

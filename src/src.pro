@@ -35,7 +35,7 @@ SOURCES += \
     QssTextEdit/qsshighlighter.cpp \
     QssTextEdit/qssproxymodel.cpp \
     QssTextEdit/qsstextedit.cpp \
-    qssmanager.cpp \
+    qsstexteditmanager.cpp \
     textsettingswidget.cpp
 
 HEADERS += \
@@ -45,7 +45,7 @@ HEADERS += \
     QssTextEdit/qsshighlighter.h \
     QssTextEdit/qssproxymodel.h \
     QssTextEdit/qsstextedit.h \
-    qssmanager.h \
+    qsstexteditmanager.h \
     textsettingswidget.h
 
 FORMS += \

@@ -16,11 +16,7 @@ public:
     QssTextEdit(QWidget *parent = nullptr);
     void initCompleter();
     void setDefKeyword(const QStringList &defKeywords);
-    void setFile(const QString &fileName);
-
-signals:
-    void completionPrefixChanged(QString text);
-
+    void setTextFromFile(const QString &fileName);
 
 private:
     enum class ReturnOperation{None=0, AddTab, FixBrace};

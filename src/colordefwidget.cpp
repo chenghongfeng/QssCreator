@@ -8,18 +8,18 @@
 
 #include "QSSTextEdit/colordeftablemodel.h"
 #include "path.h"
-#include "qssmanager.h"
+#include "qsstexteditmanager.h"
 
 ColorDefWidget::ColorDefWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ColorDefWidget)
 {
     ui->setupUi(this);
-    defs = QssManager::getInstance()->getDefs();
+    defs = QssTextEditManager::getInstance()->getDefs();
     colorDefModel = new ColorDefTableModel(defs, this);
     initUi();
 
-    connect(QssManager::getInstance(), &QssManager::defsUpdated, this, &ColorDefWidget::updateDefs);
+    connect(QssTextEditManager::getInstance(), &QssTextEditManager::defsUpdated, this, &ColorDefWidget::updateDefs);
 }
 
 ColorDefWidget::~ColorDefWidget()
@@ -54,7 +54,7 @@ void ColorDefWidget::initUi()
 
 void ColorDefWidget::updateDefs()
 {
-    defs = QssManager::getInstance()->getDefs();
+    defs = QssTextEditManager::getInstance()->getDefs();
     colorDefModel->resetDefMap(defs);
 }
 

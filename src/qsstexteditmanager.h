@@ -1,13 +1,13 @@
-#ifndef QSSMANAGER_H
-#define QSSMANAGER_H
+#ifndef QssTextEditManager_H
+#define QssTextEditManager_H
 
 #include <QMap>
 #include <singleton.h>
 
-class QssManager
-        : public QObject, public Singleton<QssManager>
+class QssTextEditManager
+        : public QObject, public Singleton<QssTextEditManager>
 {
-    friend class Singleton<QssManager>;
+    friend class Singleton<QssTextEditManager>;
     Q_OBJECT
 public:
     QMap<QString,QString> getDefs(){
@@ -21,7 +21,7 @@ public slots:
     void slot_Config_valueUpdated(const QString &key, const QVariant &value);
 
 protected:
-    QssManager();
+    QssTextEditManager();
 private:
     void initDefs();
     void setDefsFile(const QString &fileName);
@@ -29,6 +29,8 @@ private:
 
 private:
     QMap<QString,QString> m_defs;
+    QStringList m_qtClassKeywords;
+    QStringList m_qssKeywords;
 };
 
-#endif // QSSMANAGER_H
+#endif // QssTextEditManager_H
