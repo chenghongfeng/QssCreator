@@ -17,11 +17,15 @@ public:
     ColorDefInfos & getDefInfos(){
         return m_defInfos;
     }
+    QString getCurDefsText() const;
     void saveDefsToFile();
+    void addNewDef();
 
 signals:
     void defsUpdated();
+    void sourceTextEditVisibleChange(bool);
 public slots:
+    void setSourceTextVisible(bool isVisible);
     void updateDefs();
     void slot_Config_valueUpdated(const QString &key, const QVariant &value);
 

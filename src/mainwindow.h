@@ -59,6 +59,12 @@ private slots:
 
     void on_actionSaveColorDefineFile_triggered();
 
+    void on_actionAddNewDef_triggered();
+
+    void on_actionshowSourceText_triggered();
+
+    void on_actionshowColorDefines_triggered();
+
 private:
     Ui::MainWindow *ui;
     QString m_strColorDefFile;

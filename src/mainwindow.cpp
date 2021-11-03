@@ -253,3 +253,18 @@ void MainWindow::on_actionSaveColorDefineFile_triggered()
 {
     QssTextEditManager::getInstance()->saveDefsToFile();
 }
+
+void MainWindow::on_actionAddNewDef_triggered()
+{
+    QssTextEditManager::getInstance()->addNewDef();
+}
+
+void MainWindow::on_actionshowSourceText_triggered()
+{
+    QssTextEditManager::getInstance()->setSourceTextVisible(true);
+}
+
+void MainWindow::on_actionshowColorDefines_triggered()
+{
+    QssTextEditManager::getInstance()->setSourceTextVisible(false);
+}

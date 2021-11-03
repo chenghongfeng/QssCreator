@@ -9,7 +9,6 @@
 #include "QSSTextEdit/colordeftablemodel.h"
 #include "path.h"
 #include "qsstexteditmanager.h"
-#include "QSSTextEdit/colorlisteditor.h"
 
 ColorDefWidget::ColorDefWidget(QWidget *parent) :
     QWidget(parent),
@@ -20,6 +19,7 @@ ColorDefWidget::ColorDefWidget(QWidget *parent) :
     initUi();
 
     connect(QssTextEditManager::getInstance(), &QssTextEditManager::defsUpdated, this, &ColorDefWidget::updateDefs);
+    connect(QssTextEditManager::getInstance(), &QssTextEditManager::sourceTextEditVisibleChange, this, &ColorDefWidget::setSourceTextEditVisible);
 }
 
 ColorDefWidget::~ColorDefWidget()
@@ -30,7 +30,9 @@ ColorDefWidget::~ColorDefWidget()
 void ColorDefWidget::initUi()
 {
 
-
+    ui->textEdit->setVisible(false);
+    //目前设置成无法编辑的状态
+    ui->textEdit->setEnabled(false);
     ui->colorTableView->setSelectionBehavior(QHeaderView::SelectItems);
 
 
@@ -41,6 +43,7 @@ void ColorDefWidget::initUi()
 #endif
 
     colorDefModel = new ColorDefTableModel(QssTextEditManager::getInstance()->getDefInfos(), this);
+    ui->textEdit->setText(QssTextEditManager::getInstance()->getCurDefsText());
     QSortFilterProxyModel *proxyModle = new QSortFilterProxyModel(this);
     proxyModle->setSourceModel(colorDefModel);
     proxyModle->sort(1);
@@ -53,12 +56,25 @@ void ColorDefWidget::initUi()
 
 }
 
+void ColorDefWidget::setSourceTextEditVisible(bool isVisible)
+{
+    ui->textEdit->setVisible(isVisible);
+    ui->colorTableView->setVisible(!isVisible);
+}
+
 void ColorDefWidget::updateDefs()
 {
     defs = QssTextEditManager::getInstance()->getDefs();
     colorDefModel->resetDefInfos(QssTextEditManager::getInstance()->getDefInfos());
+    ui->textEdit->setText(QssTextEditManager::getInstance()->getCurDefsText());
     //colorDefModel->resetDefMap(defs);
 }
+
+void ColorDefWidget::addNewDef()
+{
+    QssTextEditManager::getInstance()->addNewDef();
+}
+
 
 void ColorDefWidget::on_applyBtn_clicked()
 {

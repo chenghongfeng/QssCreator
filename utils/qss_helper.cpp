@@ -96,9 +96,7 @@ QMap<QString, QString> QssHelper::getColorDefineFromQStr(const QString &defsText
         info.key = info.original_key;
         info.value = info.original_value;
         info.original_key_start = match.capturedStart("key");
-        info.original_key_end = match.capturedEnd("key");
         info.original_value_start = match.capturedStart("value");
-        info.original_value_end = match.capturedEnd("value");
         infos.push_back(std::move(info));
     }
     return defs;

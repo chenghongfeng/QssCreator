@@ -25,7 +25,9 @@ public:
     void initUi();
 
 public slots:
+    void setSourceTextEditVisible(bool isShow);
     void updateDefs();
+    void addNewDef();
 
 private slots:
     void on_applyBtn_clicked();

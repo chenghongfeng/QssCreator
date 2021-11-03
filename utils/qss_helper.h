@@ -12,13 +12,12 @@
 struct ColorDefInfo
 {
     QString key{""};
-    int original_key_start{0};
-    int original_key_end{0};
     QString value{""};
+    int original_key_start{0};
     int original_value_start{0};
-    int original_value_end{0};
     QString original_key{""};
     QString original_value{""};
+    bool is_append{false};//是否是添加的
 };
 using ColorDefInfos = QList<ColorDefInfo>;
 

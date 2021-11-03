@@ -11,8 +11,7 @@ ColorDefTableModel::ColorDefTableModel(ColorDefInfos &infos, QObject *parent)
     : QAbstractTableModel(parent),
       defInfos_(&infos)
 {
-//    defs_ = defMap_.keys();
-//    values_ = defMap_.values();
+
 }
 
 
@@ -96,7 +95,7 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
         }
         break;
     case Qt::TextAlignmentRole:
-        if (col == 0) //change text alignment only for cell(1,1)
+        if (col == 0)
         {
             return int(Qt::AlignLeft | Qt::AlignVCenter);
         }

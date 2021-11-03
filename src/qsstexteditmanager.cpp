@@ -1,13 +1,14 @@
 #include "qsstexteditmanager.h"
 
 #include <QFile>
+#include <utility>
 
 #include "path.h"
 #include "config.h"
 #include "fileHelper.h"
 #include "qss_helper.h"
 
-void QssTextEditManager::saveDefsToFile()
+QString QssTextEditManager::getCurDefsText() const
 {
     QString filePath = Config::getInstance()->value("Qss/UserColorDefineFile",
                                                     Path::getInstance()->colorDefFilePath()).toString();
@@ -15,11 +16,10 @@ void QssTextEditManager::saveDefsToFile()
     QString defsText;
     if(!file.open(QFile::ReadWrite))
     {
-        return;
+        return QString();
     }
     defsText = file.readAll();
     file.close();
-    //反向遍历先修改后面的文本这样不会造成之前文本的变动
     for(auto iter = --m_defInfos.end();iter != --m_defInfos.begin();--iter)
     {
         if(iter->value != iter->original_value)
@@ -30,7 +30,20 @@ void QssTextEditManager::saveDefsToFile()
         {
             defsText.replace(iter->original_key_start,iter->original_key.length(),iter->key);
         }
+        if(iter->is_append)
+        {
+            defsText.append(QString("\n%1=%2\n").arg(iter->key).arg(iter->value));
+        }
     }
+    return defsText;
+}
+
+void QssTextEditManager::saveDefsToFile()
+{
+    QString filePath = Config::getInstance()->value("Qss/UserColorDefineFile",
+                                                    Path::getInstance()->colorDefFilePath()).toString();
+    QFile file(filePath);
+    QString defsText = getCurDefsText();
     if(!file.open(QFile::WriteOnly|QFile::Truncate))
     {
         return;
@@ -38,6 +51,21 @@ void QssTextEditManager::saveDefsToFile()
     file.write(defsText.toStdString().c_str());
     file.close();
     updateDefs();
+}
+
+void QssTextEditManager::addNewDef()
+{
+    ColorDefInfo newInfo;
+    newInfo.is_append = true;
+    newInfo.key = "$set_name";
+    newInfo.value = "#FFFFFF";
+    m_defInfos.append(std::move(newInfo));
+    emit defsUpdated();
+}
+
+void QssTextEditManager::setSourceTextVisible(bool isVisible)
+{
+    emit sourceTextEditVisibleChange(isVisible);
 }
 
 void QssTextEditManager::updateDefs()
