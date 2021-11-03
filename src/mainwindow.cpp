@@ -248,3 +248,8 @@ void MainWindow::on_actionSaveQssFile_triggered()
     QssHelper::writeQStrTofile(text,fileName);
 }
 
+
+void MainWindow::on_actionSaveColorDefineFile_triggered()
+{
+    QssTextEditManager::getInstance()->saveDefsToFile();
+}

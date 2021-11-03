@@ -33,10 +33,17 @@
     <widget class="QListView" name="colorListView"/>
    </item>
    <item>
-    <widget class="QTableView" name="colorTableView"/>
+    <widget class="ColorDefTableView" name="colorTableView"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ColorDefTableView</class>
+   <extends>QTableView</extends>
+   <header>qsstextedit/colordeftableview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

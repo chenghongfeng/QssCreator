@@ -28,6 +28,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    QssTextEdit/colordeftableview.cpp \
     colordefwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -39,6 +40,7 @@ SOURCES += \
     textsettingswidget.cpp
 
 HEADERS += \
+    QssTextEdit/colordeftableview.h \
     colordefwidget.h \
     mainwindow.h \
     QssTextEdit/colordeftablemodel.h \

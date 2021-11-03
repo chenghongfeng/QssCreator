@@ -3,13 +3,14 @@
 
 #include <QAbstractTableModel>
 #include <QMap>
+#include "qss_helper.h"
 
 class ColorDefTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 
 public:
-    explicit ColorDefTableModel(QMap<QString,QString> &defMap,QObject *parent = nullptr);
+    explicit ColorDefTableModel(ColorDefInfos &infos,QObject *parent = nullptr);
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;
@@ -26,11 +27,13 @@ public:
 
     //
     void resetDefMap(QMap<QString,QString> &map);
+    void resetDefInfos(ColorDefInfos &infos);
 
 public slots:
     void defMapChanegd();
 
 private:
+    ColorDefInfos * defInfos_;
     QMap<QString, QString> defMap_;
     QStringList defs_;
     QStringList values_;

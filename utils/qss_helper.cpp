@@ -6,6 +6,7 @@
 #include <QRegularExpressionMatch>
 #include <QRegularExpressionMatchIterator>
 #include <QTextStream>
+#include <utility>
 
 QssHelper::QssHelper()
 {
@@ -23,7 +24,46 @@ QMap<QString,QString> QssHelper::getColorDefineFromQStr(const QString &defsText,
     QString exp;
     if (pattern == "")
     {
-        exp = "([$]\\w+)\\s*=\\s*([#(),.\\w]*)\\s*[\\r\\n;\\/]+";
+        exp = "(?<key>[$]\\w+)\\s*=\\s*(?<value>[#(),.\\w]*)\\s*[\\r\\n;\\/]+";
+    }
+    else
+    {
+        exp = pattern;
+    }
+    QRegularExpression reg(exp);
+
+//    QRegularExpression::MatchType matchType = QRegularExpression::NormalMatch;
+//    QRegularExpression::PatternOptions patternOptions = QRegularExpression::NoPatternOption;
+//    QRegularExpression::MatchOptions matchOptions = QRegularExpression::NoMatchOption;
+    //reg.setPatternOptions(patternOptions);
+
+    QMap<QString,QString> defs;
+    if (!reg.isValid())
+    {
+        return defs;
+    }
+    QRegularExpressionMatchIterator iterator = reg.globalMatch(defsText/*, 0,matchType, matchOptions*/);
+    while (iterator.hasNext())
+    {
+        QRegularExpressionMatch match = iterator.next();
+        defs[match.captured("key")] = match.captured("value");
+    }
+    return defs;
+
+}
+
+QMap<QString, QString> QssHelper::getColorDefineFromQStr(const QString &defsText, ColorDefInfos &infos, const QString &pattern)
+{
+    //\s  包括空格、制表符、换页符等空白字符的其中任意一个
+    //([$]\w+)\s*=[ \t]*([#(),.\w]*)[\t ]*[\r\n;\/]+
+    //      group1                                  group2
+    // =================                          ============
+    // (  [$]       \w+)     \s*      = \s*       ([#(),.\w]*)   \s*[\r\n;\/]+
+    //     $     任意字符     空白字符  =
+    QString exp;
+    if (pattern == "")
+    {
+        exp = "(?<key>[$]\\w+)\\s*=\\s*(?<value>[#(),.\\w]*)\\s*[\\r\\n;\\/]+";
     }
     else
     {
@@ -43,13 +83,25 @@ QMap<QString,QString> QssHelper::getColorDefineFromQStr(const QString &defsText,
     }
 
     QRegularExpressionMatchIterator iterator = reg.globalMatch(defsText/*, 0,matchType, matchOptions*/);
+    QList<QRegularExpressionMatch> matchs;
     while (iterator.hasNext())
     {
+
         QRegularExpressionMatch match = iterator.next();
-        defs[match.captured(1)] = match.captured(2);
+        defs[match.captured("key")] = match.captured("value");
+
+        ColorDefInfo info;
+        info.original_key = match.captured("key");
+        info.original_value = match.captured("value");
+        info.key = info.original_key;
+        info.value = info.original_value;
+        info.original_key_start = match.capturedStart("key");
+        info.original_key_end = match.capturedEnd("key");
+        info.original_value_start = match.capturedStart("value");
+        info.original_value_end = match.capturedEnd("value");
+        infos.push_back(std::move(info));
     }
     return defs;
-
 }
 
 void QssHelper::replaceDefsWithValues(QString &qssText, const QMap<QString, QString> &defsMap)

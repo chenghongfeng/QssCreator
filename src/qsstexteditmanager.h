@@ -3,6 +3,7 @@
 
 #include <QMap>
 #include <singleton.h>
+#include "qss_helper.h"
 
 class QssTextEditManager
         : public QObject, public Singleton<QssTextEditManager>
@@ -13,6 +14,10 @@ public:
     QMap<QString,QString> getDefs(){
         return m_defs;
     }
+    ColorDefInfos & getDefInfos(){
+        return m_defInfos;
+    }
+    void saveDefsToFile();
 
 signals:
     void defsUpdated();
@@ -27,8 +32,10 @@ private:
     void setDefsFile(const QString &fileName);
 
 
+
 private:
     QMap<QString,QString> m_defs;
+    ColorDefInfos m_defInfos;
     QStringList m_qtClassKeywords;
     QStringList m_qssKeywords;
 };

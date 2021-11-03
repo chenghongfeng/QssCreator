@@ -9,6 +9,18 @@
 #include <QStringList>
 #include <QMap>
 #include <QString>
+struct ColorDefInfo
+{
+    QString key{""};
+    int original_key_start{0};
+    int original_key_end{0};
+    QString value{""};
+    int original_value_start{0};
+    int original_value_end{0};
+    QString original_key{""};
+    QString original_value{""};
+};
+using ColorDefInfos = QList<ColorDefInfo>;
 
 class UTILS_EXPORT QssHelper
 {
@@ -17,6 +29,7 @@ public:
 
     //使用 pattern 从 defsText 获取 def,value 的map ,默认形式 $def = value
     static QMap<QString,QString> getColorDefineFromQStr(const QString &defsText,const QString &pattern = "");
+    static QMap<QString,QString> getColorDefineFromQStr(const QString &defsText, ColorDefInfos &infos, const QString &pattern = "");
     //使用定义变量替换qssText
     static void replaceDefsWithValues(QString &qssText, const QMap<QString,QString> &defsMap);
     //将str转换成匹配这个str的正则表达式

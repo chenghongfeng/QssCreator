@@ -4,15 +4,17 @@
 #include <QBrush>
 #include <QColor>
 #include <QColorDialog>
+#include <qsstexteditmanager.h>
 
 
-ColorDefTableModel::ColorDefTableModel(QMap<QString, QString> &defMap, QObject *parent)
+ColorDefTableModel::ColorDefTableModel(ColorDefInfos &infos, QObject *parent)
     : QAbstractTableModel(parent),
-      defMap_(defMap)
+      defInfos_(&infos)
 {
-    defs_ = defMap_.keys();
-    values_ = defMap_.values();
+//    defs_ = defMap_.keys();
+//    values_ = defMap_.values();
 }
+
 
 QVariant ColorDefTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
@@ -31,7 +33,7 @@ QVariant ColorDefTableModel::headerData(int section, Qt::Orientation orientation
 int ColorDefTableModel::rowCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return defMap_.size();
+    return defInfos_->size();
 }
 
 int ColorDefTableModel::columnCount(const QModelIndex &parent) const
@@ -49,28 +51,38 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
 //            .arg(row).arg(col).arg(role);
 
     switch (role) {
-    case Qt::DisplayRole:
+    case Qt::EditRole:
         if (col == 0)
         {
-            return defs_[row];
+            return defInfos_->at(row).key;
         }
         else if(col == 1)
         {
-            return values_[row];
+            return QColor(defInfos_->at(row).value);
+        }
+        break;
+    case Qt::DisplayRole:
+        if (col == 0)
+        {
+            return defInfos_->at(row).key;
+        }
+        else if(col == 1)
+        {
+            return QColor(defInfos_->at(row).value);
         }
         break;
     case Qt::BackgroundRole:
         if (col == 1)
         {
 
-            QColor color(values_[row]);
+            QColor color(defInfos_->at(row).value);
             return QBrush(color);
         }
         break;
     case Qt::ForegroundRole:
         if (col == 1)
         {
-            QColor color(values_[row]);
+            QColor color(defInfos_->at(row).value);
             //计算出灰度 如果小于100前景设置为白色
             if (qGray(color.rgb()) < 100)
             {
@@ -109,11 +121,8 @@ bool ColorDefTableModel::setData(const QModelIndex &index, const QVariant &value
     if (!checkIndex(index)) //checkIndex在5.11版本引入
         return false;
 #endif
-        QColor color(values_[index.row()]);
-        QColorDialog colorDialog(color);
-        QColor resultColor = colorDialog.getColor(color);
-        values_[index.row()] = resultColor.name();
-        //emit dataChanged();
+        (*defInfos_)[index.row()].value = value.toString();
+        emit dataChanged(index,index);
         return true;
 
     }
@@ -129,6 +138,14 @@ void ColorDefTableModel::resetDefMap(QMap<QString, QString> &map)
 {
     defMap_ = map;
     defMapChanegd();
+
+}
+
+void ColorDefTableModel::resetDefInfos(ColorDefInfos &infos)
+{
+    beginResetModel();
+    defInfos_ = &infos;
+    endResetModel() ;
 
 }
 
