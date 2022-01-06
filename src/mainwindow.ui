@@ -6,15 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>776</width>
-    <height>645</height>
+    <width>784</width>
+    <height>663</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget"/>
-  <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar_2">
    <property name="windowTitle">
     <string>toolBar_2</string>
@@ -32,7 +31,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>776</width>
+     <width>784</width>
      <height>22</height>
     </rect>
    </property>
