@@ -38,6 +38,7 @@ QT_BEGIN_NAMESPACE
 class QPainter;
 class QStackedLayout;
 class QStatusBar;
+class QSplitter;
 QT_END_NAMESPACE
 
 namespace Core {
@@ -169,6 +170,9 @@ public:
 
     bool isSelectionWidgetVisible() const;
 
+    void addAlwaysShowWidget(QList<QWidget *> widgets);
+    void setWorkAreaSplitterChildernCollapsible(bool b);
+
 signals:
     void currentAboutToShow(int index);
     void currentChanged(int index);
@@ -189,6 +193,10 @@ private:
     QStatusBar *m_statusBar;
     Utils::InfoBarDisplay m_infoBarDisplay;
     Utils::InfoBar m_infoBar;
+    //2022.1.6 chf
+    //支持添加一个在tabwidget右侧一直显示的窗口列表,且可调整与tabwidget的比例
+    QList<QWidget *> m_alwaysShowWidgets;
+    QSplitter * m_workAreaSplitter { nullptr };
 };
 
 } // namespace Internal

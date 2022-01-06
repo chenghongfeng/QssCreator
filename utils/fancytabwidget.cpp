@@ -46,6 +46,8 @@
 #include <QToolTip>
 #include <QVBoxLayout>
 
+#include <QSplitter>
+
 using namespace Core;
 using namespace Internal;
 using namespace Utils;
@@ -510,14 +512,21 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
 
     selectionLayout->addWidget(m_cornerWidgetContainer, 0);
 
+    m_workAreaSplitter = new QSplitter(this);
     m_modesStack = new QStackedLayout;
     m_statusBar = new QStatusBar;
     m_statusBar->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    QWidget *a = new QWidget(this);
+    a->setLayout(m_modesStack);
+    m_modesStack->setSizeConstraint(QLayout::SetMinimumSize);
+    m_workAreaSplitter->addWidget(a);
 
     auto vlayout = new QVBoxLayout;
     vlayout->setContentsMargins(0, 0, 0, 0);
+    vlayout->setSizeConstraint(QLayout::SetMinimumSize);
     vlayout->setSpacing(0);
-    vlayout->addLayout(m_modesStack);
+    //vlayout->addLayout(m_modesStack);
+    vlayout->addWidget(m_workAreaSplitter);
     vlayout->addWidget(m_statusBar);
 
     m_infoBarDisplay.setTarget(vlayout, 1);
@@ -543,6 +552,19 @@ void FancyTabWidget::setSelectionWidgetVisible(bool visible)
 bool FancyTabWidget::isSelectionWidgetVisible() const
 {
     return m_selectionWidget->isVisible();
+}
+
+void FancyTabWidget::addAlwaysShowWidget(QList<QWidget *> widgets)
+{
+    m_alwaysShowWidgets.append(widgets);
+    for (auto w : widgets) {
+        m_workAreaSplitter->addWidget(w);
+    }
+}
+
+void FancyTabWidget::setWorkAreaSplitterChildernCollapsible(bool b)
+{
+    m_workAreaSplitter->setChildrenCollapsible(b);
 }
 
 void FancyTabWidget::insertTab(int index, QWidget *tab, const QIcon &icon, const QString &label, bool hasMenu)

@@ -126,7 +126,8 @@ void MainWindow::initUi()
         list.append(m_textEdit);
 
 #ifdef USE_FANCYTABWIDGET
-
+    fancyTabWidget->addAlwaysShowWidget(list);
+    fancyTabWidget->setWorkAreaSplitterChildernCollapsible(false);
 #else
         m_tabWidget->addAlwaysShowWidget(list);
         m_tabWidget->setWorkAreaSplitterChildernCollapsible(false);
@@ -147,7 +148,6 @@ void MainWindow::initUi()
 
 #ifdef USE_FANCYTABWIDGET
      layout->addWidget(fancyTabWidget,2);
-     layout->addWidget(m_textEdit,2)   ;
 #else
     layout->addWidget(m_tabWidget,2);
 #endif
