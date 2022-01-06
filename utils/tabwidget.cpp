@@ -10,6 +10,7 @@
 #include <QSplitter>
 #include <QAction>
 #include <QDebug>
+#include <QTabBar>
 
 #define STACK_INDEX "stackedWidgetIndex"
 

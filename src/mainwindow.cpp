@@ -24,7 +24,10 @@
 #include "colordefwidget.h"
 #include "QSSTextEdit/qsstextedit.h"
 #include "tabwidget.h"
+#include "fancytabwidget.h"
+#include "utilsicons.h"
 
+#define USE_FANCYTABWIDGET
 #ifdef INTERNAL_TEST
 #include <QLineEdit>
 #endif
@@ -70,8 +73,12 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 
 void MainWindow::initUi()
 {
+#ifdef USE_FANCYTABWIDGET
+    Core::Internal::FancyTabWidget * fancyTabWidget = new Core::Internal::FancyTabWidget(this);
+#else
     //init m_tabWidget
     m_tabWidget = new TabWidget(this);
+#endif
     ColorDefWidget *colorWidget = new ColorDefWidget();
     {
         //添加颜色定义页
@@ -79,7 +86,13 @@ void MainWindow::initUi()
         showColorDefAction->setToolTip(tr("Show/Hide color defines widget"));
         showColorDefAction->setCheckable(true);
         showColorDefAction->setChecked(true);//默认显示此页
+#ifdef USE_FANCYTABWIDGET
+        fancyTabWidget->insertTab(0,colorWidget,Utils::Icons::HOME.icon(),tr("Colors"),false);
+        fancyTabWidget->setTabEnabled(0,true);
+#else
         m_tabWidget->addPage(colorWidget,showColorDefAction);
+#endif
+
 
         //添加设置页
         QAction *showConfigAction = new QAction(this);
@@ -89,7 +102,13 @@ void MainWindow::initUi()
         m_textSettingsWidget = new TextSettingsWidget(getFontFromConfig(), this);
         connect(m_textSettingsWidget, &TextSettingsWidget::fontSsttingsChanged,
                 this, &MainWindow::slot_fontSettingsChanged);
+#ifdef USE_FANCYTABWIDGET
+        fancyTabWidget->insertTab(1,m_textSettingsWidget,Utils::Icons::HOME.icon(),tr("Settings"),false);
+        fancyTabWidget->setTabEnabled(1,true);
+#else
         m_tabWidget->addPage(m_textSettingsWidget, showConfigAction);
+#endif
+
     }
 
     {
@@ -106,9 +125,12 @@ void MainWindow::initUi()
         QWidgetList list;
         list.append(m_textEdit);
 
+#ifdef USE_FANCYTABWIDGET
+
+#else
         m_tabWidget->addAlwaysShowWidget(list);
         m_tabWidget->setWorkAreaSplitterChildernCollapsible(false);
-
+#endif
 
     }
 
@@ -122,7 +144,13 @@ void MainWindow::initUi()
 //    testLayout->addWidget(lineEdit);
 //    layout->addLayout(testLayout,1);
 #endif
+
+#ifdef USE_FANCYTABWIDGET
+     layout->addWidget(fancyTabWidget,2);
+     layout->addWidget(m_textEdit,2)   ;
+#else
     layout->addWidget(m_tabWidget,2);
+#endif
     ui->centralwidget->setLayout(layout);
 
 }

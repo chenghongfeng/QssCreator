@@ -9,4 +9,10 @@
 #  define UTILS_EXPORT Q_DECL_IMPORT
 #endif
 
+#if defined(UTILS_LIBRARY)
+#  define QTCREATOR_UTILS_EXPORT Q_DECL_EXPORT
+#else
+#  define QTCREATOR_UTILS_EXPORT Q_DECL_IMPORT
+#endif
+
 #endif // UTILS_GLOBAL_H
