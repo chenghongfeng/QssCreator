@@ -24,18 +24,23 @@ QString QssTextEditManager::getCurDefsText() const
     file.close();
     for(auto iter = --m_defInfos.end();iter != --m_defInfos.begin();--iter)
     {
-        if(iter->value != iter->original_value)
-        {
-            defsText.replace(iter->original_value_start,iter->original_value.length(),iter->value);
-        }
-        if(iter->key != iter->original_key)
-        {
-            defsText.replace(iter->original_key_start,iter->original_key.length(),iter->key);
-        }
         if(iter->is_append)
         {
             defsText.append(QString("\n%1=%2\n").arg(iter->key).arg(iter->value));
         }
+        else
+        {
+            if(iter->value != iter->original_value)
+            {
+                defsText.replace(iter->original_value_start,iter->original_value.length(),iter->value);
+            }
+            if(iter->key != iter->original_key)
+            {
+                defsText.replace(iter->original_key_start,iter->original_key.length(),iter->key);
+            }
+        }
+
+
     }
     return defsText;
 }
