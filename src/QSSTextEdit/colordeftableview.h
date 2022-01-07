@@ -11,7 +11,6 @@ public:
 
 protected:
     bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event) override;
-
 };
 
 #endif // COLORDEFTABLEVIEW_H

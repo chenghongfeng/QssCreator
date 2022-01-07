@@ -10,6 +10,10 @@ class ColorDefTableModel : public QAbstractTableModel
     Q_OBJECT
 
 public:
+    enum Roles{
+        //返回key
+        KeyRole = Qt::UserRole + 1
+    };
     explicit ColorDefTableModel(ColorDefInfos &infos,QObject *parent = nullptr);
 
     // Header:

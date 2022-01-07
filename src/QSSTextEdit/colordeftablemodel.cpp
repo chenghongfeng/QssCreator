@@ -50,6 +50,9 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
 //            .arg(row).arg(col).arg(role);
 
     switch (role) {
+    case ColorDefTableModel::KeyRole:
+        return defInfos_->at(row).key;
+        break;
     case Qt::EditRole:
         if (col == 0)
         {

@@ -5,10 +5,13 @@
 #include <QStringListModel>
 #include <QSortFilterProxyModel>
 #include <QFileDialog>
+#include <QMenu>
+#include <QAction>
 
 #include "QSSTextEdit/colordeftablemodel.h"
 #include "path.h"
 #include "qsstexteditmanager.h"
+#include "QSSTextEdit/colordeftableview.h"
 
 ColorDefWidget::ColorDefWidget(QWidget *parent) :
     QWidget(parent),
@@ -53,6 +56,8 @@ void ColorDefWidget::initUi()
     //将第一列设置Interactive则可调整第一列的宽度,从而可以调整第一列和第二列的大小,调整整个窗口时第二列自动拉伸,达到想要的效果
     ui->colorTableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
     ui->colorTableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
+    connect(ui->colorTableView, &ColorDefTableView::customContextMenuRequested,
+            this, &ColorDefWidget::on_colorDefTableView_customContextMenuRequested);
 
 }
 
@@ -96,4 +101,24 @@ void ColorDefWidget::on_applyBtn_clicked()
 void ColorDefWidget::on_regLineEdit_textChanged(const QString &arg1)
 {
     pattern = arg1;
+}
+
+void ColorDefWidget::on_colorDefTableView_customContextMenuRequested(const QPoint &pos)
+{
+    QModelIndex index = ui->colorTableView->indexAt(pos);
+    if(!index.isValid())
+    {
+        return;
+    }
+    QString key = colorDefModel->data(index, ColorDefTableModel::KeyRole).toString();
+    QMenu *menu = new QMenu(ui->colorTableView);
+    {
+        QAction *removeCurDef = menu->addAction(tr("Remove"));
+        connect(removeCurDef, &QAction::triggered,[key]{
+            QssTextEditManager::getInstance()->removeDef(key);
+        });
+    }
+    menu->exec(QCursor::pos());
+    menu->deleteLater();
+
 }

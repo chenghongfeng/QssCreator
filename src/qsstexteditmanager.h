@@ -20,6 +20,7 @@ public:
     QString getCurDefsText() const;
     void saveDefsToFile();
     void addNewDef();
+    void removeDef(const QString &key);
 
 signals:
     void defsUpdated();

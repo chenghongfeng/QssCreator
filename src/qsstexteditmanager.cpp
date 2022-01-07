@@ -7,6 +7,8 @@
 #include "config.h"
 #include "fileHelper.h"
 #include "qss_helper.h"
+const QString NewDefineName = "$set_name";
+const QString NewDefineValue = "#FFFFFF";
 
 QString QssTextEditManager::getCurDefsText() const
 {
@@ -57,9 +59,23 @@ void QssTextEditManager::addNewDef()
 {
     ColorDefInfo newInfo;
     newInfo.is_append = true;
-    newInfo.key = "$set_name";
-    newInfo.value = "#FFFFFF";
+    newInfo.key = NewDefineName;
+    newInfo.value = NewDefineValue;
     m_defInfos.append(std::move(newInfo));
+    emit defsUpdated();
+}
+
+void QssTextEditManager::removeDef(const QString &key)
+{
+    int index = 0;
+    for(auto const &defInfo:m_defInfos){
+        if(defInfo.key == key)
+        {
+            break;
+        }
+        index++;
+    }
+    m_defInfos.removeAt(index);
     emit defsUpdated();
 }
 
