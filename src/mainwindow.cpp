@@ -14,6 +14,7 @@
 #include <QSplitter>
 #include <QHBoxLayout>
 #include <QSizePolicy>
+#include <QMessageBox>
 
 #include "qss_helper.h"
 #include "config.h"
@@ -284,7 +285,11 @@ void MainWindow::on_actionSaveColorDefineFile_triggered()
 
 void MainWindow::on_actionAddNewDef_triggered()
 {
-    QssTextEditManager::getInstance()->addNewDef();
+    bool ok = QssTextEditManager::getInstance()->addNewDef();
+    if(!ok)
+    {
+        QMessageBox::critical(this, tr("Warning"),tr("Please set a name for the '#set_name' that is different from the other items"));
+    }
 }
 
 void MainWindow::on_actionshowSourceText_triggered()

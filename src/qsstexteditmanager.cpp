@@ -55,14 +55,21 @@ void QssTextEditManager::saveDefsToFile()
     updateDefs();
 }
 
-void QssTextEditManager::addNewDef()
+bool QssTextEditManager::addNewDef()
 {
     ColorDefInfo newInfo;
+    for(auto const &defInfo:m_defInfos){
+        if(defInfo.key == NewDefineName)
+        {
+            return false;
+        }
+    }
     newInfo.is_append = true;
     newInfo.key = NewDefineName;
     newInfo.value = NewDefineValue;
     m_defInfos.append(std::move(newInfo));
     emit defsUpdated();
+    return true;
 }
 
 void QssTextEditManager::removeDef(const QString &key)
