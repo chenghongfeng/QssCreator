@@ -7,6 +7,7 @@
 #include <QRegularExpressionMatchIterator>
 #include <QTextStream>
 #include <utility>
+const QString DefaultPattern = "(?<key>[$]\\w+)\\s*=\\s*(?<value>[#(),.\\w]*)\\s*[\\r\\n;\\/]+";
 
 QssHelper::QssHelper()
 {
@@ -24,7 +25,7 @@ QMap<QString,QString> QssHelper::getColorDefineFromQStr(const QString &defsText,
     QString exp;
     if (pattern == "")
     {
-        exp = "(?<key>[$]\\w+)\\s*=\\s*(?<value>[#(),.\\w]*)\\s*[\\r\\n;\\/]+";
+        exp = DefaultPattern;
     }
     else
     {
@@ -63,7 +64,7 @@ QMap<QString, QString> QssHelper::getColorDefineFromQStr(const QString &defsText
     QString exp;
     if (pattern == "")
     {
-        exp = "(?<key>[$]\\w+)\\s*=\\s*(?<value>[#(),.\\w]*)\\s*[\\r\\n;\\/]+";
+        exp = DefaultPattern;
     }
     else
     {
@@ -81,7 +82,6 @@ QMap<QString, QString> QssHelper::getColorDefineFromQStr(const QString &defsText
     {
         return defs;
     }
-
     QRegularExpressionMatchIterator iterator = reg.globalMatch(defsText/*, 0,matchType, matchOptions*/);
     QList<QRegularExpressionMatch> matchs;
     while (iterator.hasNext())
@@ -100,6 +100,39 @@ QMap<QString, QString> QssHelper::getColorDefineFromQStr(const QString &defsText
         infos.push_back(std::move(info));
     }
     return defs;
+}
+
+void QssHelper::getOneDefineFromQStr(const QString &defsText, ColorDefInfo &info, const QString &pattern)
+{
+    QString exp;
+    if (pattern == "")
+    {
+        exp = DefaultPattern;
+    }
+    else
+    {
+        exp = pattern;
+    }
+    QRegularExpression reg(exp);
+
+    if (!reg.isValid())
+    {
+        return;
+    }
+    QRegularExpressionMatchIterator iterator = reg.globalMatch(defsText/*, 0,matchType, matchOptions*/);
+    QList<QRegularExpressionMatch> matchs;
+    //while (iterator.hasNext())
+    {
+
+        QRegularExpressionMatch match = iterator.next();
+        info.original_key = match.captured("key");
+        info.original_value = match.captured("value");
+        info.key = info.original_key;
+        info.value = info.original_value;
+        info.original_key_start = match.capturedStart("key");
+        info.original_value_start = match.capturedStart("value");
+    }
+    return;
 }
 
 void QssHelper::replaceDefsWithValues(QString &qssText, const QMap<QString, QString> &defsMap)

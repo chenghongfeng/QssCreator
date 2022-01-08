@@ -2,6 +2,7 @@
 
 #include <QFile>
 #include <utility>
+#include <QTextStream>
 
 #include "path.h"
 #include "config.h"
@@ -15,34 +16,68 @@ QString QssTextEditManager::getCurDefsText() const
     QString filePath = Config::getInstance()->value("Qss/UserColorDefineFile",
                                                     Path::getInstance()->colorDefFilePath()).toString();
     QFile file(filePath);
-    QString defsText;
-    if(!file.open(QFile::ReadWrite))
+    QString curDefsText;
+    if(!file.open(QFile::ReadOnly))
     {
         return QString();
     }
-    defsText = file.readAll();
-    file.close();
-    for(auto iter = --m_defInfos.end();iter != --m_defInfos.begin();--iter)
+    else
     {
-        if(iter->is_append)
+        int lineNum = 0;
+        int defInfoCount = 0;
+        QTextStream in(&file);
+        QString line;
+        line = in.readLine();
+        //对从源文件获取的信息进行修改和处理
+        while(!line.isNull())
         {
-            defsText.append(QString("\n%1=%2\n").arg(iter->key).arg(iter->value));
+            if(m_defInfos.size() > defInfoCount && m_defInfos[defInfoCount].fromLineNum == lineNum)
+            {
+                switch (m_defInfos[defInfoCount].status) {
+                case ColorDefInfo::DefStatus::Default:
+                    break;
+                    //理论上进入不了这一步,因为新加的fromLineNum不可能等于lineNum
+                case ColorDefInfo::DefStatus::Append:
+                    line = QString("\n%1=%2;\n")
+                            .arg(m_defInfos[defInfoCount].key).arg(m_defInfos[defInfoCount].value);
+                    break;
+                case ColorDefInfo::DefStatus::Deprecated:
+                    line = "";
+                    break;
+                case ColorDefInfo::DefStatus::Modification:
+                    if(m_defInfos[defInfoCount].value != m_defInfos[defInfoCount].original_value)
+                    {
+                        line.replace(m_defInfos[defInfoCount].original_value_start,m_defInfos[defInfoCount].original_value.length(),m_defInfos[defInfoCount].value);
+                    }
+                    if(m_defInfos[defInfoCount].key != m_defInfos[defInfoCount].original_key)
+                    {
+                        line.replace(m_defInfos[defInfoCount].original_key_start,m_defInfos[defInfoCount].original_key.length(),m_defInfos[defInfoCount].key);
+                    }
+                    break;
+                default:
+                    break;
+                }
+                defInfoCount++;
+            }
+            curDefsText.append(line);
+            curDefsText.append("\n");
+            line = in.readLine();
+            lineNum++;
         }
-        else
+        //对用户新加的colorDef进行处理
+        while(m_defInfos.size() > defInfoCount)
         {
-            if(iter->value != iter->original_value)
+            if(m_defInfos[defInfoCount].status == ColorDefInfo::DefStatus::Append)
             {
-                defsText.replace(iter->original_value_start,iter->original_value.length(),iter->value);
+                curDefsText.append(QString("\n%1=%2;\n")
+                                   .arg(m_defInfos[defInfoCount].key).arg(m_defInfos[defInfoCount].value));
             }
-            if(iter->key != iter->original_key)
-            {
-                defsText.replace(iter->original_key_start,iter->original_key.length(),iter->key);
-            }
+            defInfoCount++;
         }
-
-
     }
-    return defsText;
+    file.close();
+
+    return curDefsText;
 }
 
 void QssTextEditManager::saveDefsToFile()
@@ -69,7 +104,7 @@ bool QssTextEditManager::addNewDef()
             return false;
         }
     }
-    newInfo.is_append = true;
+    newInfo.status = ColorDefInfo::DefStatus::Append;
     newInfo.key = NewDefineName;
     newInfo.value = NewDefineValue;
     m_defInfos.append(std::move(newInfo));
@@ -79,15 +114,13 @@ bool QssTextEditManager::addNewDef()
 
 void QssTextEditManager::removeDef(const QString &key)
 {
-    int index = 0;
-    for(auto const &defInfo:m_defInfos){
+    for(auto &defInfo:m_defInfos){
         if(defInfo.key == key)
         {
+            defInfo.status = ColorDefInfo::DefStatus::Deprecated;
             break;
         }
-        index++;
     }
-    m_defInfos.removeAt(index);
     emit defsUpdated();
 }
 
@@ -131,8 +164,26 @@ void QssTextEditManager::setDefsFile(const QString &fileName)
     {
         m_defInfos.clear();
         m_defs.clear();
-        QString defsText = file.readAll();
-        m_defs = QssHelper::getColorDefineFromQStr(defsText, m_defInfos, "");
+
+        QTextStream in(&file);
+        QString line;
+        line = in.readLine();
+        int lineNum = 0;
+        while(!line.isNull())
+        {
+            ColorDefInfo info;
+            QssHelper::getOneDefineFromQStr(line,info);
+            if(info.key != "")
+            {
+                info.fromLineNum = lineNum;
+                m_defInfos.push_back(std::move(info));
+            }
+            line = in.readLine();
+            lineNum++;
+        }
+
+        //QString defsText = file.readAll();
+        //m_defs = QssHelper::getColorDefineFromQStr(defsText, m_defInfos, "");
     }
     emit defsUpdated();
 }
