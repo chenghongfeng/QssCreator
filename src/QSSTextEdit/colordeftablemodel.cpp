@@ -121,21 +121,24 @@ bool ColorDefTableModel::setData(const QModelIndex &index, const QVariant &value
         if (!checkIndex(index)) //checkIndex在5.11版本引入
             return false;
 #endif
-        if(index.column() == 1)
+        if(index.column() == 1 ||index.column() == 0)
         {
-            (*defInfos_)[index.row()].value = value.toString();
-            (*defInfos_)[index.row()].status = ColorDefInfo::DefStatus::Modification;
+            if(index.column() == 1)
+            {
+                (*defInfos_)[index.row()].value = value.toString();
+            }
+            else
+            {
+                (*defInfos_)[index.row()].key = value.toString();
+            }
+            //新加项被修改也不需要改变属性,因为新加项是从文件尾添加的;
+            if((*defInfos_)[index.row()].status != ColorDefInfo::DefStatus::Append)
+            {
+                (*defInfos_)[index.row()].status = ColorDefInfo::DefStatus::Modification;
+            }
             emit dataChanged(index,index);
             return true;
         }
-        else if(index.column() == 0)
-        {
-            (*defInfos_)[index.row()].key = value.toString();
-            (*defInfos_)[index.row()].status = ColorDefInfo::DefStatus::Modification;
-            emit dataChanged(index,index);
-            return true;
-        }
-
     }
     return false;
 }
