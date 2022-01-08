@@ -1,12 +1,15 @@
 #include "mainwindow.h"
 
 #include <QApplication>
-
+#include <QTextCodec>
 #include "config.h"
 #include "path.h"
 
 int main(int argc, char *argv[])
 {
+    QTextCodec *codec = QTextCodec::codecForName("UTF-8");
+    QTextCodec::setCodecForLocale(codec);
+
     QCoreApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication a(argc, argv);
