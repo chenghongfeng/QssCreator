@@ -38,7 +38,7 @@ QString QssTextEditManager::getCurDefsText() const
                     break;
                     //理论上进入不了这一步,因为新加的fromLineNum不可能等于lineNum
                 case ColorDefInfo::DefStatus::Append:
-                    line = QString("\n%1=%2;\n")
+                    line = QString("\n%1=%2;")
                             .arg(m_defInfos[defInfoCount].key).arg(m_defInfos[defInfoCount].value);
                     break;
                 case ColorDefInfo::DefStatus::Deprecated:
@@ -69,7 +69,7 @@ QString QssTextEditManager::getCurDefsText() const
         {
             if(m_defInfos[defInfoCount].status == ColorDefInfo::DefStatus::Append)
             {
-                curDefsText.append(QString("\n%1=%2;\n")
+                curDefsText.append(QString("\n%1=%2;")
                                    .arg(m_defInfos[defInfoCount].key).arg(m_defInfos[defInfoCount].value));
             }
             defInfoCount++;
