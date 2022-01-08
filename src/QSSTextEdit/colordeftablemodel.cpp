@@ -115,17 +115,26 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
 
 bool ColorDefTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (index.column() != 1)
-        return false;
     if (role == Qt::EditRole)
     {
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
-    if (!checkIndex(index)) //checkIndex在5.11版本引入
-        return false;
+        if (!checkIndex(index)) //checkIndex在5.11版本引入
+            return false;
 #endif
-        (*defInfos_)[index.row()].value = value.toString();
-        emit dataChanged(index,index);
-        return true;
+        if(index.column() == 1)
+        {
+            (*defInfos_)[index.row()].value = value.toString();
+            (*defInfos_)[index.row()].status = ColorDefInfo::DefStatus::Modification;
+            emit dataChanged(index,index);
+            return true;
+        }
+        else if(index.column() == 0)
+        {
+            (*defInfos_)[index.row()].key = value.toString();
+            (*defInfos_)[index.row()].status = ColorDefInfo::DefStatus::Modification;
+            emit dataChanged(index,index);
+            return true;
+        }
 
     }
     return false;
