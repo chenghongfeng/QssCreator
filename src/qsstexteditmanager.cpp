@@ -99,7 +99,7 @@ bool QssTextEditManager::addNewDef()
 {
     ColorDefInfo newInfo;
     for(auto const &defInfo:m_defInfos){
-        if(defInfo.key == NewDefineName)
+        if((defInfo.key == NewDefineName) && (defInfo.status != ColorDefInfo::DefStatus::Deprecated))
         {
             return false;
         }
