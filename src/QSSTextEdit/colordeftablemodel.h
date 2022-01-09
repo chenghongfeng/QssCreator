@@ -12,7 +12,9 @@ class ColorDefTableModel : public QAbstractTableModel
 public:
     enum Roles{
         //返回key
-        KeyRole = Qt::UserRole + 1
+        KeyRole = Qt::UserRole + 1,
+        ColorRole = Qt::UserRole + 2,
+        DataStatusRole = Qt::UserRole + 3
     };
     explicit ColorDefTableModel(ColorDefInfos &infos,QObject *parent = nullptr);
 

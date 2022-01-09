@@ -11,8 +11,19 @@ class QssTextEditManager
     friend class Singleton<QssTextEditManager>;
     Q_OBJECT
 public:
-    QMap<QString,QString> getDefs(){
+    const QMap<QString,QString> &getDefs() const{
         return m_defs;
+    }
+    QMap<QString,QString> getCurDefs() const {
+        QMap<QString,QString> curDefs;
+        for(const auto &info: m_defInfos)
+        {
+            if(info.status != ColorDefInfo::DefStatus::Deprecated)
+            {
+                curDefs.insert(info.key, info.value);
+            }
+        }
+        return curDefs;
     }
     ColorDefInfos & getDefInfos(){
         return m_defInfos;

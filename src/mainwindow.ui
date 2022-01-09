@@ -50,6 +50,7 @@
      <string>qss file</string>
     </property>
     <addaction name="actionSaveQssFile"/>
+    <addaction name="actionSaveQssToFile"/>
     <addaction name="actionOpenQssFile"/>
     <addaction name="actionSetQss"/>
    </widget>
@@ -120,6 +121,11 @@
   <action name="actionshowColorDefines">
    <property name="text">
     <string>showColorDefines</string>
+   </property>
+  </action>
+  <action name="actionSaveQssToFile">
+   <property name="text">
+    <string>Save to file</string>
    </property>
   </action>
  </widget>

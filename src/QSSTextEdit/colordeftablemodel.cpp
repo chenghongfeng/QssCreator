@@ -53,6 +53,12 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
     case ColorDefTableModel::KeyRole:
         return defInfos_->at(row).key;
         break;
+    case ColorDefTableModel::ColorRole:
+        return QColor(defInfos_->at(row).value);
+        break;
+    case ColorDefTableModel::DataStatusRole:
+        return defInfos_->at(row).status;
+        break;
     case Qt::EditRole:
         if (col == 0)
         {
@@ -82,6 +88,7 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
         }
         break;
     case Qt::ForegroundRole:
+
         if (col == 1)
         {
             QColor color(defInfos_->at(row).value);

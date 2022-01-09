@@ -7,11 +7,16 @@
 #include <QFileDialog>
 #include <QMenu>
 #include <QAction>
+#include <QMessageBox>
 
 #include "QSSTextEdit/colordeftablemodel.h"
 #include "path.h"
 #include "qsstexteditmanager.h"
 #include "QSSTextEdit/colordeftableview.h"
+#include "QSSTextEdit/qssproxymodel.h"
+#include "config.h"
+
+const QString ConfigEnableSort = "Custom/EnableSort";
 
 ColorDefWidget::ColorDefWidget(QWidget *parent) :
     QWidget(parent),
@@ -27,6 +32,7 @@ ColorDefWidget::ColorDefWidget(QWidget *parent) :
 
 ColorDefWidget::~ColorDefWidget()
 {
+    saveConfig();
     delete ui;
 }
 
@@ -47,10 +53,10 @@ void ColorDefWidget::initUi()
 
     colorDefModel = new ColorDefTableModel(QssTextEditManager::getInstance()->getDefInfos(), this);
     ui->textEdit->setText(QssTextEditManager::getInstance()->getCurDefsText());
-    QSortFilterProxyModel *proxyModle = new QSortFilterProxyModel(this);
+    ColorDefTableProxyModel *proxyModle = new ColorDefTableProxyModel(this);
     proxyModle->setSourceModel(colorDefModel);
-    proxyModle->sort(1);
     ui->colorTableView->setModel(proxyModle);
+    ui->colorTableView->setSortingEnabled(Config::getInstance()->value(ConfigEnableSort, false).toBool());
     //设置model之后才能在setSectionResizeMode时指定logiclIndex
     //不指定logiclIndex时设置Interactive不会自动拉伸.设置Stretch则不能调整section的width
     //将第一列设置Interactive则可调整第一列的宽度,从而可以调整第一列和第二列的大小,调整整个窗口时第二列自动拉伸,达到想要的效果
@@ -77,7 +83,16 @@ void ColorDefWidget::updateDefs()
 
 void ColorDefWidget::addNewDef()
 {
-    QssTextEditManager::getInstance()->addNewDef();
+    bool ok = QssTextEditManager::getInstance()->addNewDef();
+    if(!ok)
+    {
+        QMessageBox::critical(this, tr("Warning"),tr("Please set a name for the '#set_name' that is different from the other items"));
+    }
+}
+
+void ColorDefWidget::saveConfig()
+{
+    Config::getInstance()->setValue(ConfigEnableSort,ui->colorTableView->isSortingEnabled());
 }
 
 
@@ -105,19 +120,34 @@ void ColorDefWidget::on_regLineEdit_textChanged(const QString &arg1)
 
 void ColorDefWidget::on_colorDefTableView_customContextMenuRequested(const QPoint &pos)
 {
-    QModelIndex index = ui->colorTableView->indexAt(pos);
-    if(!index.isValid())
-    {
-        return;
-    }
-    QString key = colorDefModel->data(index, ColorDefTableModel::KeyRole).toString();
     QMenu *menu = new QMenu(ui->colorTableView);
     {
+        QAction *addNewDef = menu->addAction(tr("Add new"));
+        connect(addNewDef, &QAction::triggered,[this]{
+            this->addNewDef();
+        });
+        QAction *enableSortAction = new QAction(menu);
+        menu->addAction(enableSortAction);
+        QString enableSortActionText = ui->colorTableView->isSortingEnabled()?tr("Disable Sort"):tr("Enable Sort");
+        enableSortAction->setText(enableSortActionText);
+        connect(enableSortAction, &QAction::triggered,[this]{
+            //先取消排序结果
+            ui->colorTableView->model()->sort(-1);
+
+            ui->colorTableView->setSortingEnabled(!ui->colorTableView->isSortingEnabled());
+
+        });
+    }
+    QModelIndex index = ui->colorTableView->indexAt(pos);
+    if(index.isValid())
+    {
+        QString key = colorDefModel->data(index, ColorDefTableModel::KeyRole).toString();
         QAction *removeCurDef = menu->addAction(tr("Remove"));
         connect(removeCurDef, &QAction::triggered,[key]{
             QssTextEditManager::getInstance()->removeDef(key);
         });
     }
+
     menu->exec(QCursor::pos());
     menu->deleteLater();
 

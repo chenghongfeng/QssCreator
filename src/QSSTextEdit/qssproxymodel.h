@@ -1,21 +1,23 @@
-#ifndef QSSPROXYMODEL_H
-#define QSSPROXYMODEL_H
+#ifndef COLORDEFTABLEPROXYMODEL_H
+#define COLORDEFTABLEPROXYMODEL_H
 
 #include <QSortFilterProxyModel>
 
-class qssProxyModel : public QSortFilterProxyModel
+class ColorDefTableProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    enum class SortType{
+    enum class SortRole{
         KeyAscendingOrder,
         KeyDescendingOrder,
         Color
     };
-    qssProxyModel(QObject *parent = nullptr);
+    ColorDefTableProxyModel(QObject *parent = nullptr);
 protected:
-    //bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
-    bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+    bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
+    //bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+
+private:
 };
 
-#endif // QSSPROXYMODEL_H
+#endif // COLORDEFTABLEPROXYMODEL_H

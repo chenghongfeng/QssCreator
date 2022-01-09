@@ -10,6 +10,8 @@ ColorDefTableView::ColorDefTableView(QWidget *parent)
     this->setSelectionMode(QAbstractItemView::NoSelection);
     //启用右键菜单
     this->setContextMenuPolicy(Qt::CustomContextMenu);
+    //启用排序,这样可以点击表头就进行排序
+    //this->setSortingEnabled(true);
 }
 
 bool ColorDefTableView::edit(const QModelIndex &index, QAbstractItemView::EditTrigger trigger, QEvent *event)

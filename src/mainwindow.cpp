@@ -49,7 +49,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     saveSettings();
-    Config::closeInstance();
     delete ui;
 }
 
@@ -264,16 +263,13 @@ void MainWindow::slot_fontSettingsChanged(const FontSettings &fontSettings)
 void MainWindow::on_actionSetQss_triggered()
 {
     QString a = m_textEdit->toPlainText();
-    Config::getInstance()->setSkin(a, QssTextEditManager::getInstance()->getDefs());
+    Config::getInstance()->setSkin(a, QssTextEditManager::getInstance()->getCurDefs());
 }
 
 void MainWindow::on_actionSaveQssFile_triggered()
 {
     QString text = m_textEdit->toPlainText();
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"),
-                                 Config::getInstance()->value("Qss/UserQssFile", Path::getInstance()->qssFilePath()).toString(),
-                                 tr("Qss File(*.qss *.css *.txt)"));
-    Config::getInstance()->setValue("Qss/UserQssFile",fileName);
+    QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssFilePath()).toString();
     QssHelper::writeQStrTofile(text,fileName);
 }
 
@@ -300,4 +296,14 @@ void MainWindow::on_actionshowSourceText_triggered()
 void MainWindow::on_actionshowColorDefines_triggered()
 {
     QssTextEditManager::getInstance()->setSourceTextVisible(false);
+}
+
+void MainWindow::on_actionSaveQssToFile_triggered()
+{
+    QString text = m_textEdit->toPlainText();
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"),
+                                 Config::getInstance()->value("Qss/UserQssFile", Path::getInstance()->qssFilePath()).toString(),
+                                 tr("Qss File(*.qss *.css *.txt)"));
+    Config::getInstance()->setValue("Qss/UserQssFile",fileName);
+    QssHelper::writeQStrTofile(text,fileName);
 }

@@ -28,6 +28,7 @@ public slots:
     void setSourceTextEditVisible(bool isShow);
     void updateDefs();
     void addNewDef();
+    void saveConfig();
 
 private slots:
     void on_applyBtn_clicked();
