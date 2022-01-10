@@ -1,7 +1,58 @@
-QToolBar {
+QTableView {
+    background: $bkg;
+    color: $text; 
+}
+
+/*   QScrollBar       */
+QScrollBar:vertical {
     background: $side_bkg;
-    spacing: 3px; 
+
 }
-QToolBar QToolButton{
-	color:$side_front;
+
+QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical{
+	background: $scrollBar_page;
 }
+
+
+/*   QScrollBar       */
+QTableView QTableCornerButton::section {
+    background-color: $side_bkg;
+
+}
+QHeaderView{
+    background: $side_bkg;
+}
+QHeaderView::section {
+    background: $side_bkg;
+    color: $text; 
+}
+QMenuBar{
+    background: $side_bkg;
+    color: $text;	
+}
+QMenuBar::item:selected {
+    background: $select_bkg;
+	color: $text;
+}
+QMenu{
+	background: $side_bkg;
+    border:1px solid $border_color;
+}
+QMenu::item {
+    background-color: $side_bkg;
+	padding: 2px 25px 2px 20px;
+	color: $text;
+}
+
+QMenu::item:selected {
+    border-color: $border_color;
+    background: $select_bkg;
+}
+QStatusBar{
+    background: $side_bkg;
+    color: $text;
+}
+
+
+
+

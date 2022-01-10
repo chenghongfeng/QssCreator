@@ -62,6 +62,7 @@ void ColorDefWidget::initUi()
     //将第一列设置Interactive则可调整第一列的宽度,从而可以调整第一列和第二列的大小,调整整个窗口时第二列自动拉伸,达到想要的效果
     ui->colorTableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
     ui->colorTableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
+    //ui->colorTableView->verticalHeader()->hide();
     connect(ui->colorTableView, &ColorDefTableView::customContextMenuRequested,
             this, &ColorDefWidget::on_colorDefTableView_customContextMenuRequested);
 

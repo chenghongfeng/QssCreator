@@ -513,12 +513,14 @@ FancyTabWidget::FancyTabWidget(QWidget *parent)
     selectionLayout->addWidget(m_cornerWidgetContainer, 0);
 
     m_workAreaSplitter = new QSplitter(this);
+    m_workAreaSplitter->setHandleWidth(0);
     m_modesStack = new QStackedLayout;
     m_statusBar = new QStatusBar;
     m_statusBar->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     QWidget *a = new QWidget(this);
     a->setLayout(m_modesStack);
     m_modesStack->setSizeConstraint(QLayout::SetMinimumSize);
+    m_modesStack->setSpacing(0);
     m_workAreaSplitter->addWidget(a);
 
     auto vlayout = new QVBoxLayout;

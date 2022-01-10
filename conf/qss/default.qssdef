@@ -8,3 +8,17 @@ $side_front = #bec0c1;//bec0c1; //190, 192, 193
 $bkg = #2e2f30;// 46, 47, 48
 
 
+
+$text=#d0d0d0;
+
+$select_bkg=#1d545c;
+$border_color=#000000;
+
+$len_test2=#FFFFFF;
+
+$len_test3=#FFFFFF;
+$len_test4=#FFFFFF;
+$len_test5=#FFFFFF;
+$len_test6=#FFFFFF;
+
+$scrollBar_page=#494a4b;
