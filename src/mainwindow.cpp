@@ -27,6 +27,8 @@
 #include "tabwidget.h"
 #include "fancytabwidget.h"
 #include "utilsicons.h"
+#include "finddialog.h"
+#include "findreplacedialog.h"
 
 #define USE_FANCYTABWIDGET
 #ifdef INTERNAL_TEST
@@ -306,4 +308,18 @@ void MainWindow::on_actionSaveQssToFile_triggered()
                                  tr("Qss File(*.qss *.css *.txt)"));
     Config::getInstance()->setValue("Qss/UserQssFile",fileName);
     QssHelper::writeQStrTofile(text,fileName);
+}
+
+void MainWindow::on_actionFind_triggered()
+{
+    FindDialog *fdialog = new FindDialog(this);
+    fdialog->setEditor(m_textEdit);
+    fdialog->show();
+}
+
+void MainWindow::on_actionFindAndReplace_triggered()
+{
+    FindReplaceDialog *frdialog = new FindReplaceDialog(this);
+    frdialog->setEditor(m_textEdit);
+    frdialog->show();
 }

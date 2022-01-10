@@ -31,6 +31,8 @@ CONFIG += c++11
 SOURCES += \
     QssTextEdit/colordeftableview.cpp \
     colordefwidget.cpp \
+    finddialog.cpp \
+    findreplacedialog.cpp \
     main.cpp \
     mainwindow.cpp \
     QssTextEdit/colordeftablemodel.cpp \
@@ -43,6 +45,8 @@ SOURCES += \
 HEADERS += \
     QssTextEdit/colordeftableview.h \
     colordefwidget.h \
+    finddialog.h \
+    findreplacedialog.h \
     mainwindow.h \
     QssTextEdit/colordeftablemodel.h \
     QssTextEdit/qsshighlighter.h \
