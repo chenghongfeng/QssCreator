@@ -26,7 +26,7 @@ QVariant ColorDefTableModel::headerData(int section, Qt::Orientation orientation
             return QString("Value");
         }
     }
-    return QVariant();
+    return QAbstractTableModel::headerData(section, orientation, role);
 }
 
 int ColorDefTableModel::rowCount(const QModelIndex &parent) const
