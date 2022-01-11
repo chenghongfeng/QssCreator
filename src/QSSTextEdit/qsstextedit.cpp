@@ -5,6 +5,7 @@
 #include <QAbstractItemView>
 #include <QScrollBar>
 #include <QDebug>
+#include <QPainter>
 #include "config.h"
 
 #include "qsshighlighter.h"
@@ -13,6 +14,9 @@
 QssTextEdit::QssTextEdit(QWidget *parent)
     : QPlainTextEdit(parent)
 {
+    m_lineNumberArea = new LineNumberArea(this);
+    connect(this, &QssTextEdit::blockCountChanged, this, &QssTextEdit::updateLineNumberAreaWidth);
+    connect(this, &QssTextEdit::updateRequest, this, &QssTextEdit::updateLineNumberArea);
     m_highlighter = new QssHighlighter(this->document());
     m_completer = new QCompleter(this);
     initQssKeywordModel();
@@ -54,6 +58,50 @@ void QssTextEdit::setTextFromFile(const QString &fileName)
             this->setPlainText(str);
         }
     }
+}
+
+void QssTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
+{
+    QPainter painter(m_lineNumberArea);
+    painter.fillRect(event->rect(), QColor("#073642"));
+
+//![extraAreaPaintEvent_0]
+
+//![extraAreaPaintEvent_1]
+    QTextBlock block = firstVisibleBlock();
+    int blockNumber = block.blockNumber();
+    int top = qRound(blockBoundingGeometry(block).translated(contentOffset()).top());
+    int bottom = top + qRound(blockBoundingRect(block).height());
+//![extraAreaPaintEvent_1]
+
+//![extraAreaPaintEvent_2]
+    while (block.isValid() && top <= event->rect().bottom()) {
+        if (block.isVisible() && bottom >= event->rect().top()) {
+            QString number = QString::number(blockNumber + 1);
+            painter.setPen(QColor("#586e75"));
+            painter.drawText(0, top, m_lineNumberArea->width(), fontMetrics().height(),
+                             Qt::AlignRight, number);
+        }
+
+        block = block.next();
+        top = bottom;
+        bottom = top + qRound(blockBoundingRect(block).height());
+        ++blockNumber;
+    }
+}
+
+int QssTextEdit::lineNumberAreaWidth()
+{
+    int digits = 1;
+    int max = qMax(1, blockCount());
+    while (max >= 10) {
+        max /= 10;
+        ++digits;
+    }
+
+    int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
+
+    return space;
 }
 
 void QssTextEdit::keyPressEvent(QKeyEvent *e)
@@ -146,6 +194,14 @@ void QssTextEdit::focusInEvent(QFocusEvent *e)
     if (m_completer)
         m_completer->setWidget(this);
     QPlainTextEdit::focusInEvent(e);
+}
+
+void QssTextEdit::resizeEvent(QResizeEvent *event)
+{
+    QPlainTextEdit::resizeEvent(event);
+
+    QRect cr = contentsRect();
+    m_lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
 void QssTextEdit::initQssKeywordModel()
@@ -246,4 +302,25 @@ QString QssTextEdit::textUnderCursor()
         selectWord = tc.selectedText();
     }
     return selectWord;
+}
+
+void QssTextEdit::updateLineNumberAreaWidth(int /*newBlockCount*/)
+{
+    setViewportMargins(lineNumberAreaWidth(), 0, 0, 0);
+}
+
+void QssTextEdit::highlightCurrentLine()
+{
+
+}
+
+void QssTextEdit::updateLineNumberArea(const QRect &rect, int dy)
+{
+    if (dy)
+        m_lineNumberArea->scroll(0, dy);
+    else
+        m_lineNumberArea->update(0, rect.y(), m_lineNumberArea->width(), rect.height());
+
+    if (rect.contains(viewport()->rect()))
+        updateLineNumberAreaWidth(0);
 }

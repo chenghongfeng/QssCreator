@@ -41,6 +41,7 @@
     <addaction name="actionSaveQssToFile"/>
     <addaction name="actionOpenQssFile"/>
     <addaction name="actionSetQss"/>
+    <addaction name="separator"/>
     <addaction name="actionFind"/>
     <addaction name="actionFindAndReplace"/>
    </widget>
