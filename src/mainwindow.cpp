@@ -116,7 +116,6 @@ void MainWindow::initUi()
     {
         //init m_textEdit
         m_textEdit = new QssTextEdit(this);
-        qssHighlighter = new QssHighlighter(m_textEdit->document());
         //m_textEdit->setDefKeyword(QssTextEditManager::getInstance()->getCurDefs().keys());
         m_textEdit->initCompleter();
         //ui->qssTextEdit->setTextBackgroundColor(QColor("#002b36"));

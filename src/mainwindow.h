@@ -77,7 +77,6 @@ private:
     QString m_strQssFile;
     QssTextEdit *m_textEdit { nullptr };
     TabWidget *m_tabWidget { nullptr };
-    QssHighlighter *qssHighlighter { nullptr };
     TextSettingsWidget *m_textSettingsWidget { nullptr };
 };
 #endif // MAINWINDOW_H
