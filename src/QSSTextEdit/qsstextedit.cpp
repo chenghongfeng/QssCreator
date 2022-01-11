@@ -17,6 +17,7 @@ QssTextEdit::QssTextEdit(QWidget *parent)
     m_lineNumberArea = new LineNumberArea(this);
     connect(this, &QssTextEdit::blockCountChanged, this, &QssTextEdit::updateLineNumberAreaWidth);
     connect(this, &QssTextEdit::updateRequest, this, &QssTextEdit::updateLineNumberArea);
+    connect(this, &QssTextEdit::cursorPositionChanged, this, &QssTextEdit::highlightCurrentLine);
     m_highlighter = new QssHighlighter(this->document());
     m_completer = new QCompleter(this);
     initQssKeywordModel();
@@ -42,8 +43,7 @@ void QssTextEdit::setDefKeyword(const QStringList &defKeywords)
 //    m_highlighter->appendKeyWords(defKeywords, format);
 
     if (!m_completerWordModel) return;
-    QStringList qssKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qssKeywordFilePath());
-    qssKeywords += m_completerWordModel->stringList();
+    QStringList qssKeywords = m_completerWordModel->stringList();
     qssKeywords += defKeywords;
     m_completerWordModel->setStringList(qssKeywords);
 }

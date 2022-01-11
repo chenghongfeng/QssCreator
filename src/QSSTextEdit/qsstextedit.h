@@ -40,8 +40,9 @@ private slots:
     QString textUnderCursor() ;
     //line count
     void updateLineNumberAreaWidth(int newBlockCount);
-    void highlightCurrentLine();
     void updateLineNumberArea(const QRect &rect, int dy);
+    //TODO
+    void highlightCurrentLine();
 
 private:
     //when press return,program
