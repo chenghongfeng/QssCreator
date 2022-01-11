@@ -35,7 +35,7 @@ private slots:
 
     void on_regLineEdit_textChanged(const QString &arg1);
 
-    void on_colorDefTableView_customContextMenuRequested(const QPoint &pos);
+    void slot_colorDefTableView_customContextMenuRequested(const QPoint &pos);
 
 
 private:

@@ -64,7 +64,7 @@ void ColorDefWidget::initUi()
     ui->colorTableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
     //ui->colorTableView->verticalHeader()->hide();
     connect(ui->colorTableView, &ColorDefTableView::customContextMenuRequested,
-            this, &ColorDefWidget::on_colorDefTableView_customContextMenuRequested);
+            this, &ColorDefWidget::slot_colorDefTableView_customContextMenuRequested);
 
 }
 
@@ -118,7 +118,7 @@ void ColorDefWidget::on_regLineEdit_textChanged(const QString &arg1)
     pattern = arg1;
 }
 
-void ColorDefWidget::on_colorDefTableView_customContextMenuRequested(const QPoint &pos)
+void ColorDefWidget::slot_colorDefTableView_customContextMenuRequested(const QPoint &pos)
 {
     QMenu *menu = new QMenu(ui->colorTableView);
     {

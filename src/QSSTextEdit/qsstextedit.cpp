@@ -38,19 +38,6 @@ void QssTextEdit::initCompleter()
                      this, &QssTextEdit::insertCompletion);
 }
 
-void QssTextEdit::setDefKeyword(const QStringList &defKeywords)
-{
-    QTextCharFormat format;
-    QColor defKeywordTextColor(Config::getInstance()->value("Text/UserDefineWordTextColor","#cb4b16").toString());
-    format.setForeground(defKeywordTextColor);
-    m_highlighter->updateColorDefKeywords(defKeywords, format);
-
-    if (!m_completerWordModel) return;
-    QStringList keywords = QssTextEditManager::getInstance()->qssKeywords() + QssTextEditManager::getInstance()->qtClassKeywords();
-    keywords += defKeywords;
-    m_completerWordModel->setStringList(keywords);
-}
-
 void QssTextEdit::setTextFromFile(const QString &fileName)
 {
     if (!fileName.isEmpty()) {

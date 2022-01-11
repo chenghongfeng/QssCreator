@@ -16,7 +16,6 @@ class QssTextEdit : public QPlainTextEdit
 public:
     QssTextEdit(QWidget *parent = nullptr);
     void initCompleter();
-    void setDefKeyword(const QStringList &defKeywords);
     void setTextFromFile(const QString &fileName);
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
