@@ -22,6 +22,8 @@ public:
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
 
+
+
 private:
     enum class ReturnOperation{None=0, AddTab, FixBrace};
 protected:
@@ -38,6 +40,7 @@ private:
 private slots:
     void insertCompletion(const QString &completion);
     QString textUnderCursor() ;
+    void slot_updateColorDef();
     //line count
     void updateLineNumberAreaWidth(int newBlockCount);
     void updateLineNumberArea(const QRect &rect, int dy);

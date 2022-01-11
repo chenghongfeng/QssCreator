@@ -32,6 +32,8 @@ public:
     void saveDefsToFile();
     bool addNewDef();
     void removeDef(const QString &key);
+    const QStringList &qtClassKeywords() const;
+    const QStringList &qssKeywords() const;
 
 signals:
     void defsUpdated();
@@ -50,7 +52,9 @@ private:
 
 
 private:
+    //基于源文件获取的内容,源文件更改时才更改
     QMap<QString,QString> m_defs;
+    //基于源文件获取的内容,可以用来更改源文件
     ColorDefInfos m_defInfos;
     QStringList m_qtClassKeywords;
     QStringList m_qssKeywords;

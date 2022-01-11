@@ -38,16 +38,31 @@ void QssHighlighter::appendHighLightRule(const QStringList &rulePatterns, const 
         QssHighlightingRule rule;
         rule.pattern = QRegularExpression(pattern);
         rule.format = format;
-        m_qssHighlightingRules.append(rule);
+        m_qtKeywordHighlightingRules.append(rule);
     }
-    qDebug()<<"__________start print rules______________";
-    for (const QssHighlightingRule &rule : qAsConst(m_qssHighlightingRules)) {
+//    qDebug()<<"__________start print rules______________";
+//    for (const QssHighlightingRule &rule : qAsConst(m_qtKeywordHighlightingRules)) {
 
-        qDebug()<<rule.pattern;
-        qDebug()<<rule.format.foreground().color();
+//        qDebug()<<rule.pattern;
+//        qDebug()<<rule.format.foreground().color();
 
+//    }
+//    qDebug()<<"____________end print rules______________";
+}
+
+void QssHighlighter::updateColorDefKeywords(const QStringList &keywords, const QTextCharFormat &format)
+{
+    m_colorDefHighlightRules.clear();
+    QStringList keywordPatterns;
+    for (auto key : keywords) {
+        keywordPatterns.append(QStringLiteral("\\b%1\\b").arg(key));
     }
-    qDebug()<<"____________end print rules______________";
+    for (auto pattern : keywordPatterns) {
+        QssHighlightingRule rule;
+        rule.pattern = QRegularExpression(pattern);
+        rule.format = format;
+        m_colorDefHighlightRules.append(rule);
+    }
 }
 
 void QssHighlighter::setCommentFormat(const QTextCharFormat &format)
@@ -59,7 +74,7 @@ void QssHighlighter::setCommentFormat(const QTextCharFormat &format)
     printFormatInfo(singleLineCommentFormat);
     rule.pattern = QRegularExpression(QStringLiteral("//[^\n]*"));
     rule.format = singleLineCommentFormat;
-    m_qssHighlightingRules.append(rule);
+    m_qtKeywordHighlightingRules.append(rule);
 
     multiLineCommentFormat = format;
 
@@ -72,15 +87,23 @@ void QssHighlighter::printFormatInfo(const QTextCharFormat &format)
 
 void QssHighlighter::highlightBlock(const QString &text)
 {
-    for (const QssHighlightingRule &rule : qAsConst(m_qssHighlightingRules)) {
+    for (const QssHighlightingRule &rule : qAsConst(m_qtKeywordHighlightingRules)) {
         QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
         while (matchIterator.hasNext())
         {
-            qDebug()<<text;
-            qDebug()<<rand();
-            qDebug()<< rule.format;
-            qDebug()<< rule.format.foreground();
-            qDebug()<<rule.pattern;
+//            qDebug()<<text;
+//            qDebug()<<rand();
+//            qDebug()<< rule.format;
+//            qDebug()<< rule.format.foreground();
+//            qDebug()<<rule.pattern;
+            QRegularExpressionMatch match = matchIterator.next();
+            setFormat(match.capturedStart(), match.capturedLength(), rule.format);
+        }
+    }
+    for (const QssHighlightingRule &rule : qAsConst(m_colorDefHighlightRules)) {
+        QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
+        while (matchIterator.hasNext())
+        {
             QRegularExpressionMatch match = matchIterator.next();
             setFormat(match.capturedStart(), match.capturedLength(), rule.format);
         }

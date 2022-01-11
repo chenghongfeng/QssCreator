@@ -40,7 +40,7 @@ private slots:
 
 private:
     Ui::ColorDefWidget *ui;
-    QMap<QString,QString> defs;
+    //QMap<QString,QString> defs;
     QString pattern;
 
     QStandardItemModel *defsTableModel {nullptr};

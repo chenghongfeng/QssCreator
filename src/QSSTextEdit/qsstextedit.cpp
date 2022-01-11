@@ -11,6 +11,7 @@
 #include "qsshighlighter.h"
 #include "fileHelper.h"
 #include "path.h"
+#include "qsstexteditmanager.h"
 QssTextEdit::QssTextEdit(QWidget *parent)
     : QPlainTextEdit(parent)
 {
@@ -18,6 +19,8 @@ QssTextEdit::QssTextEdit(QWidget *parent)
     connect(this, &QssTextEdit::blockCountChanged, this, &QssTextEdit::updateLineNumberAreaWidth);
     connect(this, &QssTextEdit::updateRequest, this, &QssTextEdit::updateLineNumberArea);
     connect(this, &QssTextEdit::cursorPositionChanged, this, &QssTextEdit::highlightCurrentLine);
+
+    connect(QssTextEditManager::getInstance(), &QssTextEditManager::defsUpdated, this, &QssTextEdit::slot_updateColorDef);
     m_highlighter = new QssHighlighter(this->document());
     m_completer = new QCompleter(this);
     initQssKeywordModel();
@@ -37,15 +40,15 @@ void QssTextEdit::initCompleter()
 
 void QssTextEdit::setDefKeyword(const QStringList &defKeywords)
 {
-//    QTextCharFormat format;
-//    QColor defKeywordTextColor(Config::getInstance()->value("Text/UserDefineWordTextColor","#cb4b16").toString());
-//    format.setForeground(defKeywordTextColor);
-//    m_highlighter->appendKeyWords(defKeywords, format);
+    QTextCharFormat format;
+    QColor defKeywordTextColor(Config::getInstance()->value("Text/UserDefineWordTextColor","#cb4b16").toString());
+    format.setForeground(defKeywordTextColor);
+    m_highlighter->updateColorDefKeywords(defKeywords, format);
 
     if (!m_completerWordModel) return;
-    QStringList qssKeywords = m_completerWordModel->stringList();
-    qssKeywords += defKeywords;
-    m_completerWordModel->setStringList(qssKeywords);
+    QStringList keywords = QssTextEditManager::getInstance()->qssKeywords() + QssTextEditManager::getInstance()->qtClassKeywords();
+    keywords += defKeywords;
+    m_completerWordModel->setStringList(keywords);
 }
 
 void QssTextEdit::setTextFromFile(const QString &fileName)
@@ -109,24 +112,6 @@ void QssTextEdit::keyPressEvent(QKeyEvent *e)
 #ifdef NO_AUTO_COMPLETER
     return QPlainTextEdit::keyPressEvent(e);
 #endif
-
-#ifdef KeyEvent_Test
-    qDebug()<< "-------------QssTextEdit--------------";
-    qDebug()<< "QKeyEvent Text:"<<e->text();
-    qDebug()<< "QKeyEvent Count:"<<e->count();
-    qDebug()<< "QKeyEvent isAutoRepeat:"<<e->isAutoRepeat();
-    if(e->modifiers().testFlag(Qt::ControlModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
-    if(e->modifiers().testFlag(Qt::NoModifier)){qDebug()<<"QKeyEvent modifier:"<<"NoModifier";}
-    if(e->modifiers().testFlag(Qt::ShiftModifier)){qDebug()<<"QKeyEvent modifier:"<<"ShiftModifier";}
-    if(e->modifiers().testFlag(Qt::AltModifier)){qDebug()<<"QKeyEvent modifier:"<<"AltModifier";}
-    if(e->modifiers().testFlag(Qt::MetaModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
-    if(e->modifiers().testFlag(Qt::KeypadModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
-    if(e->modifiers().testFlag(Qt::GroupSwitchModifier)){qDebug()<<"QKeyEvent modifier:"<<"ControlModifier";}
-    if(e->modifiers().testFlag(Qt::KeyboardModifierMask)){qDebug()<<"QKeyEvent modifier:"<<"KeyboardModifierMask";}
-    qDebug()<< "QKeyEvent key:"<<e->key();
-    return QPlainTextEdit::keyPressEvent(e);
-#endif
-
     if (m_completer && m_completer->popup()->isVisible()) {
         // The following keys are forwarded by the completer to the widget
        switch (e->key()) {
@@ -206,18 +191,17 @@ void QssTextEdit::resizeEvent(QResizeEvent *event)
 
 void QssTextEdit::initQssKeywordModel()
 {
-    QStringList qclassKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qClassKeyWordFilePath());
+    const QStringList qclassKeywords = QssTextEditManager::getInstance()->qtClassKeywords();
     QTextCharFormat format;
     QColor qtClassTextColor(Config::getInstance()->value("Text/QtClassTextColor","#b58900").toString());
     format.setForeground(qtClassTextColor);
     m_highlighter->appendKeywords(qclassKeywords, format);
 
-    QStringList qssKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qssKeywordFilePath());
-//    QColor qssKeywordTextColor(Config::getInstance()->value("Text/QssKeywordTextColor","#709d06").toString());
-//    format.setForeground(qssKeywordTextColor);
-//    m_highlighter->appendKeyWords(qssKeywords,format);
+    const QStringList qssKeywords = QssTextEditManager::getInstance()->qssKeywords();
+    QColor qssKeywordTextColor(Config::getInstance()->value("Text/QssKeywordTextColor","#709d06").toString());
+    format.setForeground(qssKeywordTextColor);
+    m_highlighter->appendKeywords(qssKeywords,format);
 
-    qssKeywords.append(qclassKeywords);
     m_completerWordModel = new QStringListModel(qssKeywords, m_completer);
 }
 
@@ -302,6 +286,20 @@ QString QssTextEdit::textUnderCursor()
         selectWord = tc.selectedText();
     }
     return selectWord;
+}
+
+void QssTextEdit::slot_updateColorDef()
+{
+    QTextCharFormat format;
+    QColor defKeywordTextColor(Config::getInstance()->value("Text/UserDefineWordTextColor","#cb4b16").toString());
+    format.setForeground(defKeywordTextColor);
+    QStringList defKeywords = QssTextEditManager::getInstance()->getCurDefs().keys();
+    m_highlighter->updateColorDefKeywords(defKeywords, format);
+
+    if (!m_completerWordModel) return;
+    QStringList keywords = QssTextEditManager::getInstance()->qssKeywords() + QssTextEditManager::getInstance()->qtClassKeywords();
+    keywords += defKeywords;
+    m_completerWordModel->setStringList(keywords);
 }
 
 void QssTextEdit::updateLineNumberAreaWidth(int /*newBlockCount*/)

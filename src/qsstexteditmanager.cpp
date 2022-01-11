@@ -124,6 +124,16 @@ void QssTextEditManager::removeDef(const QString &key)
     emit defsUpdated();
 }
 
+const QStringList &QssTextEditManager::qtClassKeywords() const
+{
+    return m_qtClassKeywords;
+}
+
+const QStringList &QssTextEditManager::qssKeywords() const
+{
+    return m_qssKeywords;
+}
+
 void QssTextEditManager::setSourceTextVisible(bool isVisible)
 {
     emit sourceTextEditVisibleChange(isVisible);
@@ -145,10 +155,10 @@ void QssTextEditManager::slot_Config_valueUpdated(const QString &key, const QVar
 
 QssTextEditManager::QssTextEditManager()
 {
-    connect(Config::getInstance(), &Config::valueUpdated, this, &QssTextEditManager::slot_Config_valueUpdated);
-    initDefs();
     m_qtClassKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qClassKeyWordFilePath());
     m_qssKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qssKeywordFilePath());
+    connect(Config::getInstance(), &Config::valueUpdated, this, &QssTextEditManager::slot_Config_valueUpdated);
+    initDefs();
 }
 
 void QssTextEditManager::initDefs()
@@ -182,8 +192,8 @@ void QssTextEditManager::setDefsFile(const QString &fileName)
             lineNum++;
         }
 
-        //QString defsText = file.readAll();
-        //m_defs = QssHelper::getColorDefineFromQStr(defsText, m_defInfos, "");
+        QString defsText = file.readAll();
+        m_defs = QssHelper::getColorDefineFromQStr(defsText);
     }
     emit defsUpdated();
 }

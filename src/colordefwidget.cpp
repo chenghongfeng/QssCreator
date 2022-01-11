@@ -23,7 +23,7 @@ ColorDefWidget::ColorDefWidget(QWidget *parent) :
     ui(new Ui::ColorDefWidget)
 {
     ui->setupUi(this);
-    defs = QssTextEditManager::getInstance()->getDefs();
+    //defs = QssTextEditManager::getInstance()->getDefs();
     initUi();
 
     connect(QssTextEditManager::getInstance(), &QssTextEditManager::defsUpdated, this, &ColorDefWidget::updateDefs);
@@ -76,10 +76,9 @@ void ColorDefWidget::setSourceTextEditVisible(bool isVisible)
 
 void ColorDefWidget::updateDefs()
 {
-    defs = QssTextEditManager::getInstance()->getDefs();
+    //defs = QssTextEditManager::getInstance()->getDefs();
     colorDefModel->resetDefInfos(QssTextEditManager::getInstance()->getDefInfos());
     ui->textEdit->setText(QssTextEditManager::getInstance()->getCurDefsText());
-    //colorDefModel->resetDefMap(defs);
 }
 
 void ColorDefWidget::addNewDef()

@@ -13,6 +13,7 @@ public:
     void appendKeyword(const QString &keyword,  const QTextCharFormat &format);
     void appendKeywords(const QStringList &keywords, const QTextCharFormat &format);
     void appendHighLightRule(const QStringList &rulePattens, const QTextCharFormat &format);
+    void updateColorDefKeywords(const QStringList &keywords, const QTextCharFormat &format);
     void setCommentFormat(const QTextCharFormat &format);
     void printFormatInfo(const QTextCharFormat &format);
 
@@ -25,7 +26,9 @@ private:
         QRegularExpression pattern;
         QTextCharFormat format;
     };
-    QVector<QssHighlightingRule> m_qssHighlightingRules;
+    //将关键词和colorDef分开,这样方便更新,因为关键词在实际使用中是固定的
+    QVector<QssHighlightingRule> m_qtKeywordHighlightingRules;
+    QVector<QssHighlightingRule> m_colorDefHighlightRules;
 
     QRegularExpression m_colorExp;
     QRegularExpression m_defExp;
