@@ -55,7 +55,9 @@ void QssHighlighter::updateColorDefKeywords(const QStringList &keywords, const Q
     m_colorDefHighlightRules.clear();
     QStringList keywordPatterns;
     for (auto key : keywords) {
-        keywordPatterns.append(QStringLiteral("\\b%1\\b").arg(key));
+        QString keyFixed = key;
+        keyFixed.remove(0,1);
+        keywordPatterns.append(QStringLiteral("\\$\\b%1\\b").arg(keyFixed));
     }
     for (auto pattern : keywordPatterns) {
         QssHighlightingRule rule;
