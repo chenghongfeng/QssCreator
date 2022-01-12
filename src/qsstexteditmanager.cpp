@@ -158,7 +158,7 @@ QssTextEditManager::QssTextEditManager()
     m_qtClassKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qClassKeyWordFilePath());
     m_qssKeywords = Utils::FileHelper::readLinesFromFile(Path::getInstance()->qssKeywordFilePath());
     connect(Config::getInstance(), &Config::valueUpdated, this, &QssTextEditManager::slot_Config_valueUpdated);
-    initDefs();
+    initDefs();//此时是不能发送defUpdate的信号的
 }
 
 void QssTextEditManager::initDefs()

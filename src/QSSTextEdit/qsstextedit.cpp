@@ -189,7 +189,12 @@ void QssTextEdit::initQssKeywordModel()
     format.setForeground(qssKeywordTextColor);
     m_highlighter->appendKeywords(qssKeywords,format);
 
-    m_completerWordModel = new QStringListModel(qssKeywords, m_completer);
+    QColor defKeywordTextColor(Config::getInstance()->value("Text/UserDefineWordTextColor","#cb4b16").toString());
+    format.setForeground(defKeywordTextColor);
+    const QStringList defKeywords = QssTextEditManager::getInstance()->getCurDefs().keys();
+    m_highlighter->updateColorDefKeywords(defKeywords, format);
+
+    m_completerWordModel = new QStringListModel(qssKeywords + qclassKeywords + defKeywords, m_completer);
 }
 
 
