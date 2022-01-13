@@ -21,7 +21,11 @@ QColor Utils::Theme::color(Utils::Theme::Color role) const
         ret = QColor(33, 34, 34);
         break;
     case FancyTabBarBackgroundColor:
-        ret = QColor(64, 65, 66);
+        if(isNoneTheme){
+            ret = Qt::white;
+        }else{
+            ret = m_defs.value(SideBkgColorDefText,"#404142");
+        }
         break;
     case FancyTabBarSelectedBackgroundColor:
         ret = QColor("#212222");
@@ -33,7 +37,12 @@ QColor Utils::Theme::color(Utils::Theme::Color role) const
         ret = Qt::green;
         break;
     case FancyTabWidgetEnabledSelectedTextColor:
-        ret = QColor("#bec0c1");
+        if(isNoneTheme){
+            ret = Qt::white;
+        }
+        else{
+            ret = QColor("#bec0c1");
+        }
         break;
     case FancyTabWidgetEnabledUnselectedTextColor:
         ret = QColor("#bec0c1");
@@ -56,7 +65,7 @@ QColor Utils::Theme::color(Utils::Theme::Color role) const
     case SideBkgColor:
         if(isNoneTheme)
         {
-            ret = QColor("#616161");
+            ret = Qt::white;
         }else{
             ret = m_defs.value(SideBkgColorDefText,"#404142");
         }
