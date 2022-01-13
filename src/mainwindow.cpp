@@ -162,7 +162,29 @@ void MainWindow::initUi()
     layout->addWidget(m_tabWidget,2);
 #endif
     ui->centralwidget->setLayout(layout);
+    {
+        //Theme组件
+        QString themeName = Config::getInstance()->value("Theme/name","None").toString();
+        QMenu *themeMenu = new QMenu(this);
+        themeMenu->setTitle(tr("Theme"));
+        {
+            for (auto& name:Config::getInstance()->themes()) {
+                QAction *a = new QAction(name);
+                a->setCheckable(true);
+                m_themeSwitchActions.push_back(a);
+                themeMenu->addAction(a);
+                if(themeName == a->text()){
+                    a->setChecked(true);
+                    a->setDisabled(true);
+                }
+                connect(a, &QAction::triggered, this, &MainWindow::slot_themeSwitchActionsChanged);
+            }
 
+
+        }
+        ui->menuBar->addMenu(themeMenu);
+    }
+    themeChanged();
 }
 
 
@@ -358,3 +380,50 @@ void MainWindow::on_actionImport_triggered()
     QssHelper::replaceDefsWithValues(text,QssTextEditManager::getInstance()->getCurDefs());
     QssHelper::writeQStrTofile(text,fileName);
 }
+
+void MainWindow::slot_themeSwitchActionsChanged()
+{
+    QAction *senderAction = (QAction *)sender();
+    if(!senderAction) return;
+    if(!senderAction->isChecked()) return;
+    for (auto a : m_themeSwitchActions) {
+        if(a == senderAction){
+            Config::getInstance()->setValue("Theme/name",a->text());
+            a->setDisabled(true);
+            themeChanged();
+            emit themeChange();
+        }
+        else if(a->isChecked()){
+            a->setDisabled(false);
+            a->setChecked(false);
+        }
+    }
+
+}
+
+void MainWindow::themeChanged()
+{
+    QString themeFileName = Config::getInstance()->themeFilePathName();
+    QFile themeFile(themeFileName);
+    QMap<QString,QString> defs;
+    if(themeFile.open(QFile::ReadOnly))
+    {
+        QString defsText = themeFile.readAll();
+        defs = QssHelper::getColorDefineFromQStr(defsText);
+        themeFile.close();
+    }
+    QString qssFileName = Path::getInstance()->qssFilePath();
+    QFile qssFile(qssFileName);
+    QString qss;
+    if(qssFile.open(QFile::ReadOnly))
+    {
+        qss = qssFile.readAll();
+        qssFile.close();
+    }
+
+    Config::getInstance()->setSkin(qss, defs);
+    m_fancyTabWidget->repaint();
+}
+
+
+

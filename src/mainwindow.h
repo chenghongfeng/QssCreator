@@ -31,13 +31,16 @@ public:
 
     ~MainWindow();
 
+signals:
+    void themeChange();
+
 private:
     void initUi();
     void initSignalSlots();
     void initSettings();
     void saveSettings();
     QFont getFontFromConfig();
-
+    void themeChanged();
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
@@ -76,6 +79,8 @@ private slots:
 
     void on_actionImport_triggered();
 
+    void slot_themeSwitchActionsChanged();
+
 private:
     Ui::MainWindow *ui;
     QString m_strColorDefFile;
@@ -85,5 +90,6 @@ private:
     TextSettingsWidget *m_textSettingsWidget { nullptr };
     ColorDefWidget *m_colorWidget { nullptr };
     Core::Internal::FancyTabWidget *m_fancyTabWidget { nullptr };
+    QVector<QAction *> m_themeSwitchActions;
 };
 #endif // MAINWINDOW_H
