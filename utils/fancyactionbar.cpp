@@ -131,8 +131,8 @@ void FancyToolButton::paintEvent(QPaintEvent *event)
     if (!HostOsInfo::isMacHost() // Mac UIs usually don't hover
         && m_fader > 0 && isEnabled() && !isDown() && !isChecked()) {
         painter.save();
-        if (creatorTheme()->flag(Theme::FlatToolBars)) {
-            const QColor hoverColor = creatorTheme()->color(Theme::FancyToolButtonHoverColor);
+        if (Theme::getInstance()->flag(Theme::FlatToolBars)) {
+            const QColor hoverColor = Theme::getInstance()->color(Theme::FancyToolButtonHoverColor);
             QColor fadedHoverColor = hoverColor;
             fadedHoverColor.setAlpha(int(m_fader * hoverColor.alpha()));
             painter.fillRect(rect(), fadedHoverColor);
@@ -143,8 +143,8 @@ void FancyToolButton::paintEvent(QPaintEvent *event)
         painter.restore();
     } else if (isDown() || isChecked()) {
         painter.save();
-        const QColor selectedColor = creatorTheme()->color(Theme::FancyToolButtonSelectedColor);
-        if (creatorTheme()->flag(Theme::FlatToolBars)) {
+        const QColor selectedColor = Theme::getInstance()->color(Theme::FancyToolButtonSelectedColor);
+        if (Theme::getInstance()->flag(Theme::FlatToolBars)) {
             painter.fillRect(rect(), selectedColor);
         } else {
             QLinearGradient grad(rect().topLeft(), rect().topRight());
@@ -196,7 +196,7 @@ void FancyToolButton::paintEvent(QPaintEvent *event)
                             - QPoint(iconRect.width() / 2, iconRect.height() / 2);
         textOffset = textOffset - QPoint(0, lineHeight + 3);
         const QRectF r(0, textOffset.y(), rect().width(), lineHeight);
-        painter.setPen(creatorTheme()->color(isEnabled() ? Theme::PanelTextColorLight
+        painter.setPen(Theme::getInstance()->color(isEnabled() ? Theme::PanelTextColorLight
                                                          : Theme::IconsDisabledColor));
 
         // draw project name
@@ -223,7 +223,7 @@ void FancyToolButton::paintEvent(QPaintEvent *event)
 
         // draw the two text lines for the build configuration
         painter.setPen(
-            creatorTheme()->color(isEnabled()
+            Theme::getInstance()->color(isEnabled()
                                       // Intentionally using the "Unselected" colors,
                                       // because the text color won't change in the pressed
                                       // state as they would do on the mode buttons.
@@ -255,11 +255,11 @@ void FancyActionBar::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     const QRectF borderRect = QRectF(rect()).adjusted(0.5, 0.5, -0.5, -0.5);
-    if (creatorTheme()->flag(Theme::FlatToolBars)) {
+    if (Theme::getInstance()->flag(Theme::FlatToolBars)) {
         // this paints the background of the bottom portion of the
         // left tab bar
         painter.fillRect(event->rect(), StyleHelper::baseColor());
-        painter.setPen(creatorTheme()->color(Theme::FancyToolBarSeparatorColor));
+        painter.setPen(Theme::getInstance()->color(Theme::FancyToolBarSeparatorColor));
         painter.drawLine(borderRect.topLeft(), borderRect.topRight());
     } else {
         painter.setPen(StyleHelper::sidebarShadow());
@@ -316,7 +316,7 @@ void FancyToolButton::hoverOverlay(QPainter *painter, const QRect &spanRect)
         overlay.fill(Qt::transparent);
         overlay.setDevicePixelRatio(dpr);
 
-        const QColor hoverColor = creatorTheme()->color(Theme::FancyToolButtonHoverColor);
+        const QColor hoverColor = Theme::getInstance()->color(Theme::FancyToolButtonHoverColor);
         const QRect rect(QPoint(), logicalSize);
         const QRectF borderRect = QRectF(rect).adjusted(0.5, 0.5, -0.5, -0.5);
 

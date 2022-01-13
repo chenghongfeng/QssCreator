@@ -63,7 +63,6 @@ HEADERS += \
     stylehelper.h \
     tabwidget.h \
     theme.h \
-    theme_p.h \
     utils_global.h \
     utils.h \
     utilsicons.h
