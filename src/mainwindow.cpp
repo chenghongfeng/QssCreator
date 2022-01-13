@@ -137,6 +137,7 @@ void MainWindow::initUi()
     m_fancyTabWidget->addAlwaysShowWidget(list);
     m_fancyTabWidget->setWorkAreaSplitterChildernCollapsible(false);
     m_fancyTabWidget->splitter()->restoreState(Config::getInstance()->value("Layout/SplitterSizes").toByteArray());
+    m_fancyTabWidget->setCurrentIndex(0);
 #else
         m_tabWidget->addAlwaysShowWidget(list);
         m_tabWidget->setWorkAreaSplitterChildernCollapsible(false);
