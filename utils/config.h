@@ -24,7 +24,11 @@ public:
     void setSkin(QString &qss,const QMap<QString,QString> &defs);
     void setValue(const QString &key, const QVariant &values);
     QVariant value(const QString &key, const QVariant &defaultValue = QVariant());
-
+    QString themeFilePathName() const;
+    QString themeName() const;
+    const QVector<QString> themes(){
+        return m_themes;
+    }
 signals:
 
     void valueUpdated(const QString &key, const QVariant &value);
@@ -33,8 +37,7 @@ protected:
 private:
     QString m_configFilePathName;
     QSettings *m_settings {nullptr};
-
-
+    QVector<QString> m_themes;
 };
 
 #endif // CONFIG_H

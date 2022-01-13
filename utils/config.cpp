@@ -4,8 +4,10 @@
 #include <QSettings>
 #include <QFile>
 #include <QApplication>
+#include <QDir>
 
 #include "qss_helper.h"
+#include "path.h"
 
 Config::~Config()
 {
@@ -19,6 +21,16 @@ void Config::readAllConfig()
     m_settings = new QSettings(m_configFilePathName, QSettings::Format::IniFormat);
     m_settings->setIniCodec("UTF-8");
     QStringList settings = m_settings->allKeys();
+    QString qssPath = Path::getInstance()->qssDir();
+    QDir qssDir(qssPath);
+    QFileInfoList fileInfos = qssDir.entryInfoList();
+    m_themes.push_back("None");
+    for(auto &info:fileInfos){
+        if(info.suffix() == "qssdef")
+        {
+            m_themes.push_back(info.baseName());
+        }
+    }
 
 }
 
@@ -66,4 +78,23 @@ void Config::setValue(const QString &key, const QVariant &value)
 QVariant Config::value(const QString &key, const QVariant &defaultValue)
 {
     return this->m_settings->value(key, defaultValue);
+}
+
+QString Config::themeFilePathName() const
+{
+    QString qssPath = Path::getInstance()->qssDir();
+    QDir qssDir(qssPath);
+    QFileInfoList fileInfos = qssDir.entryInfoList();
+    for(auto &info:fileInfos){
+        if(info.suffix() == "qssdef" && info.baseName() == themeName())
+        {
+            return info.absoluteFilePath();
+        }
+    }
+    return QString();
+}
+
+QString Config::themeName() const
+{
+    return Config::getInstance()->value("Theme/name","None").toString();
 }

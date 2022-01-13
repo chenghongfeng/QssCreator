@@ -2,6 +2,7 @@
 #include <QFile>
 
 #include "path.h"
+#include "config.h"
 #include "qss_helper.h"
 const char* SideBkgColorDefText = "$side_bkg";
 const char* SideBorderColorDefText = "$side_border";
@@ -13,53 +14,66 @@ bool Utils::Theme::flag(Utils::Theme::Flag f) const
 
 QColor Utils::Theme::color(Utils::Theme::Color role) const
 {
+    QColor ret;
+    bool isNoneTheme = "None" == Config::getInstance()->value("Theme/name","None").toString();
     switch (role) {
     case FancyToolBarSeparatorColor:
-        return QColor(33, 34, 34);
+        ret = QColor(33, 34, 34);
         break;
     case FancyTabBarBackgroundColor:
-        return QColor(64, 65, 66);
+        ret = QColor(64, 65, 66);
         break;
     case FancyTabBarSelectedBackgroundColor:
-        return QColor("#212222");
+        ret = QColor("#212222");
         break;
     case FancyTabWidgetDisabledSelectedTextColor:
-        return Qt::green;
+        ret = Qt::green;
         break;
     case FancyTabWidgetDisabledUnselectedTextColor:
-        return Qt::green;
+        ret = Qt::green;
         break;
     case FancyTabWidgetEnabledSelectedTextColor:
-        return QColor("#bec0c1");
+        ret = QColor("#bec0c1");
         break;
     case FancyTabWidgetEnabledUnselectedTextColor:
-        return QColor("#bec0c1");
+        ret = QColor("#bec0c1");
         break;
     case FancyToolButtonHoverColor:
-        return QColor(94, 95, 96);
+        ret = QColor(94, 95, 96);
         break;
     case FancyToolButtonSelectedColor:
-        return QColor(33, 34, 34);
+        ret = QColor(33, 34, 34);
         break;
     case PanelTextColorDark:
-        return QColor("#bec0c1");
+        ret = QColor("#bec0c1");
         break;
     case IconsDisabledColor:
-        return QColor("#626264");
+        ret = QColor("#626264");
         break;
     case IconsBaseColor:
-        return QColor("#7fc242");
+        ret = QColor("#7fc242");
         break;
     case SideBkgColor:
-        return m_defs.value(SideBkgColorDefText,"#404142");
+        if(isNoneTheme)
+        {
+            ret = QColor("#616161");
+        }else{
+            ret = m_defs.value(SideBkgColorDefText,"#404142");
+        }
         break;
     case SideBorderColor:
-        return m_defs.value(SideBorderColorDefText,"#000000");
+        if(isNoneTheme)
+        {
+            ret = QColor("#404142");
+        }else{
+            ret = m_defs.value(SideBkgColorDefText,"#404142");
+        }
         break;
     default:
-        return Qt::red;
+        ret = Qt::red;
 
     }
+    return ret;
 }
 
 Utils::Theme::Theme()
