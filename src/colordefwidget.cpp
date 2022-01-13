@@ -32,7 +32,6 @@ ColorDefWidget::ColorDefWidget(QWidget *parent) :
 
 ColorDefWidget::~ColorDefWidget()
 {
-    saveConfig();
     delete ui;
 }
 

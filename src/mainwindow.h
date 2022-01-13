@@ -7,6 +7,7 @@
 
 #include "QssTextEdit/qsshighlighter.h"
 #include "textsettingswidget.h"
+#include "fancytabwidget.h"
 
 QT_BEGIN_NAMESPACE
 class QFile;
@@ -19,6 +20,7 @@ class ColorDefTableModel;
 class TabWidget;
 class QssTextEdit;
 class TextSettingsWidget;
+class ColorDefWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -39,6 +41,7 @@ private:
 
 protected:
     void keyPressEvent(QKeyEvent *e) override;
+    void closeEvent(QCloseEvent *e) override;
 
 private slots:
     void on_replaceBtn_clicked();
@@ -71,6 +74,8 @@ private slots:
 
     void on_actionFindAndReplace_triggered();
 
+    void on_actionImport_triggered();
+
 private:
     Ui::MainWindow *ui;
     QString m_strColorDefFile;
@@ -78,5 +83,7 @@ private:
     QssTextEdit *m_textEdit { nullptr };
     TabWidget *m_tabWidget { nullptr };
     TextSettingsWidget *m_textSettingsWidget { nullptr };
+    ColorDefWidget *m_colorWidget { nullptr };
+    Core::Internal::FancyTabWidget *m_fancyTabWidget { nullptr };
 };
 #endif // MAINWINDOW_H

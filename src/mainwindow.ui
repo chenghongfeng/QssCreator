@@ -39,6 +39,7 @@
     </property>
     <addaction name="actionSaveQssFile"/>
     <addaction name="actionSaveQssToFile"/>
+    <addaction name="actionImport"/>
     <addaction name="actionOpenQssFile"/>
     <addaction name="actionSetQss"/>
     <addaction name="separator"/>
@@ -74,10 +75,13 @@
   </action>
   <action name="actionSaveQssFile">
    <property name="text">
-    <string>SaveQssFile</string>
+    <string>Save</string>
    </property>
    <property name="toolTip">
     <string>Save qss file</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionOpenDefineFile">
@@ -116,7 +120,7 @@
   </action>
   <action name="actionSaveQssToFile">
    <property name="text">
-    <string>Save to file</string>
+    <string>Save As</string>
    </property>
   </action>
   <action name="actionFind">
@@ -133,6 +137,17 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="text">
+    <string>Import normal qss</string>
+   </property>
+   <property name="toolTip">
+    <string>replace defines whth values and save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
  </widget>

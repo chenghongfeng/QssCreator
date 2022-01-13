@@ -50,8 +50,10 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    saveSettings();
+
     delete ui;
+
+    Config::closeInstance();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
@@ -73,15 +75,20 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     return QMainWindow::keyPressEvent(e);
 }
 
+void MainWindow::closeEvent(QCloseEvent *e)
+{
+    saveSettings();
+}
+
 void MainWindow::initUi()
 {
 #ifdef USE_FANCYTABWIDGET
-    Core::Internal::FancyTabWidget * fancyTabWidget = new Core::Internal::FancyTabWidget(this);
+    m_fancyTabWidget = new Core::Internal::FancyTabWidget(this);
 #else
     //init m_tabWidget
     m_tabWidget = new TabWidget(this);
 #endif
-    ColorDefWidget *colorWidget = new ColorDefWidget();
+    m_colorWidget = new ColorDefWidget(this);
     {
         //添加颜色定义页
         QAction *showColorDefAction = new QAction(this);
@@ -89,8 +96,8 @@ void MainWindow::initUi()
         showColorDefAction->setCheckable(true);
         showColorDefAction->setChecked(true);//默认显示此页
 #ifdef USE_FANCYTABWIDGET
-        fancyTabWidget->insertTab(0,colorWidget,Utils::Icons::HOME.icon(),tr("Colors"),false);
-        fancyTabWidget->setTabEnabled(0,true);
+        m_fancyTabWidget->insertTab(0,m_colorWidget,Utils::Icons::HOME.icon(),tr("Colors"),false);
+        m_fancyTabWidget->setTabEnabled(0,true);
 #else
         m_tabWidget->addPage(colorWidget,showColorDefAction);
 #endif
@@ -105,8 +112,8 @@ void MainWindow::initUi()
         connect(m_textSettingsWidget, &TextSettingsWidget::fontSsttingsChanged,
                 this, &MainWindow::slot_fontSettingsChanged);
 #ifdef USE_FANCYTABWIDGET
-        fancyTabWidget->insertTab(1,m_textSettingsWidget,Utils::Icons::HOME.icon(),tr("Settings"),false);
-        fancyTabWidget->setTabEnabled(1,true);
+        m_fancyTabWidget->insertTab(1,m_textSettingsWidget,Utils::Icons::HOME.icon(),tr("Settings"),false);
+        m_fancyTabWidget->setTabEnabled(1,true);
 #else
         m_tabWidget->addPage(m_textSettingsWidget, showConfigAction);
 #endif
@@ -127,8 +134,9 @@ void MainWindow::initUi()
         list.append(m_textEdit);
 
 #ifdef USE_FANCYTABWIDGET
-    fancyTabWidget->addAlwaysShowWidget(list);
-    fancyTabWidget->setWorkAreaSplitterChildernCollapsible(false);
+    m_fancyTabWidget->addAlwaysShowWidget(list);
+    m_fancyTabWidget->setWorkAreaSplitterChildernCollapsible(false);
+    m_fancyTabWidget->splitter()->restoreState(Config::getInstance()->value("Layout/SplitterSizes").toByteArray());
 #else
         m_tabWidget->addAlwaysShowWidget(list);
         m_tabWidget->setWorkAreaSplitterChildernCollapsible(false);
@@ -148,7 +156,7 @@ void MainWindow::initUi()
 #endif
 
 #ifdef USE_FANCYTABWIDGET
-     layout->addWidget(fancyTabWidget,2);
+     layout->addWidget(m_fancyTabWidget,2);
 #else
     layout->addWidget(m_tabWidget,2);
 #endif
@@ -170,13 +178,26 @@ void MainWindow::initSettings()
     m_textEdit->setTabStopDistance(4*metrics.width(' '));
     m_textEdit->setFont(font);
     m_textEdit->setTextFromFile(fileName);
+    this->restoreGeometry(Config::getInstance()->value("Layout/MainWindowGeometry").toByteArray());
+    this->restoreState(Config::getInstance()->value("Layout/MainWindowState").toByteArray());
 }
 
 void MainWindow::saveSettings()
 {
     Config::getInstance()->setValue("Font/family", m_textEdit->font().family());
     Config::getInstance()->setValue("Font/size", m_textEdit->font().pointSize());
-    Config::getInstance()->setValue("Font/styleName", m_textEdit->font().styleName());
+    Config::getInstance()->setValue("Layout/MainWindowGeometry", saveGeometry());
+    Config::getInstance()->setValue("Layout/MainWindowState", saveState());
+    if(m_colorWidget)
+    {
+        m_colorWidget->saveConfig();
+    }
+    if(m_fancyTabWidget)
+    {
+        Config::getInstance()->setValue("Layout/SplitterSizes",
+                                        m_fancyTabWidget->splitter()->saveState());
+
+    }
 }
 
 QFont MainWindow::getFontFromConfig()
@@ -321,4 +342,18 @@ void MainWindow::on_actionFindAndReplace_triggered()
     FindReplaceDialog *frdialog = new FindReplaceDialog(this);
     frdialog->setEditor(m_textEdit);
     frdialog->show();
+}
+
+void MainWindow::on_actionImport_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"),
+                                 Config::getInstance()->value("Qss/UserQssFile", Path::getInstance()->qssFilePath()).toString(),
+                                 tr("Qss File(*.qss *.css *.txt)"));
+    if(fileName == "")
+    {
+        return;
+    }
+    QString text = m_textEdit->toPlainText();
+    QssHelper::replaceDefsWithValues(text,QssTextEditManager::getInstance()->getCurDefs());
+    QssHelper::writeQStrTofile(text,fileName);
 }

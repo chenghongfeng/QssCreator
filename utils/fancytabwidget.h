@@ -172,6 +172,9 @@ public:
 
     void addAlwaysShowWidget(QList<QWidget *> widgets);
     void setWorkAreaSplitterChildernCollapsible(bool b);
+    QSplitter *splitter(){
+        return m_workAreaSplitter;
+    }
 
 signals:
     void currentAboutToShow(int index);
