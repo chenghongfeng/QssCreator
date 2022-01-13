@@ -32,7 +32,7 @@ protected:
     void focusInEvent(QFocusEvent *e) override;
     void resizeEvent(QResizeEvent *event) override;
 private:
-    void initQssKeywordModel();
+    void initQssKeywordModelAndHighlighter();
     ReturnOperation nextLineOperation();
     void doReturnOpreation(ReturnOperation op);
 

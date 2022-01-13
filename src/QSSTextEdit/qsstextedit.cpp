@@ -23,7 +23,7 @@ QssTextEdit::QssTextEdit(QWidget *parent)
     connect(QssTextEditManager::getInstance(), &QssTextEditManager::defsUpdated, this, &QssTextEdit::slot_updateColorDef);
     m_highlighter = new QssHighlighter(this->document());
     m_completer = new QCompleter(this);
-    initQssKeywordModel();
+    initQssKeywordModelAndHighlighter();
 }
 
 void QssTextEdit::initCompleter()
@@ -176,10 +176,15 @@ void QssTextEdit::resizeEvent(QResizeEvent *event)
     m_lineNumberArea->setGeometry(QRect(cr.left(), cr.top(), lineNumberAreaWidth(), cr.height()));
 }
 
-void QssTextEdit::initQssKeywordModel()
+void QssTextEdit::initQssKeywordModelAndHighlighter()
 {
-    const QStringList qclassKeywords = QssTextEditManager::getInstance()->qtClassKeywords();
     QTextCharFormat format;
+
+    QColor commentTextColor(Config::getInstance()->value("Text/CommentTextColor","#586e75").toString());
+    format.setForeground(commentTextColor);
+    m_highlighter->setCommentFormat(format);
+
+    const QStringList qclassKeywords = QssTextEditManager::getInstance()->qtClassKeywords();
     QColor qtClassTextColor(Config::getInstance()->value("Text/QtClassTextColor","#b58900").toString());
     format.setForeground(qtClassTextColor);
     m_highlighter->appendKeywords(qclassKeywords, format);
