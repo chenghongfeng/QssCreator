@@ -118,9 +118,8 @@ QColor StyleHelper::m_requestedBaseColor;
 QColor StyleHelper::baseColor(bool lightColored)
 {
     static const QColor windowColor = Theme::getInstance()->color(Theme::SideBkgColor);
-    static const bool windowColorAsBase = Theme::getInstance()->flag(Theme::WindowColorAsBase);
 
-    return (lightColored || windowColorAsBase) ? windowColor : m_baseColor;
+    return windowColor;
 }
 
 QColor StyleHelper::highlightColor(bool lightColored)

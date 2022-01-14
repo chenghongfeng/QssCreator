@@ -205,6 +205,7 @@ QRect FancyTabBar::tabRect(int index) const
     return {0, index * sh.height(), sh.width(), sh.height()};
 }
 
+
 void FancyTabBar::mousePressEvent(QMouseEvent *event)
 {
     event->accept();
@@ -554,6 +555,12 @@ void FancyTabWidget::setSelectionWidgetVisible(bool visible)
 bool FancyTabWidget::isSelectionWidgetVisible() const
 {
     return m_selectionWidget->isVisible();
+}
+
+void FancyTabWidget::repaintAll()
+{
+    this->repaint();
+    m_tabBar->repaint();
 }
 
 void FancyTabWidget::addAlwaysShowWidget(QList<QWidget *> widgets)

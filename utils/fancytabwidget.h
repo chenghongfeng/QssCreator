@@ -128,6 +128,8 @@ public:
     int count() const { return m_tabs.count(); }
     QRect tabRect(int index) const;
 
+
+
 signals:
     void currentAboutToChange(int index);
     void currentChanged(int index);
@@ -170,6 +172,8 @@ public:
 
     bool isSelectionWidgetVisible() const;
 
+
+    void repaintAll();
     void addAlwaysShowWidget(QList<QWidget *> widgets);
     void setWorkAreaSplitterChildernCollapsible(bool b);
     QSplitter *splitter(){
