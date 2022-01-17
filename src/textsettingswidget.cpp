@@ -2,6 +2,7 @@
 #include "ui_textsettingswidget.h"
 
 #include <QIntValidator>
+#include <QPainter>
 #include "config.h"
 
 TextSettingsWidget::TextSettingsWidget(const QFont &f, QWidget *parent):
@@ -34,6 +35,8 @@ TextSettingsWidget::TextSettingsWidget(const QFont &f, QWidget *parent):
             this, &TextSettingsWidget::fontAntialiasChanged);
 
     updateUi();
+    //TODO tabs control support
+    ui->tabSettingsGroupBox->setVisible(false);
 }
 
 TextSettingsWidget::~TextSettingsWidget()
@@ -121,6 +124,15 @@ void TextSettingsWidget::updatePointSizes()
     }
     if (idx != -1)
         ui->fontSizeComboBox->setCurrentIndex(idx);
+}
+
+void TextSettingsWidget::paintEvent(QPaintEvent *event)
+{
+    Q_UNUSED(event);
+    QStyleOption styleOpt;
+    styleOpt.init(this);
+    QPainter painter(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &styleOpt, &painter, this);
 }
 
 void TextSettingsWidget::initUiBySettings()

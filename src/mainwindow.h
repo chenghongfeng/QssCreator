@@ -21,6 +21,7 @@ class TabWidget;
 class QssTextEdit;
 class TextSettingsWidget;
 class ColorDefWidget;
+class PreviewQssWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -59,6 +60,7 @@ private slots:
 
     void slot_fontSettingsChanged(const FontSettings &font);
 
+    //mianwindow load current qss and colordefs
     void on_actionSetQss_triggered();
 
     void on_actionSaveQssFile_triggered();
@@ -80,6 +82,7 @@ private slots:
     void on_actionImport_triggered();
 
     void slot_themeSwitchActionsChanged();
+    void slot_showPreviewActionTriggered();
 
 private:
     Ui::MainWindow *ui;
@@ -91,5 +94,6 @@ private:
     ColorDefWidget *m_colorWidget { nullptr };
     Core::Internal::FancyTabWidget *m_fancyTabWidget { nullptr };
     QVector<QAction *> m_themeSwitchActions;
+    PreviewQssWidget *m_previewWidget{ nullptr };
 };
 #endif // MAINWINDOW_H

@@ -29,6 +29,7 @@
 #include "utilsicons.h"
 #include "finddialog.h"
 #include "findreplacedialog.h"
+#include "previewqsswidget.h"
 
 #define USE_FANCYTABWIDGET
 #ifdef INTERNAL_TEST
@@ -51,6 +52,11 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
 
+    if(m_previewWidget)
+    {
+        delete m_previewWidget;
+        m_previewWidget = nullptr;
+    }
     delete ui;
 
     Config::closeInstance();
@@ -82,6 +88,9 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
 void MainWindow::initUi()
 {
+#ifndef CREATE_MODE
+
+#endif
 #ifdef USE_FANCYTABWIDGET
     m_fancyTabWidget = new Core::Internal::FancyTabWidget(this);
 #else
@@ -98,6 +107,7 @@ void MainWindow::initUi()
 #ifdef USE_FANCYTABWIDGET
         m_fancyTabWidget->insertTab(0,m_colorWidget,Utils::Icons::HOME.icon(),tr("Colors"),false);
         m_fancyTabWidget->setTabEnabled(0,true);
+
 #else
         m_tabWidget->addPage(colorWidget,showColorDefAction);
 #endif
@@ -114,6 +124,11 @@ void MainWindow::initUi()
 #ifdef USE_FANCYTABWIDGET
         m_fancyTabWidget->insertTab(1,m_textSettingsWidget,Utils::Icons::HOME.icon(),tr("Settings"),false);
         m_fancyTabWidget->setTabEnabled(1,true);
+
+        //添加qsstestwidget
+//        QssTestWidget *testWidget = new QssTestWidget(this);
+//        m_fancyTabWidget->insertTab(2,testWidget,Utils::Icons::HOME.icon(),tr("Style"),false);
+//        m_fancyTabWidget->setTabEnabled(2,true);
 #else
         m_tabWidget->addPage(m_textSettingsWidget, showConfigAction);
 #endif
@@ -183,6 +198,8 @@ void MainWindow::initUi()
 
         }
         ui->menuBar->addMenu(themeMenu);
+        QAction *showPrevieAction = ui->menuBar->addAction(tr("Preview"));
+        connect(showPrevieAction, &QAction::triggered, this, &MainWindow::slot_showPreviewActionTriggered);
     }
     themeChanged();
 }
@@ -307,8 +324,9 @@ void MainWindow::slot_fontSettingsChanged(const FontSettings &fontSettings)
 
 void MainWindow::on_actionSetQss_triggered()
 {
-    QString a = m_textEdit->toPlainText();
-    Config::getInstance()->setSkin(a, QssTextEditManager::getInstance()->getCurDefs());
+    QString qss = m_textEdit->toPlainText();
+    QssHelper::replaceDefsWithValues(qss, QssTextEditManager::getInstance()->getCurDefs());
+    this->setStyleSheet(qss);
 }
 
 void MainWindow::on_actionSaveQssFile_triggered()
@@ -401,6 +419,18 @@ void MainWindow::slot_themeSwitchActionsChanged()
 
 }
 
+void MainWindow::slot_showPreviewActionTriggered()
+{
+    if(!m_previewWidget)
+    {
+        m_previewWidget = new PreviewQssWidget();
+    }
+    QString qss = m_textEdit->toPlainText();
+    QssHelper::replaceDefsWithValues(qss, QssTextEditManager::getInstance()->getCurDefs());
+    m_previewWidget->setStyleSheet(qss);
+    m_previewWidget->show();
+}
+
 void MainWindow::themeChanged()
 {
     QString themeFileName = Config::getInstance()->themeFilePathName();
@@ -420,8 +450,8 @@ void MainWindow::themeChanged()
         qss = qssFile.readAll();
         qssFile.close();
     }
-
-    Config::getInstance()->setSkin(qss, defs);
+    QssHelper::replaceDefsWithValues(qss, defs);
+    this->setStyleSheet(qss);
     m_fancyTabWidget->repaint();
 }
 

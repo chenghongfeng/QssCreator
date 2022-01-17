@@ -34,6 +34,9 @@ public:
 
     void updatePointSizes();
 
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
 signals:
     void fontSsttingsChanged(const FontSettings &f);
 
