@@ -46,8 +46,16 @@
     <addaction name="actionFind"/>
     <addaction name="actionFindAndReplace"/>
    </widget>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionAbout"/>
+    <addaction name="actionAboutQt"/>
+   </widget>
    <addaction name="menucolorDefFile"/>
    <addaction name="menuqss_file"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionSetQss">
    <property name="text">
@@ -148,6 +156,16 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+I</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="text">
+    <string>About..</string>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="text">
+    <string>AboutQt..</string>
    </property>
   </action>
  </widget>

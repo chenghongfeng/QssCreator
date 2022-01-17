@@ -15,6 +15,7 @@ PreviewQssWidget::PreviewQssWidget(QWidget *parent) :
     connect(progressTimer, &QTimer::timeout , this, &PreviewQssWidget::updateProgress);
     progressTimer->start();
     this->setAttribute(Qt::WA_StyledBackground, true);
+    this->setWindowTitle(tr("Preview widget"));
 }
 
 PreviewQssWidget::~PreviewQssWidget()

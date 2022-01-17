@@ -272,5 +272,6 @@
         <file>images/zoomin_overlay@2x.png</file>
         <file>images/zoomout_overlay.png</file>
         <file>images/zoomout_overlay@2x.png</file>
+        <file>images/mode_Design@2x.png</file>
     </qresource>
 </RCC>

@@ -2,6 +2,7 @@
 
 #include <QApplication>
 #include <QTextCodec>
+#include <QIcon>
 #include "config.h"
 #include "path.h"
 
@@ -18,11 +19,11 @@ int main(int argc, char *argv[])
 
     Config::getInstance()->setConfigFilePathName(Path::getInstance()->configFilePath());
     Config::getInstance()->readAllConfig();
-    Config::getInstance()->setValue("Test/1", "测试1");
-    //Config::getInstance()->setSkin(Path::getInstance()->qssDir() + "/default.qss", Path::getInstance()->qssDir() + "/default.qssdef");
-    QString text1 = Config::getInstance()->value("Test/1").toString();
     //qApp->setStyleSheet();
     MainWindow w;
+    QIcon icon(":/icons/qsseditor.png");
+    w.setWindowTitle("Qss Creator");
+    w.setWindowIcon(icon);
     w.show();
     return a.exec();
 }

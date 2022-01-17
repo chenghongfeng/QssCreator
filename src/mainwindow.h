@@ -84,6 +84,10 @@ private slots:
     void slot_themeSwitchActionsChanged();
     void slot_showPreviewActionTriggered();
 
+    void on_actionAbout_triggered();
+
+    void on_actionAboutQt_triggered();
+
 private:
     Ui::MainWindow *ui;
     QString m_strColorDefFile;

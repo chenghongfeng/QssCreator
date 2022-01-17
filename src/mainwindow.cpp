@@ -105,7 +105,7 @@ void MainWindow::initUi()
         showColorDefAction->setCheckable(true);
         showColorDefAction->setChecked(true);//默认显示此页
 #ifdef USE_FANCYTABWIDGET
-        m_fancyTabWidget->insertTab(0,m_colorWidget,Utils::Icons::HOME.icon(),tr("Colors"),false);
+        m_fancyTabWidget->insertTab(0,m_colorWidget,Utils::Icons::MODE_DESIGN.icon(),tr("Colors"),false);
         m_fancyTabWidget->setTabEnabled(0,true);
 
 #else
@@ -122,7 +122,7 @@ void MainWindow::initUi()
         connect(m_textSettingsWidget, &TextSettingsWidget::fontSsttingsChanged,
                 this, &MainWindow::slot_fontSettingsChanged);
 #ifdef USE_FANCYTABWIDGET
-        m_fancyTabWidget->insertTab(1,m_textSettingsWidget,Utils::Icons::HOME.icon(),tr("Settings"),false);
+        m_fancyTabWidget->insertTab(1,m_textSettingsWidget,Utils::Icons::SETTINGS_TOOLBAR.icon(),tr("Settings"),false);
         m_fancyTabWidget->setTabEnabled(1,true);
 
         //添加qsstestwidget
@@ -457,3 +457,14 @@ void MainWindow::themeChanged()
 
 
 
+
+void MainWindow::on_actionAbout_triggered()
+{
+    QMessageBox::about(this, tr("about Qss Creator"),
+                       tr("Qss Creator is a tool that supports editing and previewing qss and color variables"));
+}
+
+void MainWindow::on_actionAboutQt_triggered()
+{
+    QMessageBox::aboutQt(this);
+}
