@@ -194,6 +194,10 @@ void QssTextEdit::initQssKeywordModelAndHighlighter()
     palette.setColor(QPalette::Base, Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditPaletteBase));
     palette.setColor(QPalette::Text, Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditPaletteText));
     this->viewport()->setPalette(palette);
+    palette = this->palette();
+    palette.setColor(QPalette::Base, Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditPaletteBase));
+    palette.setColor(QPalette::Text, Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditPaletteText));
+    this->setPalette(palette);
 
     QTextCharFormat format;
     QColor commentTextColor(Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditCommentTextColor));
