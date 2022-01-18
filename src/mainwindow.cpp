@@ -141,11 +141,9 @@ void MainWindow::initUi()
         m_textEdit = new QssTextEdit(this);
         //m_textEdit->setDefKeyword(QssTextEditManager::getInstance()->getCurDefs().keys());
         m_textEdit->initCompleter();
+        connect(this, &MainWindow::themeChange, m_textEdit, &QssTextEdit::updateQssKeywordModelAndHighlighter);
         //ui->qssTextEdit->setTextBackgroundColor(QColor("#002b36"));
-        QPalette palette(m_textEdit->palette());
-        palette.setColor(QPalette::Base, QColor("#002b36"));
-        palette.setColor(QPalette::Text, QColor("#839496"));
-        m_textEdit->setPalette(palette);
+
         QWidgetList list;
         list.append(m_textEdit);
 

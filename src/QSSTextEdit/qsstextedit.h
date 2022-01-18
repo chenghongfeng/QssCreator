@@ -20,7 +20,7 @@ public:
 
     void lineNumberAreaPaintEvent(QPaintEvent *event);
     int lineNumberAreaWidth();
-
+    void updateQssKeywordModelAndHighlighter();
 
 
 private:

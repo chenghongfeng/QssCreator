@@ -16,6 +16,7 @@ public:
     void updateColorDefKeywords(const QStringList &keywords, const QTextCharFormat &format);
     void setCommentFormat(const QTextCharFormat &format);
     void printFormatInfo(const QTextCharFormat &format);
+    void clearRules();
 
 protected:
     void highlightBlock(const QString &text) override;

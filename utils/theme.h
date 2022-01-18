@@ -36,6 +36,8 @@ public:
         QssTextEditQssKeywordTextColor,
         QssTextEditCommentTextColor,
         QssTextEditUserDefineWordTextColor,
+        QssTextEditLineNumberAreaText,
+        QssTextEditLineNumberAreaColor,
 
         PaletteText,
 

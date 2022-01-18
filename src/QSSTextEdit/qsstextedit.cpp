@@ -11,6 +11,7 @@
 #include "qsshighlighter.h"
 #include "fileHelper.h"
 #include "path.h"
+#include "theme.h"
 #include "qsstexteditmanager.h"
 QssTextEdit::QssTextEdit(QWidget *parent)
     : QPlainTextEdit(parent)
@@ -53,7 +54,7 @@ void QssTextEdit::setTextFromFile(const QString &fileName)
 void QssTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
 {
     QPainter painter(m_lineNumberArea);
-    painter.fillRect(event->rect(), QColor("#073642"));
+    painter.fillRect(event->rect(), Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditLineNumberAreaColor));
 
 //![extraAreaPaintEvent_0]
 
@@ -68,7 +69,7 @@ void QssTextEdit::lineNumberAreaPaintEvent(QPaintEvent *event)
     while (block.isValid() && top <= event->rect().bottom()) {
         if (block.isVisible() && bottom >= event->rect().top()) {
             QString number = QString::number(blockNumber + 1);
-            painter.setPen(QColor("#586e75"));
+            painter.setPen(Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditLineNumberAreaText));
             painter.drawText(0, top, m_lineNumberArea->width(), fontMetrics().height(),
                              Qt::AlignRight, number);
         }
@@ -92,6 +93,16 @@ int QssTextEdit::lineNumberAreaWidth()
     int space = 3 + fontMetrics().horizontalAdvance(QLatin1Char('9')) * digits;
 
     return space;
+}
+
+void QssTextEdit::updateQssKeywordModelAndHighlighter()
+{
+    m_highlighter->clearRules();
+
+    initQssKeywordModelAndHighlighter();
+    m_completer->setModel(m_completerWordModel);
+
+    m_lineNumberArea->repaint();
 }
 
 void QssTextEdit::keyPressEvent(QKeyEvent *e)
@@ -178,29 +189,38 @@ void QssTextEdit::resizeEvent(QResizeEvent *event)
 
 void QssTextEdit::initQssKeywordModelAndHighlighter()
 {
-    QTextCharFormat format;
+    //Only set viewport's palette can update normally
+    QPalette palette(this->viewport()->palette());
+    palette.setColor(QPalette::Base, Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditPaletteBase));
+    palette.setColor(QPalette::Text, Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditPaletteText));
+    this->viewport()->setPalette(palette);
 
-    QColor commentTextColor(Config::getInstance()->value("Text/CommentTextColor","#586e75").toString());
+    QTextCharFormat format;
+    QColor commentTextColor(Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditCommentTextColor));
     format.setForeground(commentTextColor);
     m_highlighter->setCommentFormat(format);
 
     const QStringList qclassKeywords = QssTextEditManager::getInstance()->qtClassKeywords();
-    QColor qtClassTextColor(Config::getInstance()->value("Text/QtClassTextColor","#b58900").toString());
+    QColor qtClassTextColor(Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditQtClassTextColor));
     format.setForeground(qtClassTextColor);
     m_highlighter->appendKeywords(qclassKeywords, format);
 
     const QStringList qssKeywords = QssTextEditManager::getInstance()->qssKeywords();
-    QColor qssKeywordTextColor(Config::getInstance()->value("Text/QssKeywordTextColor","#709d06").toString());
+    QColor qssKeywordTextColor(Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditQssKeywordTextColor));
     format.setForeground(qssKeywordTextColor);
     m_highlighter->appendKeywords(qssKeywords,format);
 
-    QColor defKeywordTextColor(Config::getInstance()->value("Text/UserDefineWordTextColor","#cb4b16").toString());
+    QColor defKeywordTextColor(Utils::Theme::getInstance()->color(Utils::Theme::Color::QssTextEditUserDefineWordTextColor));
     format.setForeground(defKeywordTextColor);
     const QStringList defKeywords = QssTextEditManager::getInstance()->getCurDefs().keys();
     m_highlighter->updateColorDefKeywords(defKeywords, format);
-
+    if(m_completerWordModel != nullptr)
+    {
+        m_completerWordModel->deleteLater();
+    }
     m_completerWordModel = new QStringListModel(qssKeywords + qclassKeywords + defKeywords, m_completer);
 }
+
 
 
 QssTextEdit::ReturnOperation QssTextEdit::nextLineOperation()
@@ -292,6 +312,7 @@ void QssTextEdit::slot_updateColorDef()
     format.setForeground(defKeywordTextColor);
     QStringList defKeywords = QssTextEditManager::getInstance()->getCurDefs().keys();
     m_highlighter->updateColorDefKeywords(defKeywords, format);
+    m_highlighter->rehighlight();
 
     if (!m_completerWordModel) return;
     QStringList keywords = QssTextEditManager::getInstance()->qssKeywords() + QssTextEditManager::getInstance()->qtClassKeywords();

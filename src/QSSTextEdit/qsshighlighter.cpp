@@ -87,6 +87,13 @@ void QssHighlighter::printFormatInfo(const QTextCharFormat &format)
     qDebug()<<format.foreground();
 }
 
+void QssHighlighter::clearRules()
+{
+    m_qtKeywordHighlightingRules.clear();
+    m_colorDefHighlightRules.clear();
+}
+
+
 void QssHighlighter::highlightBlock(const QString &text)
 {
     for (const QssHighlightingRule &rule : qAsConst(m_qtKeywordHighlightingRules)) {
