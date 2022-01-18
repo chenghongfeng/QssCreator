@@ -24,7 +24,6 @@ void Config::readAllConfig()
     QString qssPath = Path::getInstance()->qssDir();
     QDir qssDir(qssPath);
     QFileInfoList fileInfos = qssDir.entryInfoList();
-    m_themes.push_back("None");
     for(auto &info:fileInfos){
         if(info.suffix() == "qssdef")
         {

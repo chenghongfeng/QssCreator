@@ -5,7 +5,7 @@
 #include <QMap>
 #include <QFontComboBox>
 
-#include "QssTextEdit/qsshighlighter.h"
+#include "QSSTextEdit/qsshighlighter.h"
 #include "textsettingswidget.h"
 #include "fancytabwidget.h"
 

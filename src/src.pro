@@ -64,7 +64,7 @@ FORMS += \
     textsettingswidget.ui
 
 TRANSLATIONS += \
-    QssHelper_zh_CN.ts
+    QssCreator_zh_CN.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

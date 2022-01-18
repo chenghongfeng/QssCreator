@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
     Config::getInstance()->readAllConfig();
     //qApp->setStyleSheet();
     MainWindow w;
-    QIcon icon(":/icons/qsseditor.png");
+    QIcon icon(":/icons/qsscreator.png");
     w.setWindowTitle("Qss Creator");
     w.setWindowIcon(icon);
     w.show();

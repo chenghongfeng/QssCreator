@@ -15,6 +15,7 @@
 #include "QSSTextEdit/colordeftableview.h"
 #include "QSSTextEdit/qssproxymodel.h"
 #include "config.h"
+#include "constants.h"
 
 const QString ConfigEnableSort = "Custom/EnableSort";
 
@@ -85,7 +86,7 @@ void ColorDefWidget::addNewDef()
     bool ok = QssTextEditManager::getInstance()->addNewDef();
     if(!ok)
     {
-        QMessageBox::critical(this, tr("Warning"),tr("Please set a name for the '#set_name' that is different from the other items"));
+        QMessageBox::critical(this, tr("Warning"),tr("Please set a name for the '%1' that is different from the other items").arg(Constants::NEW_DEFINE_NAME));
     }
 }
 

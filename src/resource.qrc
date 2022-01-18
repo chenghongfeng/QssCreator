@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/icons">
-        <file>qsseditor.png</file>
+        <file>qsscreator.png</file>
     </qresource>
 </RCC>

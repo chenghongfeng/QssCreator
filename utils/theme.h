@@ -29,11 +29,19 @@ public:
         PanelTextColorDark,
         PanelTextColorMid,
         BackgroundColorNormal,
+        /*QssTextEdit*/
+        QssTextEditPaletteText,
+        QssTextEditPaletteBase,
+        QssTextEditQtClassTextColor,
+        QssTextEditQssKeywordTextColor,
+        QssTextEditCommentTextColor,
+        QssTextEditUserDefineWordTextColor,
 
         PaletteText,
 
         SideBkgColor,
         SideBorderColor,
+
 
         /* Icons */
 
@@ -98,6 +106,7 @@ public:
     Q_ENUM(Color)
     Q_ENUM(Flag)
 public:
+    Q_INVOKABLE void readColors();
     Q_INVOKABLE bool flag(Flag f) const;
     Q_INVOKABLE QColor color(Color role) const;
 
@@ -105,8 +114,12 @@ protected:
     Theme();
 
 private:
+    QPair<QColor, QString> readNamedColor(const QString &color) const;
+
+private:
     friend class Singleton<Theme>;
     QMap<QString,QString> m_defs;
+    QVector<QPair<QColor, QString> > m_colors;
 
 };
 }

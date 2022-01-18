@@ -8,8 +8,7 @@
 #include "config.h"
 #include "fileHelper.h"
 #include "qss_helper.h"
-const QString NewDefineName = "$set_name";
-const QString NewDefineValue = "#FFFFFF";
+#include "constants.h"
 
 QString QssTextEditManager::getCurDefsText() const
 {
@@ -99,14 +98,14 @@ bool QssTextEditManager::addNewDef()
 {
     ColorDefInfo newInfo;
     for(auto const &defInfo:m_defInfos){
-        if((defInfo.key == NewDefineName) && (defInfo.status != ColorDefInfo::DefStatus::Deprecated))
+        if((defInfo.key == Constants::NEW_DEFINE_NAME) && (defInfo.status != ColorDefInfo::DefStatus::Deprecated))
         {
             return false;
         }
     }
     newInfo.status = ColorDefInfo::DefStatus::Append;
-    newInfo.key = NewDefineName;
-    newInfo.value = NewDefineValue;
+    newInfo.key = Constants::NEW_DEFINE_NAME;
+    newInfo.value = Constants::NEW_DEFINE_VALUE;
     m_defInfos.append(std::move(newInfo));
     emit defsUpdated();
     return true;

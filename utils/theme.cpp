@@ -1,5 +1,6 @@
 #include "theme.h"
 #include <QFile>
+#include <QMetaEnum>
 
 #include "path.h"
 #include "config.h"
@@ -8,6 +9,26 @@ const char* SideBkgColorDefText = "$side_bkg";
 const char* SideBorderColorDefText = "$side_border";
 const char* FancyTabBarSelectedBackground = "$FancyTabBarSelectedBackgroundColor";
 
+void Utils::Theme::readColors()
+{
+
+    QFile file(Config::getInstance()->themeFilePathName());
+    if(file.open(QFile::ReadOnly))
+    {
+        QString defsText = file.readAll();
+        m_defs = QssHelper::getColorDefineFromQStr(defsText);
+    }
+
+    const QMetaObject &m = *metaObject();
+    m_colors.resize(m.enumerator(m.indexOfEnumerator("Color")).keyCount());
+
+    QMetaEnum e = m.enumerator(m.indexOfEnumerator("Color"));
+    for (int i = 0, total = e.keyCount(); i < total; ++i) {
+        const QString key = QLatin1String(e.key(i));
+        m_colors[i] = readNamedColor(key);
+    }
+}
+
 bool Utils::Theme::flag(Utils::Theme::Flag f) const
 {
     return true;
@@ -15,83 +36,18 @@ bool Utils::Theme::flag(Utils::Theme::Flag f) const
 
 QColor Utils::Theme::color(Utils::Theme::Color role) const
 {
-    QColor ret;
-    bool isNoneTheme = "None" == Config::getInstance()->value("Theme/name","None").toString();
-    switch (role) {
-    case FancyToolBarSeparatorColor:
-        ret = QColor(33, 34, 34);
-        break;
-    case FancyTabBarBackgroundColor:
-        if(isNoneTheme){
-            ret = Qt::white;
-        }else{
-            ret = m_defs.value(SideBkgColorDefText,"#404142");
-        }
-        break;
-    case FancyTabBarSelectedBackgroundColor:
-        ret = m_defs.value(FancyTabBarSelectedBackground,"#212222");
-        break;
-    case FancyTabWidgetDisabledSelectedTextColor:
-        ret = Qt::green;
-        break;
-    case FancyTabWidgetDisabledUnselectedTextColor:
-        ret = Qt::green;
-        break;
-    case FancyTabWidgetEnabledSelectedTextColor:
-        if(isNoneTheme){
-            ret = Qt::white;
-        }
-        else{
-            ret = QColor("#bec0c1");
-        }
-        break;
-    case FancyTabWidgetEnabledUnselectedTextColor:
-        ret = QColor("#bec0c1");
-        break;
-    case FancyToolButtonHoverColor:
-        ret = QColor(94, 95, 96);
-        break;
-    case FancyToolButtonSelectedColor:
-        ret = QColor(33, 34, 34);
-        break;
-    case PanelTextColorDark:
-        ret = QColor("#bec0c1");
-        break;
-    case IconsDisabledColor:
-        ret = QColor("#626264");
-        break;
-    case IconsBaseColor:
-        ret = QColor("#7fc242");;
-        break;
-    case SideBkgColor:
-        if(isNoneTheme)
-        {
-            ret = Qt::white;
-        }else{
-            ret = m_defs.value(SideBkgColorDefText,"#404142");
-        }
-        break;
-    case SideBorderColor:
-        if(isNoneTheme)
-        {
-            ret = QColor("#404142");
-        }else{
-            ret = m_defs.value(SideBkgColorDefText,"#404142");
-        }
-        break;
-    default:
-        ret = Qt::red;
-
-    }
-    return ret;
+    if(role > m_colors.size())
+        return Qt::black;
+    return m_colors[role].first;
 }
 
 Utils::Theme::Theme()
 {
-    QFile file(Path::getInstance()->colorDefFilePath());
-    if(file.open(QFile::ReadOnly))
-    {
-        QString defsText = file.readAll();
-        m_defs = QssHelper::getColorDefineFromQStr(defsText);
-    }
+    readColors();
+
+}
+
+QPair<QColor, QString> Utils::Theme::readNamedColor(const QString &key) const
+{
+    return qMakePair(QColor(m_defs.value(QString("%1%2").arg("$").arg(key), "#FFFFFF")), key);
 }

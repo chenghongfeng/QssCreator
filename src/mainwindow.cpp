@@ -19,6 +19,7 @@
 #include "qss_helper.h"
 #include "config.h"
 #include "path.h"
+#include "theme.h"
 #include "qsstexteditmanager.h"
 
 #include "textsettingswidget.h"
@@ -30,6 +31,7 @@
 #include "finddialog.h"
 #include "findreplacedialog.h"
 #include "previewqsswidget.h"
+#include "constants.h"
 
 #define USE_FANCYTABWIDGET
 #ifdef INTERNAL_TEST
@@ -42,7 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     initUi();
     initSignalSlots();
     initSettings();
@@ -179,7 +180,7 @@ void MainWindow::initUi()
     ui->centralwidget->setLayout(layout);
     {
         //Theme组件
-        QString themeName = Config::getInstance()->value("Theme/name","None").toString();
+        QString themeName = Config::getInstance()->value("Theme/name", Constants::NONE_THEME_NAME).toString();
         QMenu *themeMenu = new QMenu(this);
         themeMenu->setTitle(tr("Theme"));
         {
@@ -212,7 +213,13 @@ void MainWindow::initSignalSlots()
 
 void MainWindow::initSettings()
 {
+#ifdef CREATE_MODE
+    QString fileName = Path::getInstance()->qssFilePath();
+    Config::getInstance()->setValue("Qss/UserQssFilePath",fileName);
+#else
     QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssFilePath()).toString();
+#endif
+
     QFont font = getFontFromConfig();
     QFontMetrics metrics(font);
     m_textEdit->setTabStopDistance(4*metrics.width(' '));
@@ -433,26 +440,34 @@ void MainWindow::slot_showPreviewActionTriggered()
 
 void MainWindow::themeChanged()
 {
-    QString themeFileName = Config::getInstance()->themeFilePathName();
-    QFile themeFile(themeFileName);
-    QMap<QString,QString> defs;
-    if(themeFile.open(QFile::ReadOnly))
-    {
-        QString defsText = themeFile.readAll();
-        defs = QssHelper::getColorDefineFromQStr(defsText);
-        themeFile.close();
-    }
-    QString qssFileName = Path::getInstance()->qssFilePath();
-    QFile qssFile(qssFileName);
+
     QString qss;
-    if(qssFile.open(QFile::ReadOnly))
+    //None Theme dont load qss
+    if(Config::getInstance()->themeName() != Constants::NONE_THEME_NAME)
     {
-        qss = qssFile.readAll();
-        qssFile.close();
+        QString themeFileName = Config::getInstance()->themeFilePathName();
+        QFile themeFile(themeFileName);
+        QMap<QString,QString> defs;
+        if(themeFile.open(QFile::ReadOnly))
+        {
+            QString defsText = themeFile.readAll();
+            defs = QssHelper::getColorDefineFromQStr(defsText);
+            themeFile.close();
+        }
+        QString qssFileName = Path::getInstance()->qssFilePath();
+        QFile qssFile(qssFileName);
+
+        if(qssFile.open(QFile::ReadOnly))
+        {
+            qss = qssFile.readAll();
+            qssFile.close();
+        }
+        QssHelper::replaceDefsWithValues(qss, defs);
     }
-    QssHelper::replaceDefsWithValues(qss, defs);
+    Utils::Theme::getInstance()->readColors();
     this->setStyleSheet(qss);
-    m_fancyTabWidget->repaint();
+    this->repaint();
+    m_fancyTabWidget->repaintAll();
 }
 
 
