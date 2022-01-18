@@ -114,7 +114,7 @@ void FancyTabBar::paintEvent(QPaintEvent *event)
     if (Theme::getInstance()->flag(Theme::FlatToolBars)) {
         // draw background of upper part of left tab widget
         // (Welcome, ... Help)
-        p.fillRect(event->rect(), StyleHelper::baseColor());
+        p.fillRect(event->rect(), Theme::getInstance()->color(Theme::SideBkgColor));
     }
 
     for (int i = 0; i < count(); ++i)
@@ -374,6 +374,8 @@ void FancyTabBar::paintTab(QPainter *painter, int tabIndex) const
         } else {
             paintSelectedTabBackground(painter, rect);
         }
+    }else{
+        painter->fillRect(rect, Theme::getInstance()->color(Theme::SideBkgColor));
     }
 
     const qreal fader = tab->fader();

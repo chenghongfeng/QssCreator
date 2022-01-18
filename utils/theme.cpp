@@ -6,6 +6,7 @@
 #include "qss_helper.h"
 const char* SideBkgColorDefText = "$side_bkg";
 const char* SideBorderColorDefText = "$side_border";
+const char* FancyTabBarSelectedBackground = "$FancyTabBarSelectedBackgroundColor";
 
 bool Utils::Theme::flag(Utils::Theme::Flag f) const
 {
@@ -28,7 +29,7 @@ QColor Utils::Theme::color(Utils::Theme::Color role) const
         }
         break;
     case FancyTabBarSelectedBackgroundColor:
-        ret = QColor("#212222");
+        ret = m_defs.value(FancyTabBarSelectedBackground,"#212222");
         break;
     case FancyTabWidgetDisabledSelectedTextColor:
         ret = Qt::green;
@@ -60,7 +61,7 @@ QColor Utils::Theme::color(Utils::Theme::Color role) const
         ret = QColor("#626264");
         break;
     case IconsBaseColor:
-        ret = QColor("#7fc242");
+        ret = QColor("#7fc242");;
         break;
     case SideBkgColor:
         if(isNoneTheme)
