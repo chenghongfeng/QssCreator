@@ -100,8 +100,8 @@ void QssTextEdit::updateQssKeywordModelAndHighlighter()
     m_highlighter->clearRules();
 
     initQssKeywordModelAndHighlighter();
+    m_highlighter->rehighlight();
     m_completer->setModel(m_completerWordModel);
-
     m_lineNumberArea->repaint();
 }
 
