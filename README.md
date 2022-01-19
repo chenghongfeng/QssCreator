@@ -24,7 +24,7 @@ Ui是仿照QtCreator的主界面Ui
 
 Dark主题的配色参考的是QtCreator的Flat Dark主题,文本编辑器的配色及高亮参考的是我最喜欢的Solarized Dark
 
-
+exampleFile里面的示例qss文件和qssdef文件参考自[satchelwu/QSS-Skin-Builder](https://github.com/satchelwu/QSS-Skin-Builder)的主题和配色
 
 ### 一些说明
 
