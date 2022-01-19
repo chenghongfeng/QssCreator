@@ -1,0 +1,16 @@
+//Warning 
+//1.变量命名要使用$开头
+//2.变量不要使用_作为最后一个字符
+//3.value结尾推荐使用 ';'
+
+$TextColor=#F0F0F0;
+$PanelColor=#464646;
+$BorderColor=#353535;
+$NormalColorStart=#4D4D4D ;
+$NormalColorEnd=#292929;
+$DarkColorStart=#636363 ;
+$DarkColorEnd=#575757;
+$HighColor=#00BB9E;
+
+
+

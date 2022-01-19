@@ -3,22 +3,12 @@
 //2.变量不要使用_作为最后一个字符
 //3.value结尾推荐使用 ';'
 
-$side_bkg = #404142; //(64, 65, 66); 
-$side_front = #bec0c1;//bec0c1; //190, 192, 193
-$bkg = #2e2f30;// 46, 47, 48
+$TextColor=#5d5c6c;
+$PanelColor=#ebecf0;
+$BorderColor=#a9acb5;
+$NormalColorStart=#D8D9DE;
+$NormalColorEnd=#C8C8D0;
+$DarkColorStart=#EFF0F4;
+$DarkColorEnd=#DDE0E7;
+$HighColor=#00BB9E;
 
-
-
-$text=#d0d0d0;
-
-$select_bkg=#1d545c;
-$border_color=#000000;
-
-$side_border=#323334;
-
-$headViewSectionH_text=#323334;
-$len_test4=#FFFFFF;
-$len_test5=#FFFFFF;
-$headViewSectionH_bkg=#bec0c1;
-
-$scrollBar_page=#494a4b;
