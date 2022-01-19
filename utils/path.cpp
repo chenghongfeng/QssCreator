@@ -13,6 +13,21 @@ QString Path::cdUp(const QString &folder)
     return tempFolder.absolutePath();
 }
 
+QString Path::exampleFilePath() const
+{
+    return QString("%1/conf/%2").arg(m_appDir).arg("exampleFiles");
+}
+
+QString Path::qssExampleFilePathName() const
+{
+    return QString("%1/conf/%2").arg(m_appDir).arg("exampleFiles/example.qss");
+}
+
+QString Path::qssDefExampleFilePathName() const
+{
+    return QString("%1/conf/%2").arg(m_appDir).arg("exampleFiles/example.qssdef");
+}
+
 Path::Path()
 {
     m_exeDir = QApplication::applicationDirPath();

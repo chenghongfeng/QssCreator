@@ -39,7 +39,10 @@ public:
     }
     QString qClassKeyWordFilePath() const{
         return m_qClassKeywordFilePath;
-    }
+    } 
+    QString exampleFilePath()const;
+    QString qssExampleFilePathName()const;
+    QString qssDefExampleFilePathName()const;
 private:
     Path();
 

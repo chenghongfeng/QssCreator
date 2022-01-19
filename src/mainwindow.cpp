@@ -211,7 +211,7 @@ void MainWindow::initSignalSlots()
 
 void MainWindow::initSettings()
 {
-    QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssFilePath()).toString();
+    QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssExampleFilePathName()).toString();
     QFont font = getFontFromConfig();
     QFontMetrics metrics(font);
     m_textEdit->setTabStopDistance(4*metrics.width(' '));

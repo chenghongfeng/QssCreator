@@ -141,7 +141,7 @@ void QssTextEditManager::setSourceTextVisible(bool isVisible)
 void QssTextEditManager::updateDefs()
 {
     QString filePath = Config::getInstance()->value("Qss/UserColorDefineFile",
-                                                    Path::getInstance()->colorDefFilePath()).toString();
+                                                    Path::getInstance()->qssDefExampleFilePathName()).toString();
     setDefsFile(filePath);
 }
 
