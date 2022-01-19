@@ -25,7 +25,7 @@
    </property>
    <widget class="QMenu" name="menucolorDefFile">
     <property name="title">
-     <string>colorDefFile</string>
+     <string>ColorDefineFile</string>
     </property>
     <addaction name="actionSaveColorDefineFile"/>
     <addaction name="actionAddNewDef"/>
@@ -35,7 +35,7 @@
    </widget>
    <widget class="QMenu" name="menuqss_file">
     <property name="title">
-     <string>qss file</string>
+     <string>QssFile</string>
     </property>
     <addaction name="actionSaveQssFile"/>
     <addaction name="actionSaveQssToFile"/>
@@ -107,7 +107,7 @@
   </action>
   <action name="actionAddNewDef">
    <property name="text">
-    <string>AddNewDef</string>
+    <string>AddNewColorDefine</string>
    </property>
    <property name="toolTip">
     <string>add a new color define</string>
@@ -115,7 +115,7 @@
   </action>
   <action name="actionshowSourceText">
    <property name="text">
-    <string>showSourceText</string>
+    <string>ShowSourceText</string>
    </property>
    <property name="toolTip">
     <string>show scource text</string>
@@ -123,7 +123,7 @@
   </action>
   <action name="actionshowColorDefines">
    <property name="text">
-    <string>showColorDefines</string>
+    <string>ShowColorDefines</string>
    </property>
   </action>
   <action name="actionSaveQssToFile">

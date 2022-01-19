@@ -22,9 +22,13 @@ QTableView QTableCornerButton::section {
 QHeaderView{
     background: $side_bkg;
 }
-QHeaderView::section {
+QHeaderView::section:vertical {
     background: $side_bkg;
     color: $text; 
+}
+QHeaderView::section:horizontal{
+    background: $headViewSectionH_bkg;
+    color: $headViewSectionH_text; 
 }
 QMenuBar{
     background: $side_bkg;
@@ -52,7 +56,11 @@ QStatusBar{
     background: $side_bkg;
     color: $text;
 }
-
-
-
-
+TextSettingsWidget{
+	background:$bkg;
+	color:$text;
+}
+TextSettingsWidget QWidget{
+	background:$bkg;
+	color:$text;
+}

@@ -14,11 +14,11 @@ $text=#d0d0d0;
 $select_bkg=#1d545c;
 $border_color=#000000;
 
-$len_test2=#FFFFFF;
+$side_border=#323334;
 
-$len_test3=#FFFFFF;
+$headViewSectionH_text=#323334;
 $len_test4=#FFFFFF;
 $len_test5=#FFFFFF;
-$len_test6=#FFFFFF;
+$headViewSectionH_bkg=#bec0c1;
 
 $scrollBar_page=#494a4b;

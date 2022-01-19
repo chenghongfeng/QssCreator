@@ -9,32 +9,32 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="colordefwidget.cpp" line="88"/>
+        <location filename="colordefwidget.cpp" line="89"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="colordefwidget.cpp" line="88"/>
-        <source>Please set a name for the &apos;#set_name&apos; that is different from the other items</source>
+        <location filename="colordefwidget.cpp" line="89"/>
+        <source>Please set a name for the &apos;%1&apos; that is different from the other items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="colordefwidget.cpp" line="124"/>
+        <location filename="colordefwidget.cpp" line="125"/>
         <source>Add new</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="colordefwidget.cpp" line="130"/>
+        <location filename="colordefwidget.cpp" line="131"/>
         <source>Disable Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="colordefwidget.cpp" line="130"/>
+        <location filename="colordefwidget.cpp" line="131"/>
         <source>Enable Sort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="colordefwidget.cpp" line="144"/>
+        <location filename="colordefwidget.cpp" line="145"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -169,12 +169,14 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="28"/>
-        <source>colorDefFile</source>
+        <source>ColorDefineFile</source>
+        <oldsource>colorDefFile</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="38"/>
-        <source>qss file</source>
+        <source>QssFile</source>
+        <oldsource>qss file</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -199,7 +201,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="73"/>
-        <location filename="mainwindow.cpp" line="279"/>
+        <location filename="mainwindow.cpp" line="284"/>
         <source>Open qss file</source>
         <translation type="unfinished"></translation>
     </message>
@@ -241,7 +243,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="110"/>
-        <source>AddNewDef</source>
+        <source>AddNewColorDefine</source>
+        <oldsource>AddNewDef</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -251,7 +254,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="118"/>
-        <source>showSourceText</source>
+        <source>ShowSourceText</source>
+        <oldsource>showSourceText</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -261,7 +265,8 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="126"/>
-        <source>showColorDefines</source>
+        <source>ShowColorDefines</source>
+        <oldsource>showColorDefines</oldsource>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -315,79 +320,79 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="104"/>
+        <location filename="mainwindow.cpp" line="105"/>
         <source>Show/Hide color defines widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="108"/>
+        <location filename="mainwindow.cpp" line="109"/>
         <source>Colors</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="118"/>
+        <location filename="mainwindow.cpp" line="119"/>
         <source>Show/Hide color config widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="125"/>
+        <location filename="mainwindow.cpp" line="126"/>
         <source>Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="184"/>
+        <location filename="mainwindow.cpp" line="183"/>
         <source>Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="201"/>
+        <location filename="mainwindow.cpp" line="200"/>
         <source>Preview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="279"/>
+        <location filename="mainwindow.cpp" line="284"/>
         <source>Skin file(*.qss)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="290"/>
+        <location filename="mainwindow.cpp" line="295"/>
         <source>Open color define file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="290"/>
+        <location filename="mainwindow.cpp" line="295"/>
         <source>Color define file(*.qssdef)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="350"/>
+        <location filename="mainwindow.cpp" line="355"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="350"/>
+        <location filename="mainwindow.cpp" line="355"/>
         <source>Please set a name for the &apos;#set_name&apos; that is different from the other items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="367"/>
-        <location filename="mainwindow.cpp" line="390"/>
+        <location filename="mainwindow.cpp" line="372"/>
+        <location filename="mainwindow.cpp" line="395"/>
         <source>Save file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="369"/>
-        <location filename="mainwindow.cpp" line="392"/>
+        <location filename="mainwindow.cpp" line="374"/>
+        <location filename="mainwindow.cpp" line="397"/>
         <source>Qss File(*.qss *.css *.txt)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="463"/>
+        <location filename="mainwindow.cpp" line="476"/>
         <source>about Qss Creator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="464"/>
+        <location filename="mainwindow.cpp" line="477"/>
         <source>Qss Creator is a tool that supports editing and previewing qss and color variables</source>
         <translation type="unfinished"></translation>
     </message>
