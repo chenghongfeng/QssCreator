@@ -52,7 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-
     if(m_previewWidget)
     {
         delete m_previewWidget;
@@ -178,7 +177,7 @@ void MainWindow::initUi()
     ui->centralwidget->setLayout(layout);
     {
         //Theme组件
-        QString themeName = Config::getInstance()->value("Theme/name", Constants::NONE_THEME_NAME).toString();
+        QString themeName = Config::getInstance()->value("Theme/name", Constants::DEFAULT_THEME_NAME).toString();
         QMenu *themeMenu = new QMenu(this);
         themeMenu->setTitle(tr("Theme"));
         {
@@ -285,7 +284,7 @@ void MainWindow::on_actionOpenQssFile_triggered()
 
 void MainWindow::on_actionOpenDefineFile_triggered()
 {
-    QString fileName = Config::getInstance()->value("Qss/UserColorDefineFile", Path::getInstance()->colorDefFilePath()).toString();
+    QString fileName = Config::getInstance()->value("Qss/UserColorDefineFile", Path::getInstance()->qssDefExampleFilePathName()).toString();
     fileName = QFileDialog::getOpenFileName(this, tr("Open color define file"), Path::cdUp(fileName), tr("Color define file(*.qssdef)"));
     if (fileName == QString())
         return;
@@ -331,7 +330,7 @@ void MainWindow::on_actionSetQss_triggered()
 void MainWindow::on_actionSaveQssFile_triggered()
 {
     QString text = m_textEdit->toPlainText();
-    QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssFilePath()).toString();
+    QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssExampleFilePathName()).toString();
     QssHelper::writeQStrTofile(text,fileName);
 }
 

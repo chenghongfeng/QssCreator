@@ -8,5 +8,6 @@ const int DEFAULT_MAX_CHAR_COUNT = 10000000;
 const char NEW_DEFINE_NAME[] = "$z_set_name";
 const char NEW_DEFINE_VALUE[] = "#FFFFFF";
 const char NONE_THEME_NAME[] = "None";
+const char DEFAULT_THEME_NAME[] = "Dark";
 }
 #endif // CONSTANTS_H
