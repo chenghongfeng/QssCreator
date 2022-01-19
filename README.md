@@ -52,7 +52,7 @@ $scrollBar_page=#494a4b;
 
 #### 1.支持实时切换主题,无需重启程序
 
-![](.\READMEimages\ThemeDark.png) ![](.\READMEimages\ThemeNone.png)
+![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/ThemeDark.png) ![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/ThemeNone.png)
 
 
 
@@ -62,35 +62,35 @@ $scrollBar_page=#494a4b;
 
 2.支持根据变量名或者颜色排序,打开排序后可点击表头修改排序规则,关闭排序按照文件原本顺序显示变量
 
-![](.\READMEimages\ColorDefWidgetMenu.png)
+![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/ColorDefWidgetMenu.png)
 
 3.支持修改变量名(双击变量名)
 
-![](.\READMEimages\ChangeDefName.png)
+![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/ChangeDefName.png)
 
 4.支持使用QColorDialog修改颜色(双击颜色)
 
-![](.\READMEimages\ChangeColor.png)
+![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/ChangeColor.png)
 
 #### 3.支持文本高亮和自动补全(使用中文输入法时补全将不工作)
 
 1.支持补全Qt关键词(参考QssCreator\conf\QtClassKeyWord.txt)
 
-![](.\READMEimages\AutoCQtClass.png)
+![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/AutoCQtClass.png)
 
 2.支持补全Qss关键词(参考QssCreator\conf\qssKeyWord.txt)
 
-![](.\READMEimages\AutoCQssKeyword.png)
+![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/AutoCQssKeyword.png)
 
 3.支持补全用户定义的颜色变量名称,能够随用户修改实时更新,输入$即可呼出补全列表
 
-![](.\READMEimages\AutoCDef.png)
+![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/AutoCDef.png)
 
 
 
 4.支持对以上三种内容高亮显示
 
-![](.\READMEimages\Highlight.png) ![](.\READMEimages\HighlightNoneTheme.png)
+![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/Highlight.png) ![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/HighlightNoneTheme.png)
 
 
 
