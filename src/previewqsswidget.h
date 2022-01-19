@@ -4,7 +4,7 @@
 #include <QWidget>
 
 namespace Ui {
-class QssTestWidget;
+class PreviewQssWidget;
 }
 
 class PreviewQssWidget : public QWidget
@@ -21,7 +21,7 @@ private slots:
     void updateProgress();
 
 private:
-    Ui::QssTestWidget *ui;
+    Ui::PreviewQssWidget *ui;
 };
 
 #endif // PREVIEWQSSWIDGET_H

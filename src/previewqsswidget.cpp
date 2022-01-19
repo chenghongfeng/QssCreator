@@ -1,12 +1,12 @@
 #include "previewqsswidget.h"
-#include "ui_qsstestwidget.h"
+#include "ui_previewqsswidget.h"
 
 #include <QTimer>
 #include <QPainter>
 
 PreviewQssWidget::PreviewQssWidget(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::QssTestWidget)
+    ui(new Ui::PreviewQssWidget)
 {
     ui->setupUi(this);
 
@@ -16,6 +16,11 @@ PreviewQssWidget::PreviewQssWidget(QWidget *parent) :
     progressTimer->start();
     this->setAttribute(Qt::WA_StyledBackground, true);
     this->setWindowTitle(tr("Preview widget"));
+
+    ui->TabWidget->setTabVisible(0,false);
+    ui->TabWidget->setTabVisible(1,true);
+    ui->TabWidget->setTabVisible(2,false);
+    ui->TabWidget->setTabVisible(3,false);
 }
 
 PreviewQssWidget::~PreviewQssWidget()

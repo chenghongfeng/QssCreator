@@ -60,7 +60,7 @@ HEADERS += \
 FORMS += \
     colordefwidget.ui \
     mainwindow.ui \
-    qsstestwidget.ui \
+    previewqsswidget.ui \
     textsettingswidget.ui
 
 TRANSLATIONS += \
