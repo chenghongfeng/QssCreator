@@ -24,6 +24,8 @@ Ui是仿照QtCreator的主界面Ui
 
 Dark主题的配色参考的是QtCreator的Flat Dark主题,文本编辑器的配色及高亮参考的是我最喜欢的Solarized Dark
 
+
+
 ### 一些说明
 
 #### 1.颜色定义文件
@@ -92,6 +94,8 @@ $scrollBar_page=#494a4b;
 
 ![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/Highlight.png) ![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/HighlightNoneTheme.png)
 
+5.支持换行时补全tab,和}
+
 #### 预览Qss效果
 
 点击Menubar上的Preview按钮即可显示一个加载qss和qssdef的窗口
@@ -105,12 +109,24 @@ $scrollBar_page=#494a4b;
 完成后正式发布1.0版本
 
 - [ ] 软件中文翻译
+
 - [ ] README英文版本
+
 - [ ] Linux/Mac版本
+
 - [ ] 更新检查
+
 - [ ] 替换颜色变量的算法优化
+
 - [ ] Preview窗口优化和更多控件支持
+
 - [ ] 所有控件的颜色更符合主题
+
 - [ ] 支持修改和添加本软件主题
+
 - [ ] 代码优化
+
+- [ ] 一个示例程序
+
+  
 
