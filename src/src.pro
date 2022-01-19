@@ -1,6 +1,9 @@
 QT       += widgets
 include(../defines.pri)
-include(TestWidget.pri)
+
+TARGET = QssCreator
+RC_ICONS = QssCreator.ico
+RC_FILE = QssCreator.rc
 
 greaterThan(QT_MAJOR_VERSION, 4){
     # QT5
