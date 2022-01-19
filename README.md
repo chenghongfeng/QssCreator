@@ -92,6 +92,12 @@ $scrollBar_page=#494a4b;
 
 ![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/Highlight.png) ![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/HighlightNoneTheme.png)
 
+#### 预览Qss效果
+
+点击Menubar上的Preview按钮即可显示一个加载qss和qssdef的窗口
+
+![](https://github.com/chenghongfeng/QssCreator/blob/master/READMEimages/PreviewWidget.png) 
+
 
 
 ### TODO 1.0 Version
@@ -103,7 +109,7 @@ $scrollBar_page=#494a4b;
 - [ ] Linux/Mac版本
 - [ ] 更新检查
 - [ ] 替换颜色变量的算法优化
-- [ ] Preview窗口优化
+- [ ] Preview窗口优化和更多控件支持
 - [ ] 所有控件的颜色更符合主题
 - [ ] 支持修改和添加本软件主题
 - [ ] 代码优化
