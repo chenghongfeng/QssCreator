@@ -8,9 +8,25 @@ on:
 
 jobs:
   build:
-
+    name: Build
     runs-on: windows-latest
-
+    strategy:
+      matrix:
+        qt_ver: [5.9.8,5.12.6]
+        qt_target: [desktop]
+        # mingw用不了
+        # qt_arch: [win64_msvc2017_64, win32_msvc2017, win32_mingw53,win32_mingw73]
+        qt_arch: [win64_msvc2017_64, win32_msvc2017]
+        # 从矩阵中除外的配置
+        exclude: 
+          - qt_ver: 5.9.8
+            qt_arch: win32_msvc2017
+        # 额外设置msvc_arch
+        include:
+          - qt_arch: win64_msvc2017_64
+            msvc_arch: x64
+          - qt_arch: win32_msvc2017
+            msvc_arch: x86
     steps:
     - name: Install Qt
       uses: jurplel/install-qt-action@v3.0.0
@@ -19,4 +35,13 @@ jobs:
         target: desktop
         arch: win64_msvc2017_64
     - uses: actions/checkout@v3
+    - name: build-msvc
+      shell: cmd
+      env:
+        vc_arch: ${{ matrix.msvc_arch}}
+      run: 
+        call 
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
+          qmake
+          nmake
 
