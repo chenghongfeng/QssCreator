@@ -15,7 +15,7 @@ jobs:
         qt_ver: [5.12.6]
         qt_target: [desktop]
         # mingw用不了
-        qt_arch: [win64_msvc2017_64, win32_msvc2017]
+        qt_arch: [win64_msvc2017_64]
         # 从矩阵中除外的配置
         exclude: 
           - qt_ver: 5.9.8
@@ -40,7 +40,7 @@ jobs:
       env:
         vc_arch: ${{ matrix.msvc_arch}}
       run:  
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x64
         qmake
         nmake
 
