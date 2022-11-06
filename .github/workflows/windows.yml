@@ -42,8 +42,7 @@ jobs:
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" ${{ matrix.msvc_arch }}
         qmake
-        jom.exe qmake_all
-        jom.exe -j8
+        nmake
         echo winSdkDir=%WindowsSdkDir% >> %GITHUB_ENV%
         echo winSdkVer=%WindowsSdkVersion% >> %GITHUB_ENV%
         echo vcToolsInstallDir=%VCToolsInstallDir% >> %GITHUB_ENV%
