@@ -1,4 +1,4 @@
-#include "config.h"
+﻿#include "config.h"
 
 #include <QStringList>
 #include <QSettings>
@@ -19,7 +19,9 @@ void Config::readAllConfig()
     if (m_configFilePathName == "")
         return;
     m_settings = new QSettings(m_configFilePathName, QSettings::Format::IniFormat);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     m_settings->setIniCodec("UTF-8");
+#endif
     QStringList settings = m_settings->allKeys();
     QString qssPath = Path::getInstance()->qssDir();
     QDir qssDir(qssPath);

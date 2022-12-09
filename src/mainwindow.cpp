@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <QFile>
@@ -213,7 +213,12 @@ void MainWindow::initSettings()
     QString fileName = Config::getInstance()->value("Qss/UserQssFilePath", Path::getInstance()->qssExampleFilePathName()).toString();
     QFont font = getFontFromConfig();
     QFontMetrics metrics(font);
+#if QT_VERSION < QT_VERSION_CHECK(5,11,0)
     m_textEdit->setTabStopDistance(4*metrics.width(' '));
+#else
+    m_textEdit->setTabStopDistance(4*metrics.horizontalAdvance(' '));
+#endif
+
     m_textEdit->setFont(font);
     m_textEdit->setTextFromFile(fileName);
     this->restoreGeometry(Config::getInstance()->value("Layout/MainWindowGeometry").toByteArray());

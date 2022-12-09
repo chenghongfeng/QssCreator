@@ -130,7 +130,7 @@ void TextSettingsWidget::paintEvent(QPaintEvent *event)
 {
     Q_UNUSED(event);
     QStyleOption styleOpt;
-    styleOpt.init(this);
+    styleOpt.initFrom(this);
     QPainter painter(this);
     style()->drawPrimitive(QStyle::PE_Widget, &styleOpt, &painter, this);
 }

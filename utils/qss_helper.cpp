@@ -1,4 +1,4 @@
-#include "qss_helper.h"
+﻿#include "qss_helper.h"
 
 #include <QFile>
 
@@ -180,7 +180,11 @@ void QssHelper::writeQStrTofile(const QString &str, const QString &fileName)
         return;
     }
     QTextStream out(&file);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
     out.setCodec("UTF-8");
+#else
+    out.setEncoding(QStringConverter::Utf8);
+#endif
     out<<str;
     file.close();
 }
