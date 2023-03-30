@@ -109,7 +109,7 @@ void MainWindow::initUi()
         m_fancyTabWidget->setTabEnabled(0,true);
 
 #else
-        m_tabWidget->addPage(colorWidget,showColorDefAction);
+        m_tabWidget->addPage(m_colorWidget,showColorDefAction);
 #endif
 
 
@@ -463,7 +463,9 @@ void MainWindow::themeChanged()
     Utils::Theme::getInstance()->readColors();
     this->setStyleSheet(qss);
     this->repaint();
+#ifdef USE_FANCYTABWIDGET
     m_fancyTabWidget->repaintAll();
+#endif
 }
 
 

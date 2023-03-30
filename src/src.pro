@@ -6,10 +6,6 @@ TARGET = QssCreator
 RC_ICONS = QssCreator.ico
 
 greaterThan(QT_MAJOR_VERSION, 4){
-    # QT5
-#    QT       += webengine
-#    QT       += webenginewidgets
-#    QT       += axcontainer
     !contains(QMAKE_TARGET.arch, x86_64){
         CONFIG(release, debug|release):DESTDIR = $$PWD/../bin
         else:DESTDIR = $$PWD/../bin_D
@@ -18,9 +14,6 @@ greaterThan(QT_MAJOR_VERSION, 4){
         else:DESTDIR = $$PWD/../bin_x64_D
     }
 }else{
-    # QT4
-#    QT      += webkit
-#    CONFIG  += qaxcontainer
     CONFIG(release, debug|release):DESTDIR = $$PWD/../bin_qt4
     else:DESTDIR = $$PWD/../bin_qt4_D
 }
