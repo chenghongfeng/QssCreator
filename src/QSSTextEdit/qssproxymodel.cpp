@@ -4,7 +4,7 @@
 
 ColorDefTableProxyModel::ColorDefTableProxyModel(QObject *parent)
 {
-
+    Q_UNUSED(parent);
 }
 
 

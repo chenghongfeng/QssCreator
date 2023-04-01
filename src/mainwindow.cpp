@@ -82,6 +82,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+    Q_UNUSED(e);
     saveSettings();
 }
 

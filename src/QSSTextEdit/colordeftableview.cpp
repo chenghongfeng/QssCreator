@@ -25,12 +25,9 @@ bool ColorDefTableView::edit(const QModelIndex &index, QAbstractItemView::EditTr
         if(resultColor.isValid())
         {
             this->model()->setData(index,resultColor);
+            return true;
         }
-
+        return false;
     }
-    else
-    {
-        return QTableView::edit(index,trigger,event);
-    }
-
+    return QTableView::edit(index,trigger,event);
 }
