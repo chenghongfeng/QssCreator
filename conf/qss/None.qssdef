@@ -33,16 +33,17 @@ $QssTextEditUserDefineWordTextColor=#000080;
 $QssTextEditLineNumberAreaColor=#f0f0f0;
 $QssTextEditLineNumberAreaText=#a0a0a0;
 
-$FancyToolBarSeparatorColor=#212222;
-$FancyTabBarBackgroundColor=#ffffff;
-$FancyTabBarSelectedBackgroundColor=#212222;
+$FancyToolBarSeparatorColor=#f6f6f6;
+$FancyTabBarBackgroundColor=#e3e3e3;
+$FancyTabBarSelectedBackgroundColor=#f6f6f6;
 $FancyTabWidgetDisabledSelectedTextColor=#00ff00;
 $FancyTabWidgetDisabledUnselectedTextColor=#00ff00;
-$FancyTabWidgetEnabledSelectedTextColor=#ffffff;
-$FancyTabWidgetEnabledUnselectedTextColor=#bec0c1;
-$FancyToolButtonHoverColor=#5e5f60;
+$FancyTabWidgetEnabledSelectedTextColor=#57595b;
+$FancyTabWidgetEnabledUnselectedTextColor=#57595b;
+$FancyToolButtonHoverColor=#cdcdcd;
 
 $SideBkgColorDefText=#404142;
 $SideBorderColor=#404142;
 
-$SideBkgColor=#ffffff;
+$SideBkgColor=#e4e4e4;
+$IconsBaseColor=#57595b;

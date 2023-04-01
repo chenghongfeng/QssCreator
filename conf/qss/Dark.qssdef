@@ -41,7 +41,7 @@ $SideBkgColorDefText=#404142;
 $SideBorderColor=#404142;
 
 $SideBkgColor=#404142;
-
+$IconsBaseColor=#c2c4c5;
 
 
 $QssTextEditLineNumberAreaColor=#073642;
