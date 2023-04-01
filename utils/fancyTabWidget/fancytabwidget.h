@@ -26,8 +26,8 @@
 #pragma once
 
 #include "utils_global.h"
-#include <infobar.h>
-#include <porting.h>
+#include "infobar.h"
+#include "porting.h"
 
 #include <QIcon>
 #include <QWidget>

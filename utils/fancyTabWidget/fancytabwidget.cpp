@@ -28,11 +28,11 @@
 #include "constants.h"
 #include "fancyactionbar.h"
 
-#include <hostosinfo.h>
-#include <qtcassert.h>
-#include <styledbar.h>
-#include <stylehelper.h>
-#include <theme.h>
+#include "hostosinfo.h"
+#include "qtcassert.h"
+#include "styledbar.h"
+#include "stylehelper.h"
+#include "theme.h"
 
 #include <QDebug>
 #include <QHBoxLayout>

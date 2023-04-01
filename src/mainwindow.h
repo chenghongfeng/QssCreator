@@ -5,9 +5,8 @@
 #include <QMap>
 #include <QFontComboBox>
 
-#include "QSSTextEdit/qsshighlighter.h"
 #include "textsettingswidget.h"
-#include "fancytabwidget.h"
+#include "fancyTabWidget/fancytabwidget.h"
 
 QT_BEGIN_NAMESPACE
 class QFile;

@@ -2,7 +2,6 @@
 #include <QFile>
 #include <QMetaEnum>
 
-#include "path.h"
 #include "config.h"
 #include "qss_helper.h"
 const char* SideBkgColorDefText = "$side_bkg";

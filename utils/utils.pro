@@ -20,52 +20,52 @@ CONFIG += c++17
 
 SOURCES += \
     config.cpp \
-    fancyactionbar.cpp \
-    fancytabwidget.cpp \
+    fancyTabWidget/fancyactionbar.cpp \
+    fancyTabWidget/fancytabwidget.cpp \
+    fancyTabWidget/hostosinfo.cpp \
+    fancyTabWidget/icon.cpp \
+    fancyTabWidget/id.cpp \
+    fancyTabWidget/infobar.cpp \
+    fancyTabWidget/oshelper.cpp \
+    fancyTabWidget/qtcassert.cpp \
+    fancyTabWidget/stringutils.cpp \
+    fancyTabWidget/styledbar.cpp \
+    fancyTabWidget/stylehelper.cpp \
+    theme.cpp \
+    fancyTabWidget/utilsicons.cpp \
     fileHelper.cpp \
-    hostosinfo.cpp \
-    icon.cpp \
-    id.cpp \
-    infobar.cpp \
-    oshelper.cpp \
     path.cpp \
     qss_helper.cpp \
-    qtcassert.cpp \
-    stringutils.cpp \
-    styledbar.cpp \
-    stylehelper.cpp \
     tabwidget.cpp \
-    theme.cpp \
     utils.cpp \
-    utilsicons.cpp
 
 HEADERS += \
-    algorithm.h \
     config.h \
     constants.h \
-    fancyactionbar.h \
-    fancytabwidget.h \
-    fileHelper.h \
-    hostosinfo.h \
-    icon.h \
-    id.h \
-    infobar.h \
-    optional.h \
-    oshelper.h \
-    osspecificaspects.h \
-    path.h \
-    porting.h \
-    predicates.h \
-    qss_helper.h \
-    qtcassert.h \
-    singleton.h \
-    styledbar.h \
-    stylehelper.h \
-    tabwidget.h \
+    fancyTabWidget/fancyactionbar.h \
+    fancyTabWidget/fancytabwidget.h \
+    fancyTabWidget/hostosinfo.h \
+    fancyTabWidget/icon.h \
+    fancyTabWidget/id.h \
+    fancyTabWidget/infobar.h \
+    fancyTabWidget/optional.h \
+    fancyTabWidget/oshelper.h \
+    fancyTabWidget/osspecificaspects.h \
+    fancyTabWidget/porting.h \
+    fancyTabWidget/predicates.h \
+    fancyTabWidget/qtcassert.h \
+    fancyTabWidget/stringutils.h \
+    fancyTabWidget/styledbar.h \
+    fancyTabWidget/stylehelper.h \
     theme.h \
+    fancyTabWidget/utilsicons.h \
+    fileHelper.h \
+    path.h \
+    qss_helper.h \
+    singleton.h \
+    tabwidget.h \
     utils_global.h \
     utils.h \
-    utilsicons.h
 
 # Default rules for deployment.
 unix {
