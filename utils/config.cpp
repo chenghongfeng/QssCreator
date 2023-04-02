@@ -6,6 +6,7 @@
 #include <QApplication>
 #include <QDir>
 
+#include "Constants.h"
 #include "qss_helper.h"
 #include "path.h"
 
@@ -97,5 +98,5 @@ QString Config::themeFilePathName() const
 
 QString Config::themeName() const
 {
-    return Config::getInstance()->value("Theme/name","None").toString();
+    return Config::getInstance()->value("Theme/name",Constants::DEFAULT_THEME_NAME).toString();
 }

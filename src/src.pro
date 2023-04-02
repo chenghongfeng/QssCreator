@@ -5,18 +5,7 @@ include(../defines.pri)
 TARGET = QssCreator
 RC_ICONS = QssCreator.ico
 
-greaterThan(QT_MAJOR_VERSION, 4){
-    !contains(QMAKE_TARGET.arch, x86_64){
-        CONFIG(release, debug|release):DESTDIR = $$PWD/../bin
-        else:DESTDIR = $$PWD/../bin_D
-    }else{
-        CONFIG(release, debug|release):DESTDIR = $$PWD/../bin_x64
-        else:DESTDIR = $$PWD/../bin_x64_D
-    }
-}else{
-    CONFIG(release, debug|release):DESTDIR = $$PWD/../bin_qt4
-    else:DESTDIR = $$PWD/../bin_qt4_D
-}
+DESTDIR = $$PWD/../bin
 
 CONFIG += c++11
 

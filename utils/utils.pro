@@ -6,13 +6,7 @@ CONFIG += dll
 
 CONFIG += c++17
 
-!contains(QMAKE_TARGET.arch, x86_64){
-    CONFIG(release, debug|release):DLLDESTDIR = $$PWD/../bin
-    else:DLLDESTDIR = $$PWD/../bin_D
-}else{
-    CONFIG(release, debug|release):DLLDESTDIR = $$PWD/../bin_x64
-    else:DLLDESTDIR = $$PWD/../bin_x64_D
-}
+DLLDESTDIR = $$PWD/../bin
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
