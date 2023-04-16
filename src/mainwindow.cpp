@@ -63,6 +63,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::keyPressEvent(QKeyEvent *e)
 {
+    return QMainWindow::keyPressEvent(e);
     qDebug()<< "------------MainWindow---------------";
     qDebug()<< "QKeyEvent Text:"<<e->text();
     qDebug()<< "QKeyEvent Count:"<<e->count();
@@ -77,7 +78,7 @@ void MainWindow::keyPressEvent(QKeyEvent *e)
     if(e->modifiers().testFlag(Qt::KeyboardModifierMask)){qDebug()<<"QKeyEvent modifier:"<<"KeyboardModifierMask";}
     qDebug()<< "QKeyEvent key:"<<e->key();
     qDebug()<< "-------------------------------------";
-    return QMainWindow::keyPressEvent(e);
+    //return QMainWindow::keyPressEvent(e);
 }
 
 void MainWindow::closeEvent(QCloseEvent *e)
@@ -261,20 +262,7 @@ QFont MainWindow::getFontFromConfig()
 }
 
 
-void MainWindow::on_replaceBtn_clicked()
-{
-    QString resultText = m_textEdit->toPlainText();
-    QssHelper::replaceDefsWithValues(resultText,QssTextEditManager::getInstance()->getDefs());
-    m_textEdit->setPlainText(resultText);
-    //m_textEdit->setText(resultText);
-}
 
-void MainWindow::on_saveTextBtn_clicked()
-{
-    //QString fileName = QFileDialog::getSaveFileName(this, "打开文件", QString("%1/%2.css").arg(qApp->applicationDirPath()).arg(dirName), "皮肤文件(*.css)");
-    QString fileName = QFileDialog::getSaveFileName(this, "打开文件", "F:/MyGitProject/qssHelper/qssFile/default.qss", "皮肤文件(*.qss)");
-    QssHelper::writeQStrTofile(m_textEdit->toPlainText(),fileName);
-}
 
 void MainWindow::on_actionOpenQssFile_triggered()
 {

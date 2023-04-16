@@ -31,21 +31,15 @@ public slots:
     void saveConfig();
 
 private slots:
-    void on_applyBtn_clicked();
-
-    void on_regLineEdit_textChanged(const QString &arg1);
 
     void slot_colorDefTableView_customContextMenuRequested(const QPoint &pos);
 
 
 private:
     Ui::ColorDefWidget *ui;
-    //QMap<QString,QString> defs;
-    QString pattern;
 
     QStandardItemModel *defsTableModel {nullptr};
 
-    QStringListModel *defListsModel {nullptr};
     QStringList colorDefs;
 
     ColorDefTableModel *colorDefModel {nullptr};

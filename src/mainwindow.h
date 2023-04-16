@@ -47,9 +47,7 @@ protected:
     void closeEvent(QCloseEvent *e) override;
 
 private slots:
-    void on_replaceBtn_clicked();
 
-    void on_saveTextBtn_clicked();
 
     void on_actionOpenQssFile_triggered();
 

@@ -44,13 +44,6 @@ void ColorDefWidget::initUi()
     ui->textEdit->setEnabled(false);
     ui->colorTableView->setSelectionBehavior(QHeaderView::SelectItems);
 
-
-#ifdef Show_ListView
-    defListsModel = new QStringListModel();
-#else
-    ui->colorListView->setVisible(false);
-#endif
-
     colorDefModel = new ColorDefTableModel(QssTextEditManager::getInstance()->getDefInfos(), this);
     ui->textEdit->setText(QssTextEditManager::getInstance()->getCurDefsText());
     ColorDefTableProxyModel *proxyModle = new ColorDefTableProxyModel(this);
@@ -76,7 +69,6 @@ void ColorDefWidget::setSourceTextEditVisible(bool isVisible)
 
 void ColorDefWidget::updateDefs()
 {
-    //defs = QssTextEditManager::getInstance()->getDefs();
     colorDefModel->resetDefInfos(QssTextEditManager::getInstance()->getDefInfos());
     ui->textEdit->setText(QssTextEditManager::getInstance()->getCurDefsText());
 }
@@ -95,28 +87,6 @@ void ColorDefWidget::saveConfig()
     Config::getInstance()->setValue(ConfigEnableSort,ui->colorTableView->isSortingEnabled());
 }
 
-
-void ColorDefWidget::on_applyBtn_clicked()
-{
-#ifdef Show_ListView
-        colorDefs.clear();
-        auto iter = defs.constBegin();
-        while (iter != defs.constEnd())
-        {
-            colorDefs.append(iter.key());
-            iter++;
-        }
-        defListsModel->setStringList(colorDefs);
-        ui->colorListView->setModel(defListsModel);
-#endif
-
-
-}
-
-void ColorDefWidget::on_regLineEdit_textChanged(const QString &arg1)
-{
-    pattern = arg1;
-}
 
 void ColorDefWidget::slot_colorDefTableView_customContextMenuRequested(const QPoint &pos)
 {
