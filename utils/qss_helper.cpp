@@ -120,10 +120,8 @@ void QssHelper::getOneDefineFromQStr(const QString &defsText, ColorDefInfo &info
         return;
     }
     QRegularExpressionMatchIterator iterator = reg.globalMatch(defsText/*, 0,matchType, matchOptions*/);
-    QList<QRegularExpressionMatch> matchs;
-    //while (iterator.hasNext())
+    if (iterator.hasNext())
     {
-
         QRegularExpressionMatch match = iterator.next();
         info.original_key = match.captured("key");
         info.original_value = match.captured("value");
