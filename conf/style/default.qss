@@ -6,13 +6,41 @@ QTableView {
 /*   QScrollBar       */
 QScrollBar:vertical {
     background: $side_bkg;
-
+	border:1px solid "#434344";
+	width: 15px;
+    margin: 17px 0 17px 0;
+}
+QScrollBar::sub-line:vertical{
+	border:1px solid "#636465";
+	background:"#505152";
+	subcontrol-position: top;
+    subcontrol-origin: margin;
+	height: 15px;
+}
+QScrollBar::add-line:vertical{
+	border:1px solid "#636465";
+	background:"#505152";
+	subcontrol-position: bottom;
+    subcontrol-origin: margin;
+	height: 15px;
 }
 
+
+
+QScrollBar::handle:vertical {
+    background: "#505152";
+    min-height: 20px;
+	border:1px solid "#676869";
+}
 QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical{
 	background: $scrollBar_page;
 }
-
+QScrollBar::up-arrow:vertical{
+	border-image:url(:/icons/images/arrow-up-filling.png);
+}
+QScrollBar::down-arrow:vertical{
+	border-image:url(:/icons/images/arrow-down-filling.png);
+}
 
 /*   QScrollBar       */
 QTableView QTableCornerButton::section {

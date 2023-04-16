@@ -1,5 +1,7 @@
 <RCC>
     <qresource prefix="/icons">
         <file>qsscreator.png</file>
+        <file>images/arrow-down-filling.png</file>
+        <file>images/arrow-up-filling.png</file>
     </qresource>
 </RCC>
