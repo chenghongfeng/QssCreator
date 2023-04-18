@@ -16,6 +16,12 @@ public:
         ColorRole = Qt::UserRole + 2,
         DataStatusRole = Qt::UserRole + 3
     };
+    enum ColumRoles {
+        Index = 0,
+        Key,
+        Value
+    };
+
     explicit ColorDefTableModel(ColorDefInfos &infos,QObject *parent = nullptr);
 
     // Header:

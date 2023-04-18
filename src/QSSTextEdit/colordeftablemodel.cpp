@@ -20,10 +20,12 @@ QVariant ColorDefTableModel::headerData(int section, Qt::Orientation orientation
     // FIXME: Implement me!
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
-        case 0:
-            return QString("Key");
-        case 1:
-            return QString("Value");
+        case Index:
+            return QString(tr("Index"));
+        case Key:
+            return QString(tr("Key"));
+        case Value:
+            return QString(tr("Value"));
         }
     }
     return QAbstractTableModel::headerData(section, orientation, role);
@@ -38,7 +40,7 @@ int ColorDefTableModel::rowCount(const QModelIndex &parent) const
 int ColorDefTableModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return 2;
+    return 3;
 }
 
 QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
@@ -60,36 +62,38 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
         return defInfos_->at(row).status;
         break;
     case Qt::EditRole:
-        if (col == 0)
+        if(col == Key)
         {
             return defInfos_->at(row).key;
         }
-        else if(col == 1)
+        else if(col == Value)
         {
             return QColor(defInfos_->at(row).value);
         }
         break;
     case Qt::DisplayRole:
-        if (col == 0)
+        if (col == Index)
+        {
+            return row+1;
+        }
+        else if (col == Key)
         {
             return defInfos_->at(row).key;
         }
-        else if(col == 1)
+        else if(col == Value)
         {
             return QColor(defInfos_->at(row).value);
         }
         break;
     case Qt::BackgroundRole:
-        if (col == 1)
+        if (col == Value)
         {
-
             QColor color(defInfos_->at(row).value);
             return QBrush(color);
         }
         break;
     case Qt::ForegroundRole:
-
-        if (col == 1)
+        if (col == Value)
         {
             QColor color(defInfos_->at(row).value);
             //计算出灰度 如果小于100前景设置为白色
@@ -105,11 +109,14 @@ QVariant ColorDefTableModel::data(const QModelIndex &index, int role) const
         }
         break;
     case Qt::TextAlignmentRole:
-        if (col == 0)
+        if (col == Key)
         {
             return int(Qt::AlignLeft | Qt::AlignVCenter);
         }
-        else if (col == 1)
+        else if (col == Index){
+            return int(Qt::AlignCenter);
+        }
+        else if (col == Value)
         {
             return int(Qt::AlignCenter);
         }
@@ -128,9 +135,9 @@ bool ColorDefTableModel::setData(const QModelIndex &index, const QVariant &value
         if (!checkIndex(index)) //checkIndex在5.11版本引入
             return false;
 #endif
-        if(index.column() == 1 ||index.column() == 0)
+        if(index.column() == Key ||index.column() == Value)
         {
-            if(index.column() == 1)
+            if(index.column() == Value)
             {
                 (*defInfos_)[index.row()].value = value.toString();
             }

@@ -1,6 +1,6 @@
 #include "colordeftableview.h"
 #include <QColorDialog>
-
+#include "colordeftablemodel.h"
 
 
 ColorDefTableView::ColorDefTableView(QWidget *parent)
@@ -11,12 +11,16 @@ ColorDefTableView::ColorDefTableView(QWidget *parent)
     //启用右键菜单
     this->setContextMenuPolicy(Qt::CustomContextMenu);
     //启用排序,这样可以点击表头就进行排序
-    //this->setSortingEnabled(true);
+    this->setSortingEnabled(true);
+    this->sortByColumn(0,Qt::SortOrder::AscendingOrder);
 }
 
 bool ColorDefTableView::edit(const QModelIndex &index, QAbstractItemView::EditTrigger trigger, QEvent *event)
 {
-    if(index.column() == 1 && trigger == QAbstractItemView::EditTrigger::DoubleClicked)
+    if(index.column() == ColorDefTableModel::ColumRoles::Index){
+        return false;
+    }
+    if(index.column() == ColorDefTableModel::ColumRoles::Value && trigger == QAbstractItemView::EditTrigger::DoubleClicked)
     {
 
         QColor color = index.data().value<QColor>();
