@@ -10,14 +10,11 @@
 #include <QMessageBox>
 
 #include "QSSTextEdit/colordeftablemodel.h"
-#include "path.h"
 #include "qsstexteditmanager.h"
-#include "QSSTextEdit/colordeftableview.h"
-#include "QSSTextEdit/qssproxymodel.h"
-#include "config.h"
+#include "QssTextEdit/colordeftableview.h"
+#include "QssTextEdit/qssproxymodel.h"
 #include "constants.h"
 
-const QString ConfigEnableSort = "Custom/EnableSort";
 
 ColorDefWidget::ColorDefWidget(QWidget *parent) :
     QWidget(parent),
@@ -49,13 +46,13 @@ void ColorDefWidget::initUi()
     ColorDefTableProxyModel *proxyModle = new ColorDefTableProxyModel(this);
     proxyModle->setSourceModel(colorDefModel);
     ui->colorTableView->setModel(proxyModle);
-    ui->colorTableView->setSortingEnabled(Config::getInstance()->value(ConfigEnableSort, false).toBool());
     //设置model之后才能在setSectionResizeMode时指定logiclIndex
     //不指定logiclIndex时设置Interactive不会自动拉伸.设置Stretch则不能调整section的width
-    //将第一列设置Interactive则可调整第一列的宽度,从而可以调整第一列和第二列的大小,调整整个窗口时第二列自动拉伸,达到想要的效果
+    //将第0,1列设置Interactive则可调整第一列的宽度,从而可以调整第0列和第1列的大小,调整整个窗口时第二列自动拉伸,达到想要的效果
     ui->colorTableView->horizontalHeader()->setSectionResizeMode(0,QHeaderView::Interactive);
-    ui->colorTableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Stretch);
-    //ui->colorTableView->verticalHeader()->hide();
+    ui->colorTableView->horizontalHeader()->setSectionResizeMode(1,QHeaderView::Interactive);
+    ui->colorTableView->horizontalHeader()->setSectionResizeMode(2,QHeaderView::Stretch);
+    ui->colorTableView->verticalHeader()->hide();
     connect(ui->colorTableView, &ColorDefTableView::customContextMenuRequested,
             this, &ColorDefWidget::slot_colorDefTableView_customContextMenuRequested);
 
@@ -84,7 +81,7 @@ void ColorDefWidget::addNewDef()
 
 void ColorDefWidget::saveConfig()
 {
-    Config::getInstance()->setValue(ConfigEnableSort,ui->colorTableView->isSortingEnabled());
+
 }
 
 
@@ -95,17 +92,6 @@ void ColorDefWidget::slot_colorDefTableView_customContextMenuRequested(const QPo
         QAction *addNewDef = menu->addAction(tr("Add new"));
         connect(addNewDef, &QAction::triggered,[this]{
             this->addNewDef();
-        });
-        QAction *enableSortAction = new QAction(menu);
-        menu->addAction(enableSortAction);
-        QString enableSortActionText = ui->colorTableView->isSortingEnabled()?tr("Disable Sort"):tr("Enable Sort");
-        enableSortAction->setText(enableSortActionText);
-        connect(enableSortAction, &QAction::triggered,[this]{
-            //先取消排序结果
-            ui->colorTableView->model()->sort(-1);
-
-            ui->colorTableView->setSortingEnabled(!ui->colorTableView->isSortingEnabled());
-
         });
     }
     QModelIndex index = ui->colorTableView->indexAt(pos);
